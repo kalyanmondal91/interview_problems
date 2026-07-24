@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LLD of Payment System">
+<title>Payment System | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <a href="/interview_problems/design-patterns/" class="nav-link">
+        <span class="nav-icon">🎨</span> Design Patterns
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="lld-page">
+    <header class="lld-header">
+      <h1 class="lld-title">Payment System</h1>
+      
+      <p class="lld-description">LLD of Payment System</p>
+      
+      
+    </header>
+
+    <div class="lld-content">
+      <h2 id="payment-system">Payment System</h2>
+
+<p>Complete Java LLD implementation.</p>
+
+<h2 id="source-files">Source Files</h2>
+
+<div class="lld-tabs">
+<div class="tab-buttons">
+<button class="tab-btn active" data-tab="AmountValidator.java">AmountValidator.java</button>
+<button class="tab-btn" data-tab="CheapestGatewayStrategy.java">CheapestGatewayStrategy.java</button>
+<button class="tab-btn" data-tab="Currency.java">Currency.java</button>
+<button class="tab-btn" data-tab="CurrencyValidator.java">CurrencyValidator.java</button>
+<button class="tab-btn" data-tab="FastestGatewayStrategy.java">FastestGatewayStrategy.java</button>
+<button class="tab-btn" data-tab="FraudDetectionValidator.java">FraudDetectionValidator.java</button>
+<button class="tab-btn" data-tab="GatewaySelectionStrategy.java">GatewaySelectionStrategy.java</button>
+<button class="tab-btn" data-tab="Main.java">Main.java</button>
+<button class="tab-btn" data-tab="PayPalAdapter.java">PayPalAdapter.java</button>
+<button class="tab-btn" data-tab="PayPalGateway.java">PayPalGateway.java</button>
+<button class="tab-btn" data-tab="PaymentGateway.java">PaymentGateway.java</button>
+<button class="tab-btn" data-tab="PaymentGatewayAdapter.java">PaymentGatewayAdapter.java</button>
+<button class="tab-btn" data-tab="PaymentMethod.java">PaymentMethod.java</button>
+<button class="tab-btn" data-tab="PaymentRequest.java">PaymentRequest.java</button>
+<button class="tab-btn" data-tab="PaymentResponse.java">PaymentResponse.java</button>
+<button class="tab-btn" data-tab="PaymentService.java">PaymentService.java</button>
+<button class="tab-btn" data-tab="PaymentStatus.java">PaymentStatus.java</button>
+<button class="tab-btn" data-tab="PaymentValidator.java">PaymentValidator.java</button>
+<button class="tab-btn" data-tab="RazorpayAdapter.java">RazorpayAdapter.java</button>
+<button class="tab-btn" data-tab="RazorpayGateway.java">RazorpayGateway.java</button>
+<button class="tab-btn" data-tab="StripeAdapter.java">StripeAdapter.java</button>
+<button class="tab-btn" data-tab="StripeGateway.java">StripeGateway.java</button>
+</div>
+<div class="tab-content active" id="AmountValidator-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Validates that the payment amount is within acceptable bounds:
+ *   - amount &gt; 0
+ *   - amount &lt;= configured maximum (default USD 100,000)
+ * Pattern: Chain of Responsibility (concrete handler)
+ */
+public class AmountValidator extends PaymentValidator {
+
+    private static final double DEFAULT_MAX_AMOUNT = 100_000.0;
+
+    private final double maxAmount;
+
+    public AmountValidator() {
+        this(DEFAULT_MAX_AMOUNT);
+    }
+
+    public AmountValidator(double maxAmount) {
+        this.maxAmount = maxAmount;
+    }
+
+    @Override
+    protected String doValidate(PaymentRequest request) {
+        double amount = request.getAmount();
+        if (amount &lt;= 0) {
+            return &quot;Invalid amount: must be greater than zero, got &quot; + amount;
+        }
+        // Convert to USD for a common cap comparison
+        double usdAmount = request.getCurrency().toUsd(amount);
+        if (usdAmount &gt; maxAmount) {
+            return String.format(&quot;Amount %.2f %s (≈ %.2f USD) exceeds maximum limit of %.2f USD&quot;,
+                    amount, request.getCurrency(), usdAmount, maxAmount);
+        }
+        return null;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="CheapestGatewayStrategy-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * Selects the gateway with the lowest transaction fee.
+ * Pattern: Strategy (concrete)
+ */
+public class CheapestGatewayStrategy implements GatewaySelectionStrategy {
+
+    @Override
+    public PaymentGatewayAdapter selectGateway(PaymentRequest request,
+                                               List&lt;PaymentGatewayAdapter&gt; gateways) {
+        PaymentGatewayAdapter selected = gateways.stream()
+                .min(Comparator.comparingDouble(PaymentGatewayAdapter::getFeePercent))
+                .orElseThrow(() -&gt; new IllegalStateException(&quot;No gateways available&quot;));
+        System.out.printf(&quot;[CheapestGatewayStrategy] Selected %s (fee=%.1f%%)%n&quot;,
+                selected.getGatewayName(), selected.getFeePercent() * 100);
+        return selected;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="Currency-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Supported currencies with their exchange rates relative to USD.
+ * Pattern: Value Object (Enum)
+ */
+public enum Currency {
+    USD(1.0),
+    EUR(1.08),
+    GBP(1.27),
+    INR(0.012),
+    JPY(0.0067);
+
+    /** Exchange rate: 1 unit of this currency = exchangeRateToUsd USD */
+    private final double exchangeRateToUsd;
+
+    Currency(double exchangeRateToUsd) {
+        this.exchangeRateToUsd = exchangeRateToUsd;
+    }
+
+    public double getExchangeRateToUsd() {
+        return exchangeRateToUsd;
+    }
+
+    /** Converts an amount in this currency to USD. */
+    public double toUsd(double amount) {
+        return amount * exchangeRateToUsd;
+    }
+
+    /** Converts a USD amount to this currency. */
+    public double fromUsd(double usdAmount) {
+        return usdAmount / exchangeRateToUsd;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="CurrencyValidator-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+/**
+ * Validates that the requested currency is supported by the system.
+ * Pattern: Chain of Responsibility (concrete handler)
+ */
+public class CurrencyValidator extends PaymentValidator {
+
+    private final Set&lt;Currency&gt; supportedCurrencies;
+
+    /** Accepts all Currency enum values by default. */
+    public CurrencyValidator() {
+        this.supportedCurrencies = Arrays.stream(Currency.values())
+                .collect(Collectors.toSet());
+    }
+
+    public CurrencyValidator(Set&lt;Currency&gt; supportedCurrencies) {
+        this.supportedCurrencies = supportedCurrencies;
+    }
+
+    @Override
+    protected String doValidate(PaymentRequest request) {
+        if (request.getCurrency() == null) {
+            return &quot;Currency must not be null&quot;;
+        }
+        if (!supportedCurrencies.contains(request.getCurrency())) {
+            return &quot;Unsupported currency: &quot; + request.getCurrency()
+                   + &quot;. Supported: &quot; + supportedCurrencies;
+        }
+        return null;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="FastestGatewayStrategy-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * Selects the gateway with the lowest estimated processing latency.
+ * Pattern: Strategy (concrete)
+ */
+public class FastestGatewayStrategy implements GatewaySelectionStrategy {
+
+    @Override
+    public PaymentGatewayAdapter selectGateway(PaymentRequest request,
+                                               List&lt;PaymentGatewayAdapter&gt; gateways) {
+        PaymentGatewayAdapter selected = gateways.stream()
+                .min(Comparator.comparingLong(PaymentGatewayAdapter::getEstimatedLatencyMs))
+                .orElseThrow(() -&gt; new IllegalStateException(&quot;No gateways available&quot;));
+        System.out.printf(&quot;[FastestGatewayStrategy] Selected %s (latency=%dms)%n&quot;,
+                selected.getGatewayName(), selected.getEstimatedLatencyMs());
+        return selected;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="FraudDetectionValidator-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Simulated fraud detection validator.
+ * Rejects requests that exhibit suspicious patterns:
+ *   - Round, very large amounts (potential money-laundering signal)
+ *   - Amounts that end in .99 above a threshold (carding pattern)
+ * Pattern: Chain of Responsibility (concrete handler)
+ */
+public class FraudDetectionValidator extends PaymentValidator {
+
+    private static final double SUSPICIOUS_LARGE_AMOUNT_USD = 9_999.0;
+    private static final double CARDING_THRESHOLD_USD       = 500.0;
+
+    @Override
+    protected String doValidate(PaymentRequest request) {
+        double usdAmount = request.getCurrency().toUsd(request.getAmount());
+
+        // Flag suspiciously round large amounts
+        if (usdAmount &gt;= SUSPICIOUS_LARGE_AMOUNT_USD &amp;&amp; usdAmount % 1000 == 0) {
+            return String.format(
+                    &quot;Fraud check failed: suspiciously round large amount %.2f USD for user %s&quot;,
+                    usdAmount, request.getUserId());
+        }
+
+        // Flag carding pattern (e.g. $999.99, $1999.99)
+        double cents = Math.round(usdAmount * 100) % 100;
+        if (usdAmount &gt; CARDING_THRESHOLD_USD &amp;&amp; cents == 99) {
+            return String.format(
+                    &quot;Fraud check failed: carding pattern detected (amount %.2f USD) for user %s&quot;,
+                    usdAmount, request.getUserId());
+        }
+
+        System.out.printf(&quot;[FraudDetection] Request %s passed fraud check (%.2f USD)%n&quot;,
+                request.getRequestId(), usdAmount);
+        return null;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="GatewaySelectionStrategy-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.List;
+
+/**
+ * Strategy interface for choosing which payment gateway to use for a request.
+ * Pattern: Strategy
+ */
+public interface GatewaySelectionStrategy {
+
+    /**
+     * Selects the most appropriate gateway from the available list.
+     *
+     * @param request  the payment to be processed
+     * @param gateways available gateway adapters (non-empty)
+     * @return the selected adapter
+     */
+    PaymentGatewayAdapter selectGateway(PaymentRequest request,
+                                        List&lt;PaymentGatewayAdapter&gt; gateways);
+}</code></pre>
+</div>
+<div class="tab-content" id="Main-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Demo runner for the Payment Gateway LLD.
+ * Patterns: Adapter, Chain of Responsibility (validation), Strategy (gateway selection)
+ */
+public class Main {
+
+    private static void banner(String text) {
+        System.out.println();
+        System.out.println(&quot;=== &quot; + text + &quot; ===&quot;);
+    }
+
+    public static void main(String[] args) {
+
+        // -- Setup adapters (each wraps its own concrete gateway) --
+        List&lt;PaymentGatewayAdapter&gt; gateways = List.of(
+                new StripeAdapter(new StripeGateway()),
+                new PayPalAdapter(new PayPalGateway()),
+                new RazorpayAdapter(new RazorpayGateway())
+        );
+
+        // -- Scenario 1: Successful payment -- CheapestGatewayStrategy --
+        banner(&quot;Scenario 1: Successful payment via CheapestGatewayStrategy&quot;);
+        // PaymentService(gateways, strategy) -- 2-arg constructor; builds validation chain internally
+        PaymentService cheapService = new PaymentService(gateways, new CheapestGatewayStrategy());
+        cheapService.addListener(new PaymentService.PaymentEventListener() {
+            @Override public void onPaymentSuccess(PaymentResponse r) {
+                System.out.println(&quot;  [Event] Success: &quot; + r.getTransactionId()
+                        + &quot; | Status: &quot; + r.getStatus());
+            }
+            @Override public void onPaymentFailed(PaymentResponse r) {
+                System.out.println(&quot;  [Event] Failed: &quot; + r.getMessage());
+            }
+        });
+
+        // PaymentRequest uses a fluent Builder
+        PaymentRequest req1 = PaymentRequest.builder()
+                .requestId(&quot;req-001&quot;)
+                .userId(&quot;user1&quot;)
+                .amount(150.00)
+                .currency(Currency.USD)
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .addMeta(&quot;description&quot;, &quot;Order payment&quot;)
+                .build();
+        PaymentResponse resp1 = cheapService.processPayment(req1);
+        System.out.printf(&quot;  Status: %s | TxnId: %s | Gateway: CheapestStrategy%n&quot;,
+                resp1.getStatus(), resp1.getTransactionId());
+
+        // -- Scenario 2: Amount validation failure (negative amount) --
+        banner(&quot;Scenario 2: Validation failure -- negative amount&quot;);
+        PaymentRequest req2 = PaymentRequest.builder()
+                .requestId(&quot;req-002&quot;)
+                .userId(&quot;user2&quot;)
+                .amount(-50.00)
+                .currency(Currency.USD)
+                .paymentMethod(PaymentMethod.DEBIT_CARD)
+                .build();
+        PaymentResponse resp2 = cheapService.processPayment(req2);
+        System.out.println(&quot;  Status: &quot; + resp2.getStatus() + &quot; | Reason: &quot; + resp2.getMessage());
+
+        // -- Scenario 3: Fraud detection rejects large amount --
+        banner(&quot;Scenario 3: Fraud detection -- suspiciously large amount&quot;);
+        PaymentRequest req3 = PaymentRequest.builder()
+                .requestId(&quot;req-003&quot;)
+                .userId(&quot;user3&quot;)
+                .amount(999999.99)
+                .currency(Currency.USD)
+                .paymentMethod(PaymentMethod.CREDIT_CARD)
+                .build();
+        PaymentResponse resp3 = cheapService.processPayment(req3);
+        System.out.println(&quot;  Status: &quot; + resp3.getStatus() + &quot; | Reason: &quot; + resp3.getMessage());
+
+        // -- Scenario 4: Refund --
+        banner(&quot;Scenario 4: Refund successful transaction&quot;);
+        if (resp1.getTransactionId() != null &amp;&amp; !resp1.getTransactionId().isEmpty()) {
+            PaymentResponse refund = cheapService.refund(resp1.getTransactionId(), 50.00);
+            System.out.println(&quot;  Refund status: &quot; + refund.getStatus()
+                    + &quot; | Amount: $50.00&quot;);
+        }
+
+        // -- Scenario 5: FastestGatewayStrategy --
+        banner(&quot;Scenario 5: FastestGatewayStrategy -- picks by latency&quot;);
+        PaymentService fastService = new PaymentService(gateways, new FastestGatewayStrategy());
+        PaymentRequest req4 = PaymentRequest.builder()
+                .requestId(&quot;req-004&quot;)
+                .userId(&quot;user4&quot;)
+                .amount(200.00)
+                .currency(Currency.EUR)
+                .paymentMethod(PaymentMethod.UPI)
+                .build();
+        PaymentResponse resp4 = fastService.processPayment(req4);
+        System.out.printf(&quot;  Status: %s | TxnId: %s%n&quot;, resp4.getStatus(), resp4.getTransactionId());
+
+        // -- Scenario 6: Idempotency -- reuse same requestId --
+        banner(&quot;Scenario 6: Idempotency -- duplicate requestId&quot;);
+        PaymentRequest req5a = PaymentRequest.builder()
+                .requestId(&quot;req-idem-001&quot;)
+                .userId(&quot;user5&quot;)
+                .amount(75.00)
+                .currency(Currency.USD)
+                .paymentMethod(PaymentMethod.WALLET)
+                .build();
+        PaymentRequest req5b = PaymentRequest.builder()
+                .requestId(&quot;req-idem-001&quot;)
+                .userId(&quot;user5&quot;)
+                .amount(75.00)
+                .currency(Currency.USD)
+                .paymentMethod(PaymentMethod.WALLET)
+                .build();
+        PaymentResponse r5a = cheapService.processPayment(req5a);
+        PaymentResponse r5b = cheapService.processPayment(req5b);
+        System.out.println(&quot;  First  txnId: &quot; + r5a.getTransactionId());
+        System.out.println(&quot;  Second txnId: &quot; + r5b.getTransactionId()
+                + &quot; (same = idempotent, different = processed twice)&quot;);
+
+        banner(&quot;Payment Gateway Demo Complete&quot;);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="PayPalAdapter-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Adapter that wraps PayPalGateway and exposes the unified PaymentGatewayAdapter API.
+ * PayPal accepts fractional amounts directly; translates userId → payerId.
+ * Pattern: Adapter (Adaptee = PayPalGateway)
+ */
+public class PayPalAdapter implements PaymentGatewayAdapter {
+
+    private final PayPalGateway payPalGateway;
+
+    public PayPalAdapter(PayPalGateway payPalGateway) {
+        this.payPalGateway = payPalGateway;
+    }
+
+    @Override
+    public String getGatewayName() { return &quot;PayPal&quot;; }
+
+    @Override
+    public double getFeePercent() { return payPalGateway.getFeePercent(); }
+
+    @Override
+    public long getEstimatedLatencyMs() { return payPalGateway.getLatencyMs(); }
+
+    @Override
+    public PaymentResponse processPayment(PaymentRequest request) {
+        try {
+            String txnId = payPalGateway.executePayment(
+                    request.getUserId(),
+                    request.getAmount(),
+                    request.getCurrency().name()
+            );
+            return new PaymentResponse(
+                    request.getRequestId(), PaymentStatus.SUCCESS, txnId, &quot;Payment successful via PayPal&quot;);
+        } catch (RuntimeException e) {
+            return new PaymentResponse(
+                    request.getRequestId(), PaymentStatus.FAILED, null, e.getMessage());
+        }
+    }
+
+    @Override
+    public PaymentResponse refund(String transactionId, double amount) {
+        boolean success = payPalGateway.issueRefund(transactionId, amount);
+        PaymentStatus status = success ? PaymentStatus.REFUNDED : PaymentStatus.FAILED;
+        String msg = success ? &quot;Refund issued via PayPal&quot; : &quot;PayPal refund failed&quot;;
+        return new PaymentResponse(null, status, transactionId, msg);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="PayPalGateway-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.UUID;
+
+/**
+ * Simulated PayPal payment gateway.
+ * PayPal uses executePayment / issueRefund method names.
+ */
+public class PayPalGateway {
+
+    private static final double FEE_PERCENT = 0.034; // 3.4%
+    private static final long LATENCY_MS   = 200;
+
+    public String executePayment(String payerId, double amount, String currencyCode) {
+        simulateLatency();
+        System.out.printf(&quot;[PayPal] Executing payment payer=%s amount=%.2f %s%n&quot;,
+                payerId, amount, currencyCode);
+        if (Math.random() &lt; 0.03) {
+            throw new RuntimeException(&quot;PayPal: insufficient funds&quot;);
+        }
+        return &quot;paypal_txn_&quot; + UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    public boolean issueRefund(String paypalTxnId, double amount) {
+        simulateLatency();
+        System.out.printf(&quot;[PayPal] Issuing refund txn=%s amount=%.2f%n&quot;, paypalTxnId, amount);
+        return true;
+    }
+
+    public double getFeePercent() { return FEE_PERCENT; }
+    public long getLatencyMs()   { return LATENCY_MS; }
+
+    private void simulateLatency() {
+        try { Thread.sleep(LATENCY_MS / 10); } catch (InterruptedException ignored) {}
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="PaymentGateway-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Low-level gateway API contract (third-party gateway interface).
+ * Each real gateway SDK has a different method signature; adapters normalize them.
+ * Pattern: Adapter (target interface)
+ */
+public interface PaymentGateway {
+
+    /**
+     * Processes a payment request through this gateway.
+     *
+     * @param request the payment to process
+     * @return response indicating success/failure
+     */
+    PaymentResponse processPayment(PaymentRequest request);
+
+    /**
+     * Issues a refund for a previously completed transaction.
+     *
+     * @param transactionId original transaction identifier
+     * @param amount        amount to refund
+     * @return response indicating refund status
+     */
+    PaymentResponse refund(String transactionId, double amount);
+}</code></pre>
+</div>
+<div class="tab-content" id="PaymentGatewayAdapter-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Adapter interface that normalises heterogeneous gateway APIs to a single contract.
+ * Pattern: Adapter (target interface)
+ *
+ * Concrete adapters (StripeAdapter, PayPalAdapter, RazorpayAdapter) wrap the real
+ * gateway objects and translate method calls + data formats.
+ */
+public interface PaymentGatewayAdapter {
+
+    /** Human-readable name, e.g. &quot;Stripe&quot;, &quot;PayPal&quot;. */
+    String getGatewayName();
+
+    /** Processing fee as a fraction of transaction amount (e.g. 0.029 = 2.9%). */
+    double getFeePercent();
+
+    /** Expected processing latency in milliseconds (used by FastestGatewayStrategy). */
+    long getEstimatedLatencyMs();
+
+    /**
+     * Processes the payment request via the wrapped gateway.
+     *
+     * @param request normalised payment request
+     * @return normalised payment response
+     */
+    PaymentResponse processPayment(PaymentRequest request);
+
+    /**
+     * Issues a refund via the wrapped gateway.
+     *
+     * @param transactionId gateway-specific transaction identifier
+     * @param amount        amount to refund (in original request currency)
+     * @return normalised payment response with REFUNDED status on success
+     */
+    PaymentResponse refund(String transactionId, double amount);
+}</code></pre>
+</div>
+<div class="tab-content" id="PaymentMethod-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Available payment instruments.
+ */
+public enum PaymentMethod {
+    CREDIT_CARD,
+    DEBIT_CARD,
+    UPI,
+    NET_BANKING,
+    WALLET,
+    CRYPTO
+}</code></pre>
+</div>
+<div class="tab-content" id="PaymentRequest-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * Represents an incoming payment request from a user.
+ * Constructed with a fluent builder for readability.
+ */
+public class PaymentRequest {
+
+    private final String requestId;
+    private final String userId;
+    private final double amount;
+    private final Currency currency;
+    private final PaymentMethod paymentMethod;
+    private final Map&lt;String, String&gt; metadata;
+
+    private PaymentRequest(Builder builder) {
+        this.requestId     = builder.requestId;
+        this.userId        = builder.userId;
+        this.amount        = builder.amount;
+        this.currency      = builder.currency;
+        this.paymentMethod = builder.paymentMethod;
+        this.metadata      = Collections.unmodifiableMap(new HashMap&lt;&gt;(builder.metadata));
+    }
+
+    public String getRequestId()          { return requestId; }
+    public String getUserId()             { return userId; }
+    public double getAmount()             { return amount; }
+    public Currency getCurrency()         { return currency; }
+    public PaymentMethod getPaymentMethod() { return paymentMethod; }
+    public Map&lt;String, String&gt; getMetadata() { return metadata; }
+
+    @Override
+    public String toString() {
+        return String.format(&quot;PaymentRequest[%s] user=%s amount=%.2f %s via %s&quot;,
+                requestId, userId, amount, currency, paymentMethod);
+    }
+
+    // ---- Builder ----
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String requestId = UUID.randomUUID().toString();
+        private String userId;
+        private double amount;
+        private Currency currency = Currency.USD;
+        private PaymentMethod paymentMethod;
+        private Map&lt;String, String&gt; metadata = new HashMap&lt;&gt;();
+
+        public Builder requestId(String id)              { this.requestId = id;        return this; }
+        public Builder userId(String userId)             { this.userId = userId;        return this; }
+        public Builder amount(double amount)             { this.amount = amount;        return this; }
+        public Builder currency(Currency currency)       { this.currency = currency;    return this; }
+        public Builder paymentMethod(PaymentMethod pm)   { this.paymentMethod = pm;     return this; }
+        public Builder metadata(Map&lt;String, String&gt; m)   { this.metadata = m;           return this; }
+        public Builder addMeta(String key, String value) { this.metadata.put(key, value); return this; }
+
+        public PaymentRequest build() {
+            if (userId == null || paymentMethod == null) {
+                throw new IllegalStateException(&quot;userId and paymentMethod are required&quot;);
+            }
+            return new PaymentRequest(this);
+        }
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="PaymentResponse-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.time.LocalDateTime;
+
+/**
+ * Result of a payment processing attempt.
+ * Immutable value object.
+ */
+public class PaymentResponse {
+
+    private final String requestId;
+    private final PaymentStatus status;
+    private final String transactionId;
+    private final String message;
+    private final LocalDateTime timestamp;
+
+    public PaymentResponse(String requestId, PaymentStatus status,
+                           String transactionId, String message) {
+        this.requestId     = requestId;
+        this.status        = status;
+        this.transactionId = transactionId;
+        this.message       = message;
+        this.timestamp     = LocalDateTime.now();
+    }
+
+    public String getRequestId()        { return requestId; }
+    public PaymentStatus getStatus()    { return status; }
+    public String getTransactionId()    { return transactionId; }
+    public String getMessage()          { return message; }
+    public LocalDateTime getTimestamp() { return timestamp; }
+
+    public boolean isSuccess() {
+        return status == PaymentStatus.SUCCESS;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(&quot;PaymentResponse[req=%s, txn=%s, status=%s, msg=%s]&quot;,
+                requestId, transactionId, status, message);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="PaymentService-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Orchestrates the full payment lifecycle:
+ *   1. Validate via Chain of Responsibility (AmountValidator → CurrencyValidator → FraudDetectionValidator)
+ *   2. Select gateway via Strategy pattern
+ *   3. Process payment through selected adapter
+ *   4. Notify observers of the result
+ *
+ * Pattern: Adapter + Chain of Responsibility + Strategy + Observer (notification)
+ */
+public class PaymentService {
+
+    private final PaymentValidator validationChain;
+    private final List&lt;PaymentGatewayAdapter&gt; gateways;
+    private final GatewaySelectionStrategy selectionStrategy;
+
+    /** In-memory transaction store: transactionId → response */
+    private final Map&lt;String, PaymentResponse&gt; transactionStore = new ConcurrentHashMap&lt;&gt;();
+
+    /** Simple observer list for payment events */
+    private final List&lt;PaymentEventListener&gt; listeners = new ArrayList&lt;&gt;();
+
+    public PaymentService(List&lt;PaymentGatewayAdapter&gt; gateways,
+                          GatewaySelectionStrategy selectionStrategy) {
+        this.gateways = Collections.unmodifiableList(new ArrayList&lt;&gt;(gateways));
+        this.selectionStrategy = selectionStrategy;
+
+        // Build default validation chain
+        AmountValidator amountValidator = new AmountValidator();
+        CurrencyValidator currencyValidator = new CurrencyValidator();
+        FraudDetectionValidator fraudValidator = new FraudDetectionValidator();
+        amountValidator.setNext(currencyValidator).setNext(fraudValidator);
+        this.validationChain = amountValidator;
+    }
+
+    /** Register an observer that receives payment lifecycle events. */
+    public void addListener(PaymentEventListener listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * Processes a payment end-to-end.
+     *
+     * @param request the payment to process
+     * @return PaymentResponse with final status
+     */
+    public PaymentResponse processPayment(PaymentRequest request) {
+        System.out.println(&quot;[PaymentService] Processing: &quot; + request);
+
+        // Step 1 — validate
+        String validationError = validationChain.validate(request);
+        if (validationError != null) {
+            PaymentResponse failed = new PaymentResponse(
+                    request.getRequestId(), PaymentStatus.FAILED, null,
+                    &quot;Validation failed: &quot; + validationError);
+            notifyListeners(failed, false);
+            return failed;
+        }
+
+        // Step 2 — select gateway
+        PaymentGatewayAdapter gateway = selectionStrategy.selectGateway(request, gateways);
+
+        // Step 3 — process
+        PaymentResponse response = gateway.processPayment(request);
+
+        // Step 4 — store and notify
+        if (response.getTransactionId() != null) {
+            transactionStore.put(response.getTransactionId(), response);
+        }
+        notifyListeners(response, response.isSuccess());
+        System.out.println(&quot;[PaymentService] Result: &quot; + response);
+        return response;
+    }
+
+    /**
+     * Issues a refund for a completed transaction.
+     *
+     * @param transactionId the transaction to refund
+     * @param amount        amount to refund
+     * @return PaymentResponse with REFUNDED or FAILED status
+     */
+    public PaymentResponse refund(String transactionId, double amount) {
+        // Find the original gateway by prefix heuristic
+        PaymentGatewayAdapter gateway = resolveGatewayByTransactionId(transactionId);
+        if (gateway == null) {
+            return new PaymentResponse(null, PaymentStatus.FAILED, transactionId,
+                    &quot;Cannot determine gateway for transaction: &quot; + transactionId);
+        }
+        PaymentResponse response = gateway.refund(transactionId, amount);
+        notifyListeners(response, response.getStatus() == PaymentStatus.REFUNDED);
+        return response;
+    }
+
+    /** Returns a read-only view of all processed transactions. */
+    public Map&lt;String, PaymentResponse&gt; getTransactionStore() {
+        return Collections.unmodifiableMap(transactionStore);
+    }
+
+    // ---- Private helpers ----
+
+    private PaymentGatewayAdapter resolveGatewayByTransactionId(String txnId) {
+        if (txnId.startsWith(&quot;stripe_&quot;))   return findGateway(&quot;Stripe&quot;);
+        if (txnId.startsWith(&quot;paypal_&quot;))   return findGateway(&quot;PayPal&quot;);
+        if (txnId.startsWith(&quot;razorpay_&quot;)) return findGateway(&quot;Razorpay&quot;);
+        return gateways.isEmpty() ? null : gateways.get(0); // fallback
+    }
+
+    private PaymentGatewayAdapter findGateway(String name) {
+        return gateways.stream()
+                .filter(g -&gt; g.getGatewayName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private void notifyListeners(PaymentResponse response, boolean success) {
+        listeners.forEach(l -&gt; {
+            if (success) l.onPaymentSuccess(response);
+            else         l.onPaymentFailed(response);
+        });
+    }
+
+    // ---- Nested observer interface ----
+
+    /** Listener interface for payment lifecycle events. */
+    public interface PaymentEventListener {
+        void onPaymentSuccess(PaymentResponse response);
+        void onPaymentFailed(PaymentResponse response);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="PaymentStatus-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Lifecycle states of a payment transaction.
+ */
+public enum PaymentStatus {
+    PENDING,
+    PROCESSING,
+    SUCCESS,
+    FAILED,
+    REFUNDED,
+    CANCELLED
+}</code></pre>
+</div>
+<div class="tab-content" id="PaymentValidator-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Abstract Chain-of-Responsibility handler for payment validation.
+ * Each concrete validator either passes the request to the next handler
+ * or returns an error message to short-circuit the chain.
+ * Pattern: Chain of Responsibility
+ */
+public abstract class PaymentValidator {
+
+    /** Next validator in the chain; null means end of chain. */
+    private PaymentValidator next;
+
+    /** Links the next handler and returns it for fluent chaining. */
+    public PaymentValidator setNext(PaymentValidator next) {
+        this.next = next;
+        return next;
+    }
+
+    /**
+     * Validates the request.
+     *
+     * @param request payment to validate
+     * @return null if valid (or next handler accepts it), or an error message string
+     */
+    public final String validate(PaymentRequest request) {
+        String error = doValidate(request);
+        if (error != null) return error;               // short-circuit on first failure
+        if (next != null) return next.validate(request); // pass down the chain
+        return null;                                    // all validators passed
+    }
+
+    /**
+     * Subclasses implement their specific validation logic here.
+     *
+     * @return null if valid, or a non-null error description
+     */
+    protected abstract String doValidate(PaymentRequest request);
+}</code></pre>
+</div>
+<div class="tab-content" id="RazorpayAdapter-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Adapter that wraps RazorpayGateway and exposes the unified PaymentGatewayAdapter API.
+ * Razorpay works in smallest unit (paise = 1/100 INR); converts from the request currency.
+ * Pattern: Adapter (Adaptee = RazorpayGateway)
+ */
+public class RazorpayAdapter implements PaymentGatewayAdapter {
+
+    private final RazorpayGateway razorpayGateway;
+
+    public RazorpayAdapter(RazorpayGateway razorpayGateway) {
+        this.razorpayGateway = razorpayGateway;
+    }
+
+    @Override
+    public String getGatewayName() { return &quot;Razorpay&quot;; }
+
+    @Override
+    public double getFeePercent() { return razorpayGateway.getFeePercent(); }
+
+    @Override
+    public long getEstimatedLatencyMs() { return razorpayGateway.getLatencyMs(); }
+
+    @Override
+    public PaymentResponse processPayment(PaymentRequest request) {
+        try {
+            // Convert amount to INR paise (smallest Razorpay unit)
+            double amountInr = request.getCurrency().toUsd(request.getAmount())
+                               / Currency.INR.getExchangeRateToUsd();
+            int amountPaise = (int) Math.round(amountInr * 100);
+            String txnId = razorpayGateway.createOrder(
+                    request.getUserId(),
+                    amountPaise,
+                    &quot;INR&quot;
+            );
+            return new PaymentResponse(
+                    request.getRequestId(), PaymentStatus.SUCCESS, txnId, &quot;Payment successful via Razorpay&quot;);
+        } catch (RuntimeException e) {
+            return new PaymentResponse(
+                    request.getRequestId(), PaymentStatus.FAILED, null, e.getMessage());
+        }
+    }
+
+    @Override
+    public PaymentResponse refund(String transactionId, double amount) {
+        double amountInr = Currency.USD.toUsd(amount) / Currency.INR.getExchangeRateToUsd();
+        int amountPaise = (int) Math.round(amountInr * 100);
+        boolean success = razorpayGateway.triggerRefund(transactionId, amountPaise);
+        PaymentStatus status = success ? PaymentStatus.REFUNDED : PaymentStatus.FAILED;
+        String msg = success ? &quot;Refund issued via Razorpay&quot; : &quot;Razorpay refund failed&quot;;
+        return new PaymentResponse(null, status, transactionId, msg);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="RazorpayGateway-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.UUID;
+
+/**
+ * Simulated Razorpay payment gateway (popular in India).
+ * Uses createOrder / triggerRefund method names.
+ */
+public class RazorpayGateway {
+
+    private static final double FEE_PERCENT = 0.02; // 2.0%
+    private static final long LATENCY_MS   = 80;
+
+    public String createOrder(String contactId, int amountPaise, String currency) {
+        simulateLatency();
+        System.out.printf(&quot;[Razorpay] Creating order contact=%s amount=%d paise %s%n&quot;,
+                contactId, amountPaise, currency);
+        if (Math.random() &lt; 0.04) {
+            throw new RuntimeException(&quot;Razorpay: gateway timeout&quot;);
+        }
+        return &quot;razorpay_txn_&quot; + UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    public boolean triggerRefund(String razorpayOrderId, int amountPaise) {
+        simulateLatency();
+        System.out.printf(&quot;[Razorpay] Triggering refund order=%s amount=%d paise%n&quot;,
+                razorpayOrderId, amountPaise);
+        return true;
+    }
+
+    public double getFeePercent() { return FEE_PERCENT; }
+    public long getLatencyMs()   { return LATENCY_MS; }
+
+    private void simulateLatency() {
+        try { Thread.sleep(LATENCY_MS / 10); } catch (InterruptedException ignored) {}
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="StripeAdapter-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+/**
+ * Adapter that wraps StripeGateway and exposes the unified PaymentGatewayAdapter API.
+ * Translates: amount (double) → cents (long), handles exception → FAILED response.
+ * Pattern: Adapter (Adaptee = StripeGateway)
+ */
+public class StripeAdapter implements PaymentGatewayAdapter {
+
+    private final StripeGateway stripeGateway;
+
+    public StripeAdapter(StripeGateway stripeGateway) {
+        this.stripeGateway = stripeGateway;
+    }
+
+    @Override
+    public String getGatewayName() { return &quot;Stripe&quot;; }
+
+    @Override
+    public double getFeePercent() { return stripeGateway.getFeePercent(); }
+
+    @Override
+    public long getEstimatedLatencyMs() { return stripeGateway.getLatencyMs(); }
+
+    @Override
+    public PaymentResponse processPayment(PaymentRequest request) {
+        try {
+            // Stripe works in smallest currency unit (cents for USD)
+            long amountCents = Math.round(request.getAmount() * 100);
+            String txnId = stripeGateway.charge(
+                    request.getUserId(),
+                    amountCents,
+                    request.getCurrency().name()
+            );
+            return new PaymentResponse(
+                    request.getRequestId(), PaymentStatus.SUCCESS, txnId, &quot;Payment successful via Stripe&quot;);
+        } catch (RuntimeException e) {
+            return new PaymentResponse(
+                    request.getRequestId(), PaymentStatus.FAILED, null, e.getMessage());
+        }
+    }
+
+    @Override
+    public PaymentResponse refund(String transactionId, double amount) {
+        long amountCents = Math.round(amount * 100);
+        boolean success = stripeGateway.refundCharge(transactionId, amountCents);
+        PaymentStatus status = success ? PaymentStatus.REFUNDED : PaymentStatus.FAILED;
+        String msg = success ? &quot;Refund issued via Stripe&quot; : &quot;Stripe refund failed&quot;;
+        return new PaymentResponse(null, status, transactionId, msg);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="StripeGateway-java">
+<pre><code class="language-java">package org.interview.system_design.lld.payment;
+
+import java.util.UUID;
+
+/**
+ * Simulated Stripe payment gateway.
+ * Stripe uses its own SDK method names (charge / refundCharge).
+ */
+public class StripeGateway {
+
+    private static final double FEE_PERCENT = 0.029; // 2.9%
+    private static final long LATENCY_MS   = 120;
+
+    public String charge(String userId, long amountCents, String currency) {
+        simulateLatency();
+        System.out.printf(&quot;[Stripe] Charging user=%s amount=%d cents %s%n&quot;,
+                userId, amountCents, currency);
+        // Simulate ~5% failure
+        if (Math.random() &lt; 0.05) {
+            throw new RuntimeException(&quot;Stripe: card declined&quot;);
+        }
+        return &quot;stripe_txn_&quot; + UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    public boolean refundCharge(String stripeChargeId, long amountCents) {
+        simulateLatency();
+        System.out.printf(&quot;[Stripe] Refunding charge=%s amount=%d cents%n&quot;,
+                stripeChargeId, amountCents);
+        return true;
+    }
+
+    public double getFeePercent() { return FEE_PERCENT; }
+    public long getLatencyMs()   { return LATENCY_MS; }
+
+    private void simulateLatency() {
+        try { Thread.sleep(LATENCY_MS / 10); } catch (InterruptedException ignored) {}
+    }
+}</code></pre>
+</div>
+</div>
+
+    </div>
+
+    <nav aria-label="LLD navigation">
+      <a href="/interview_problems/lld/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to LLD Index
+      </a>
+    </nav>
+  </article>
+</div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

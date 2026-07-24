@@ -1,0 +1,30 @@
+---
+layout: default
+---
+<div class="content-wrapper">
+  <article class="hld-page">
+    <header class="hld-header">
+      <h1 class="hld-title">{{ page.title }}</h1>
+      {% if page.description %}
+      <p style="color: var(--text-secondary); font-size: 1.05em;">{{ page.description }}</p>
+      {% endif %}
+      {% if page.themes %}
+      <div class="problem-tags" style="margin-top:12px;">
+        {% for t in page.themes %}
+        <span class="badge badge-tag">{{ t }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </header>
+
+    <div class="hld-content">
+      {{ content }}
+    </div>
+
+    <nav aria-label="HLD navigation">
+      <a href="{{ '/hld/' | relative_url }}" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to HLD Index
+      </a>
+    </nav>
+  </article>
+</div>

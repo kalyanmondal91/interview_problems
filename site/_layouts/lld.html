@@ -1,0 +1,30 @@
+---
+layout: default
+---
+<div class="content-wrapper">
+  <article class="lld-page">
+    <header class="lld-header">
+      <h1 class="lld-title">{{ page.title }}</h1>
+      {% if page.description %}
+      <p class="lld-description">{{ page.description }}</p>
+      {% endif %}
+      {% if page.patterns %}
+      <div class="problem-tags" style="margin-top:12px;">
+        {% for p in page.patterns %}
+        <span class="badge badge-category">{{ p }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </header>
+
+    <div class="lld-content">
+      {{ content }}
+    </div>
+
+    <nav aria-label="LLD navigation">
+      <a href="{{ '/lld/' | relative_url }}" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to LLD Index
+      </a>
+    </nav>
+  </article>
+</div>

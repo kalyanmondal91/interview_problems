@@ -1,0 +1,637 @@
+---
+layout: lld
+render_with_liquid: false
+title: "Elevator System"
+system: elevator
+description: "LLD of Elevator System"
+files:
+  - "Direction.java"
+  - "Elevator.java"
+  - "ElevatorController.java"
+  - "ElevatorObserver.java"
+  - "ElevatorRequest.java"
+  - "ElevatorState.java"
+  - "ElevatorStrategy.java"
+  - "ElevatorSystem.java"
+  - "FCFSStrategy.java"
+  - "Main.java"
+  - "SCANStrategy.java"
+---
+
+## Elevator System
+
+Complete Java LLD implementation.
+
+## Source Files
+
+<div class="lld-tabs">
+<div class="tab-buttons">
+<button class="tab-btn active" data-tab="Direction.java">Direction.java</button>
+<button class="tab-btn" data-tab="Elevator.java">Elevator.java</button>
+<button class="tab-btn" data-tab="ElevatorController.java">ElevatorController.java</button>
+<button class="tab-btn" data-tab="ElevatorObserver.java">ElevatorObserver.java</button>
+<button class="tab-btn" data-tab="ElevatorRequest.java">ElevatorRequest.java</button>
+<button class="tab-btn" data-tab="ElevatorState.java">ElevatorState.java</button>
+<button class="tab-btn" data-tab="ElevatorStrategy.java">ElevatorStrategy.java</button>
+<button class="tab-btn" data-tab="ElevatorSystem.java">ElevatorSystem.java</button>
+<button class="tab-btn" data-tab="FCFSStrategy.java">FCFSStrategy.java</button>
+<button class="tab-btn" data-tab="Main.java">Main.java</button>
+<button class="tab-btn" data-tab="SCANStrategy.java">SCANStrategy.java</button>
+</div>
+<div class="tab-content active" id="Direction-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+/**
+ * Represents the direction of elevator movement.
+ */
+public enum Direction {
+    UP,
+    DOWN,
+    IDLE
+}</code></pre>
+</div>
+<div class="tab-content" id="Elevator-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * State Machine — models a single elevator cabin.
+ *
+ * State transitions driven by move(), openDoor(), closeDoor(), setMaintenance():
+ *   IDLE        → MOVING_UP | MOVING_DOWN | DOOR_OPEN | MAINTENANCE
+ *   MOVING_UP   → DOOR_OPEN | IDLE
+ *   MOVING_DOWN → DOOR_OPEN | IDLE
+ *   DOOR_OPEN   → IDLE | MOVING_UP | MOVING_DOWN
+ *   MAINTENANCE → IDLE
+ *
+ * Observer Pattern — registered ElevatorObserver instances are notified on
+ * every floor change and state transition.
+ */
+public class Elevator {
+    private final int id;
+    private int currentFloor;
+    private ElevatorState state;
+    private Direction direction;
+    private final int minFloor;
+    private final int maxFloor;
+    private final List&lt;ElevatorObserver&gt; observers = new ArrayList&lt;&gt;();
+
+    public Elevator(int id, int minFloor, int maxFloor) {
+        this.id = id;
+        this.currentFloor = minFloor;
+        this.minFloor = minFloor;
+        this.maxFloor = maxFloor;
+        this.state = ElevatorState.IDLE;
+        this.direction = Direction.IDLE;
+    }
+
+    // ── Observer management ────────────────────────────────────────────────────
+
+    public void addObserver(ElevatorObserver observer) { observers.add(observer); }
+    public void removeObserver(ElevatorObserver observer) { observers.remove(observer); }
+
+    private void notifyFloorChanged(int floor) {
+        observers.forEach(o -&gt; o.onFloorChanged(id, floor));
+    }
+
+    private void notifyStateChanged(ElevatorState newState) {
+        observers.forEach(o -&gt; o.onStateChanged(id, newState));
+    }
+
+    // ── State transitions ──────────────────────────────────────────────────────
+
+    /**
+     * Moves the elevator one floor towards the target floor.
+     * Updates direction and state accordingly.
+     *
+     * @param targetFloor the floor to move toward
+     */
+    public void moveTowards(int targetFloor) {
+        if (targetFloor == currentFloor) {
+            openDoor();
+            return;
+        }
+        if (targetFloor &gt; currentFloor) {
+            transitionState(ElevatorState.MOVING_UP);
+            direction = Direction.UP;
+            currentFloor++;
+        } else {
+            transitionState(ElevatorState.MOVING_DOWN);
+            direction = Direction.DOWN;
+            currentFloor--;
+        }
+        notifyFloorChanged(currentFloor);
+
+        if (currentFloor == targetFloor) {
+            openDoor();
+        }
+    }
+
+    /** Opens the elevator door (transitions to DOOR_OPEN). */
+    public void openDoor() {
+        transitionState(ElevatorState.DOOR_OPEN);
+    }
+
+    /** Closes the door and returns to IDLE. */
+    public void closeDoor() {
+        if (state != ElevatorState.DOOR_OPEN) {
+            throw new IllegalStateException(&quot;Cannot close door: elevator &quot; + id + &quot; is &quot; + state);
+        }
+        direction = Direction.IDLE;
+        transitionState(ElevatorState.IDLE);
+    }
+
+    /** Puts the elevator in MAINTENANCE mode. */
+    public void setMaintenance() {
+        transitionState(ElevatorState.MAINTENANCE);
+        direction = Direction.IDLE;
+    }
+
+    /** Returns elevator to IDLE from MAINTENANCE. */
+    public void completeMaintenance() {
+        if (state != ElevatorState.MAINTENANCE) {
+            throw new IllegalStateException(&quot;Elevator &quot; + id + &quot; is not in MAINTENANCE.&quot;);
+        }
+        transitionState(ElevatorState.IDLE);
+    }
+
+    private void transitionState(ElevatorState newState) {
+        this.state = newState;
+        notifyStateChanged(newState);
+    }
+
+    // ── Getters ────────────────────────────────────────────────────────────────
+
+    public int getId() { return id; }
+    public int getCurrentFloor() { return currentFloor; }
+    public ElevatorState getState() { return state; }
+    public Direction getDirection() { return direction; }
+    public int getMinFloor() { return minFloor; }
+    public int getMaxFloor() { return maxFloor; }
+    public boolean isIdle() { return state == ElevatorState.IDLE; }
+    public boolean isAvailable() {
+        return state != ElevatorState.MAINTENANCE;
+    }
+
+    public List&lt;ElevatorObserver&gt; getObservers() {
+        return Collections.unmodifiableList(observers);
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Elevator[&quot; + id + &quot;] floor=&quot; + currentFloor + &quot; state=&quot; + state + &quot; dir=&quot; + direction;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="ElevatorController-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+/**
+ * Manages a fleet of elevators and dispatches incoming requests.
+ * Uses the configured ElevatorStrategy to select the next floor for each elevator.
+ *
+ * Dispatch policy: assigns each new request to the closest available elevator
+ * to minimise passenger wait time.
+ */
+public class ElevatorController {
+    private final List&lt;Elevator&gt; elevators;
+    private final List&lt;ElevatorRequest&gt; pendingRequests;
+    private ElevatorStrategy strategy;
+
+    public ElevatorController(ElevatorStrategy strategy) {
+        this.strategy = strategy;
+        this.elevators = new ArrayList&lt;&gt;();
+        this.pendingRequests = new CopyOnWriteArrayList&lt;&gt;();
+    }
+
+    // ── Fleet management ───────────────────────────────────────────────────────
+
+    public void addElevator(Elevator elevator) {
+        elevators.add(elevator);
+    }
+
+    public List&lt;Elevator&gt; getElevators() {
+        return Collections.unmodifiableList(elevators);
+    }
+
+    public void setStrategy(ElevatorStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    // ── Request dispatch ───────────────────────────────────────────────────────
+
+    /**
+     * Accepts a new passenger request and queues it.
+     * Immediately triggers a dispatch step to assign it to the best elevator.
+     */
+    public void requestElevator(ElevatorRequest request) {
+        System.out.println(&quot;[Controller] New &quot; + request);
+        pendingRequests.add(request);
+        dispatch();
+    }
+
+    /**
+     * Runs one dispatch step: for each idle elevator, use the strategy to
+     * determine its next target and move it one floor in that direction.
+     * This simulates a single clock tick in a step-driven simulation.
+     */
+    public void dispatch() {
+        for (Elevator elevator : elevators) {
+            if (!elevator.isAvailable()) continue;
+
+            int nextFloor = strategy.selectNextFloor(elevator, pendingRequests);
+            if (nextFloor == -1) continue;
+
+            System.out.printf(&quot;[Controller] Elevator %d targeting floor %d (currently at %d)%n&quot;,
+                    elevator.getId(), nextFloor, elevator.getCurrentFloor());
+
+            // Move elevator step-by-step until it reaches the target
+            while (elevator.getCurrentFloor() != nextFloor) {
+                elevator.moveTowards(nextFloor);
+            }
+
+            // Arrived — open and close door
+            if (elevator.getState() != ElevatorState.DOOR_OPEN) {
+                elevator.openDoor();
+            }
+            elevator.closeDoor();
+
+            // Remove all requests whose source or destination equals the current floor
+            int arrivedAt = elevator.getCurrentFloor();
+            pendingRequests.removeIf(r -&gt;
+                    r.getSourceFloor() == arrivedAt || r.getDestinationFloor() == arrivedAt);
+        }
+    }
+
+    /** Returns the list of unserviced requests. */
+    public List&lt;ElevatorRequest&gt; getPendingRequests() {
+        return Collections.unmodifiableList(pendingRequests);
+    }
+
+    /**
+     * Simulates processing until all pending requests are serviced.
+     * Bounded to 1000 iterations to prevent infinite loops in edge cases.
+     */
+    public void processAll() {
+        int maxIterations = 1000;
+        while (!pendingRequests.isEmpty() &amp;&amp; maxIterations-- &gt; 0) {
+            dispatch();
+        }
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="ElevatorObserver-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+/**
+ * Observer Pattern interface for elevator events.
+ * Implement to receive notifications on floor changes and state transitions.
+ */
+public interface ElevatorObserver {
+    /**
+     * Called whenever the elevator moves to a new floor.
+     *
+     * @param elevatorId the elevator&#x27;s unique ID
+     * @param floor      the floor number just reached
+     */
+    void onFloorChanged(int elevatorId, int floor);
+
+    /**
+     * Called whenever the elevator transitions to a new state.
+     *
+     * @param elevatorId the elevator&#x27;s unique ID
+     * @param state      the new ElevatorState
+     */
+    void onStateChanged(int elevatorId, ElevatorState state);
+}</code></pre>
+</div>
+<div class="tab-content" id="ElevatorRequest-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+import java.time.LocalDateTime;
+
+/**
+ * Represents a passenger elevator request.
+ * Contains source floor, destination floor, and the direction of travel
+ * (determines the hall-call button pressed).
+ */
+public class ElevatorRequest {
+    private final int sourceFloor;
+    private final int destinationFloor;
+    private final Direction direction;
+    private final LocalDateTime timestamp;
+
+    public ElevatorRequest(int sourceFloor, int destinationFloor) {
+        this.sourceFloor = sourceFloor;
+        this.destinationFloor = destinationFloor;
+        this.direction = destinationFloor &gt; sourceFloor ? Direction.UP : Direction.DOWN;
+        this.timestamp = LocalDateTime.now();
+    }
+
+    public int getSourceFloor() { return sourceFloor; }
+    public int getDestinationFloor() { return destinationFloor; }
+    public Direction getDirection() { return direction; }
+    public LocalDateTime getTimestamp() { return timestamp; }
+
+    @Override
+    public String toString() {
+        return &quot;Request[&quot; + sourceFloor + &quot; -&gt; &quot; + destinationFloor + &quot; (&quot; + direction + &quot;)]&quot;;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="ElevatorState-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+/**
+ * State machine states for an elevator (State Pattern).
+ * Valid transitions:
+ *   IDLE -&gt; MOVING_UP | MOVING_DOWN | DOOR_OPEN | MAINTENANCE
+ *   MOVING_UP -&gt; IDLE | DOOR_OPEN
+ *   MOVING_DOWN -&gt; IDLE | DOOR_OPEN
+ *   DOOR_OPEN -&gt; IDLE | MOVING_UP | MOVING_DOWN
+ *   MAINTENANCE -&gt; IDLE (after servicing)
+ */
+public enum ElevatorState {
+    MOVING_UP,
+    MOVING_DOWN,
+    IDLE,
+    DOOR_OPEN,
+    MAINTENANCE
+}</code></pre>
+</div>
+<div class="tab-content" id="ElevatorStrategy-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+import java.util.List;
+
+/**
+ * Strategy Pattern interface for elevator dispatch algorithms.
+ * Implementations decide which floor an elevator services next
+ * given its current state and the queue of pending requests.
+ */
+public interface ElevatorStrategy {
+    /**
+     * Selects the next floor to move to.
+     *
+     * @param elevator the elevator whose next floor is being determined
+     * @param requests the current queue of unserviced requests
+     * @return the next floor number, or -1 if there is nothing to do
+     */
+    int selectNextFloor(Elevator elevator, List&lt;ElevatorRequest&gt; requests);
+}</code></pre>
+</div>
+<div class="tab-content" id="ElevatorSystem-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+/**
+ * Entry point / builder for the Elevator LLD.
+ *
+ * Design Patterns used:
+ *   • State Machine — Elevator transitions between IDLE, MOVING_UP, MOVING_DOWN,
+ *                     DOOR_OPEN, MAINTENANCE
+ *   • Observer      — ElevatorObserver receives floor-change and state-change events
+ *   • Strategy      — ElevatorStrategy (SCAN / FCFS) decides which floor to visit next
+ */
+public class ElevatorSystem {
+
+    public static void main(String[] args) {
+        // 1. Choose strategy (swap to FCFSStrategy to compare)
+        ElevatorStrategy strategy = new SCANStrategy();
+        ElevatorController controller = new ElevatorController(strategy);
+
+        // 2. Create elevators (2 elevators, floors 1–10)
+        Elevator e1 = new Elevator(1, 1, 10);
+        Elevator e2 = new Elevator(2, 1, 10);
+
+        // 3. Attach a logging observer to each elevator
+        ElevatorObserver logger = new ElevatorObserver() {
+            @Override
+            public void onFloorChanged(int elevatorId, int floor) {
+                System.out.printf(&quot;  [Elevator %d] → Floor %d%n&quot;, elevatorId, floor);
+            }
+            @Override
+            public void onStateChanged(int elevatorId, ElevatorState state) {
+                System.out.printf(&quot;  [Elevator %d] State → %s%n&quot;, elevatorId, state);
+            }
+        };
+        e1.addObserver(logger);
+        e2.addObserver(logger);
+
+        controller.addElevator(e1);
+        controller.addElevator(e2);
+
+        // 4. Submit requests
+        controller.requestElevator(new ElevatorRequest(1, 5));
+        controller.requestElevator(new ElevatorRequest(3, 7));
+        controller.requestElevator(new ElevatorRequest(8, 2));
+
+        // 5. Process all requests
+        controller.processAll();
+
+        System.out.println(&quot;\nAll requests processed.&quot;);
+        System.out.println(e1);
+        System.out.println(e2);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="FCFSStrategy-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+import java.util.List;
+
+/**
+ * First-Come-First-Served (FCFS) strategy.
+ * Always services the oldest pending request first, regardless of direction.
+ * Simple but can result in high travel distances.
+ */
+public class FCFSStrategy implements ElevatorStrategy {
+
+    @Override
+    public int selectNextFloor(Elevator elevator, List&lt;ElevatorRequest&gt; requests) {
+        if (requests.isEmpty()) return -1;
+        // The head of the queue is the oldest request
+        ElevatorRequest next = requests.get(0);
+        // First travel to the source floor, then the destination will be handled next
+        if (elevator.getCurrentFloor() != next.getSourceFloor()) {
+            return next.getSourceFloor();
+        }
+        return next.getDestinationFloor();
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="Main-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+import java.util.List;
+
+/**
+ * Demo runner for the Elevator System LLD.
+ * Patterns: State Machine, Observer, Strategy
+ */
+public class Main {
+
+    private static void banner(String text) {
+        System.out.println();
+        System.out.println(&quot;=== &quot; + text + &quot; ===&quot;);
+    }
+
+    public static void main(String[] args) {
+
+        banner(&quot;Scenario 1: SCAN strategy -- 3 elevators, 10 floors&quot;);
+        ElevatorController controller = new ElevatorController(new SCANStrategy());
+        Elevator e1 = new Elevator(1, 1, 10);
+        Elevator e2 = new Elevator(2, 1, 10);
+        Elevator e3 = new Elevator(3, 1, 10);
+
+        ElevatorObserver observer = new ElevatorObserver() {
+            @Override
+            public void onFloorChanged(int elevatorId, int floor) {
+                System.out.printf(&quot;  [Observer] Elevator %d moved to floor %d%n&quot;, elevatorId, floor);
+            }
+            @Override
+            public void onStateChanged(int elevatorId, ElevatorState state) {
+                System.out.printf(&quot;  [Observer] Elevator %d state -&gt; %s%n&quot;, elevatorId, state);
+            }
+        };
+        e1.addObserver(observer);
+        e2.addObserver(observer);
+        e3.addObserver(observer);
+
+        controller.addElevator(e1);
+        controller.addElevator(e2);
+        controller.addElevator(e3);
+
+        controller.requestElevator(new ElevatorRequest(1, 7));
+        controller.requestElevator(new ElevatorRequest(3, 9));
+        controller.requestElevator(new ElevatorRequest(8, 2));
+        System.out.println(&quot;  Requests submitted: 1-&gt;7, 3-&gt;9, 8-&gt;2&quot;);
+        controller.processAll();
+
+        banner(&quot;Scenario 2: FCFS strategy -- requests processed in order&quot;);
+        ElevatorController fcfsController = new ElevatorController(new FCFSStrategy());
+        Elevator f1 = new Elevator(1, 1, 15);
+        Elevator f2 = new Elevator(2, 1, 15);
+        fcfsController.addElevator(f1);
+        fcfsController.addElevator(f2);
+        fcfsController.requestElevator(new ElevatorRequest(5, 12));
+        fcfsController.requestElevator(new ElevatorRequest(2, 6));
+        fcfsController.requestElevator(new ElevatorRequest(10, 1));
+        System.out.println(&quot;  Requests: 5-&gt;12, 2-&gt;6, 10-&gt;1&quot;);
+        fcfsController.processAll();
+        System.out.println(&quot;  Final elevator positions:&quot;);
+        fcfsController.getElevators().forEach(e -&gt;
+                System.out.printf(&quot;    Elevator %d: floor=%d, state=%s%n&quot;,
+                        e.getId(), e.getCurrentFloor(), e.getState()));
+
+        banner(&quot;Scenario 3: Edge case -- request from and to same floor&quot;);
+        ElevatorController edgeController = new ElevatorController(new SCANStrategy());
+        Elevator edge1 = new Elevator(1, 1, 10);
+        edgeController.addElevator(edge1);
+        edgeController.requestElevator(new ElevatorRequest(5, 5));
+        System.out.println(&quot;  Request: floor 5 -&gt; floor 5 (no-op expected)&quot;);
+        edgeController.processAll();
+        System.out.println(&quot;  Elevator final floor: &quot; + edgeController.getElevators().get(0).getCurrentFloor());
+
+        banner(&quot;Scenario 4: Requests to top floor (10) and ground floor (1)&quot;);
+        ElevatorController extremeController = new ElevatorController(new SCANStrategy());
+        Elevator ext1 = new Elevator(1, 1, 10);
+        extremeController.addElevator(ext1);
+        extremeController.requestElevator(new ElevatorRequest(1, 10));
+        extremeController.requestElevator(new ElevatorRequest(10, 1));
+        System.out.println(&quot;  Requests: 1-&gt;10, 10-&gt;1&quot;);
+        extremeController.processAll();
+        System.out.println(&quot;  Done. Final floor: &quot; + extremeController.getElevators().get(0).getCurrentFloor());
+
+        banner(&quot;Scenario 5: High load -- 5 requests on 1 elevator (SCAN)&quot;);
+        ElevatorController loadController = new ElevatorController(new SCANStrategy());
+        Elevator load1 = new Elevator(1, 1, 20);
+        loadController.addElevator(load1);
+        List&lt;int[]&gt; requests = List.of(
+                new int[]{1, 15}, new int[]{3, 18}, new int[]{7, 2},
+                new int[]{12, 4}, new int[]{6, 20});
+        requests.forEach(r -&gt; {
+            loadController.requestElevator(new ElevatorRequest(r[0], r[1]));
+            System.out.printf(&quot;  Queued: %d -&gt; %d%n&quot;, r[0], r[1]);
+        });
+        loadController.processAll();
+        System.out.println(&quot;  All requests processed.&quot;);
+
+        System.out.println();
+        System.out.println(&quot;=== Elevator System Demo Complete ===&quot;);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="SCANStrategy-java">
+<pre><code class="language-java">package org.interview.system_design.lld.elevator;
+
+import java.util.List;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
+
+/**
+ * SCAN (Elevator) Algorithm.
+ * The elevator moves in one direction, picking up all requests along the way.
+ * When it reaches the last request in that direction it reverses.
+ * This minimises average wait time compared to FCFS.
+ *
+ * Implementation:
+ *   1. If moving UP  — service the nearest floor ABOVE current floor first.
+ *   2. If moving DOWN — service the nearest floor BELOW current floor first.
+ *   3. If IDLE — choose the nearest request in either direction.
+ */
+public class SCANStrategy implements ElevatorStrategy {
+
+    @Override
+    public int selectNextFloor(Elevator elevator, List&lt;ElevatorRequest&gt; requests) {
+        if (requests.isEmpty()) return -1;
+
+        int current = elevator.getCurrentFloor();
+        Direction dir = elevator.getDirection();
+
+        // Collect all relevant stop floors (source + destination of every request)
+        int[] stops = requests.stream()
+                .flatMapToInt(r -&gt; IntStream.of(r.getSourceFloor(), r.getDestinationFloor()))
+                .distinct()
+                .toArray();
+
+        if (dir == Direction.UP || dir == Direction.IDLE) {
+            // Try to find the nearest floor above
+            OptionalInt above = IntStream.of(stops)
+                    .filter(f -&gt; f &gt; current)
+                    .min();
+            if (above.isPresent()) return above.getAsInt();
+
+            // No floors above — find nearest below (direction will reverse)
+            OptionalInt below = IntStream.of(stops)
+                    .filter(f -&gt; f &lt; current)
+                    .max();
+            if (below.isPresent()) return below.getAsInt();
+        }
+
+        if (dir == Direction.DOWN) {
+            // Try to find the nearest floor below
+            OptionalInt below = IntStream.of(stops)
+                    .filter(f -&gt; f &lt; current)
+                    .max();
+            if (below.isPresent()) return below.getAsInt();
+
+            // No floors below — find nearest above (direction will reverse)
+            OptionalInt above = IntStream.of(stops)
+                    .filter(f -&gt; f &gt; current)
+                    .min();
+            if (above.isPresent()) return above.getAsInt();
+        }
+
+        return -1;
+    }
+}</code></pre>
+</div>
+</div>

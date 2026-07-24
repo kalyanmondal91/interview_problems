@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="150+ coding problems, LLD & HLD system design solutions">
+<title>Binary Search | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <a href="/interview_problems/design-patterns/" class="nav-link">
+        <span class="nav-icon">🎨</span> Design Patterns
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="problem-page">
+    <header class="problem-header">
+      <h1 class="problem-title">Binary Search</h1>
+
+      <div class="problem-meta">
+        
+        <span class="badge badge-category">Binarysearch</span>
+        
+
+        
+          
+          <span class="badge badge-easy">
+            🟢
+            Easy
+          </span>
+        
+
+        
+        <a href="https://leetcode.com/problems/binary-search/" class="leetcode-link" target="_blank" rel="noopener">
+          🔗 LeetCode #704
+        </a>
+        
+      </div>
+
+      
+      <div class="problem-tags">
+        
+        <span class="badge badge-tag">binarysearch</span>
+        
+      </div>
+      
+
+      
+      <div class="complexity-table">
+        
+        <div class="complexity-card">
+          <div class="complexity-label">Time</div>
+          <div class="complexity-value">O(log n)</div>
+        </div>
+        
+        
+        <div class="complexity-card">
+          <div class="complexity-label">Space</div>
+          <div class="complexity-value">O(1)</div>
+        </div>
+        
+      </div>
+      
+    </header>
+
+    <div class="problem-content">
+      <h2 id="problem">Problem</h2>
+
+<p>Binary Search Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, return its index. Otherwise, return -1.</p>
+
+<h2 id="approach">Approach</h2>
+
+<p>Classic iterative binary search. Maintain lo=0 and hi=n-1. Compute mid=(lo+hi)/2. If nums[mid]==target return mid. If target &gt; nums[mid], move lo to mid+1; otherwise move hi to mid-1. If target is not found, return -1. This runs in O(log n).</p>
+
+<h2 id="solution">Solution</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">org.interview.coding.binarysearch</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Problem: Binary Search
+ * Difficulty: Easy
+ *
+ * Description:
+ * Given an array of integers nums which is sorted in ascending order, and an integer target,
+ * write a function to search target in nums.
+ * If target exists, return its index. Otherwise, return -1.
+ *
+ * Example:
+ *   Input: nums = [-1,0,3,5,9,12], target = 9
+ *   Output: 4
+ *
+ * Constraints:
+ *   - 1 &lt;= nums.length &lt;= 10^4
+ *   - -10^4 &lt; nums[i], target &lt; 10^4
+ *   - All integers in nums are unique and sorted in ascending order
+ *
+ * Approach:
+ *   Classic iterative binary search. Maintain lo=0 and hi=n-1.
+ *   Compute mid=(lo+hi)/2. If nums[mid]==target return mid.
+ *   If target &gt; nums[mid], move lo to mid+1; otherwise move hi to mid-1.
+ *   If target is not found, return -1. This runs in O(log n).
+ *
+ * Time Complexity: O(log n)
+ * Space Complexity: O(1)
+ *
+ * Test Cases:
+ *   1. Input: [-1,0,3,5,9,12], target=9 → Output: 4
+ *   2. Input: [-1,0,3,5,9,12], target=2 → Output: -1
+ *   3. Edge: [5], target=5 → Output: 0
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BinarySearch</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">search</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">lo</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">lo</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="o">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="o">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">mid</span><span class="o">]</span> <span class="o">==</span> <span class="n">target</span><span class="o">)</span> <span class="k">return</span> <span class="n">mid</span><span class="o">;</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">mid</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="o">)</span> <span class="n">lo</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="k">else</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">BinarySearch</span> <span class="n">sol</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BinarySearch</span><span class="o">();</span>
+
+        <span class="c1">// Test 1</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Test 1: "</span> <span class="o">+</span> <span class="n">sol</span><span class="o">.</span><span class="na">search</span><span class="o">(</span><span class="k">new</span> <span class="kt">int</span><span class="o">[]{-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">12</span><span class="o">},</span> <span class="mi">9</span><span class="o">));</span> <span class="c1">// Expected: 4</span>
+
+        <span class="c1">// Test 2</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Test 2: "</span> <span class="o">+</span> <span class="n">sol</span><span class="o">.</span><span class="na">search</span><span class="o">(</span><span class="k">new</span> <span class="kt">int</span><span class="o">[]{-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">12</span><span class="o">},</span> <span class="mi">2</span><span class="o">));</span> <span class="c1">// Expected: -1</span>
+
+        <span class="c1">// Test 3 (edge case)</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Test 3: "</span> <span class="o">+</span> <span class="n">sol</span><span class="o">.</span><span class="na">search</span><span class="o">(</span><span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">5</span><span class="o">},</span> <span class="mi">5</span><span class="o">));</span> <span class="c1">// Expected: 0</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="complexity">Complexity</h2>
+
+<ul>
+  <li><strong>Time:</strong> O(log n)</li>
+  <li><strong>Space:</strong> O(1)</li>
+</ul>
+
+    </div>
+
+    <nav class="problem-nav" aria-label="Problem navigation">
+      <a href="/interview_problems/coding/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to All Problems
+      </a>
+    </nav>
+  </article>
+</div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

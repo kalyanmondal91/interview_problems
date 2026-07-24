@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LLD of File System">
+<title>File System | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <a href="/interview_problems/design-patterns/" class="nav-link">
+        <span class="nav-icon">🎨</span> Design Patterns
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="lld-page">
+    <header class="lld-header">
+      <h1 class="lld-title">File System</h1>
+      
+      <p class="lld-description">LLD of File System</p>
+      
+      
+    </header>
+
+    <div class="lld-content">
+      <h2 id="file-system">File System</h2>
+
+<p>Complete Java LLD implementation.</p>
+
+<h2 id="source-files">Source Files</h2>
+
+<div class="lld-tabs">
+<div class="tab-buttons">
+<button class="tab-btn active" data-tab="DirectoryNode.java">DirectoryNode.java</button>
+<button class="tab-btn" data-tab="DiskUsageVisitor.java">DiskUsageVisitor.java</button>
+<button class="tab-btn" data-tab="FileNode.java">FileNode.java</button>
+<button class="tab-btn" data-tab="FilePermission.java">FilePermission.java</button>
+<button class="tab-btn" data-tab="FileSystem.java">FileSystem.java</button>
+<button class="tab-btn" data-tab="FileSystemNode.java">FileSystemNode.java</button>
+<button class="tab-btn" data-tab="FileSystemVisitor.java">FileSystemVisitor.java</button>
+<button class="tab-btn" data-tab="Main.java">Main.java</button>
+<button class="tab-btn" data-tab="Permissions.java">Permissions.java</button>
+<button class="tab-btn" data-tab="SearchVisitor.java">SearchVisitor.java</button>
+<button class="tab-btn" data-tab="SizePrinterVisitor.java">SizePrinterVisitor.java</button>
+</div>
+<div class="tab-content active" id="DirectoryNode-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Composite node representing a directory that can contain files and sub-directories.
+ * Pattern: Composite (composite)
+ */
+public class DirectoryNode implements FileSystemNode {
+
+    private final String name;
+    private final String parentPath;
+    private final List&lt;FileSystemNode&gt; children = new ArrayList&lt;&gt;();
+
+    public DirectoryNode(String name, String parentPath) {
+        this.name = name;
+        this.parentPath = parentPath;
+    }
+
+    @Override
+    public String getName() { return name; }
+
+    @Override
+    public long getSize() {
+        return children.stream().mapToLong(FileSystemNode::getSize).sum();
+    }
+
+    @Override
+    public String getPath() {
+        if (parentPath == null || parentPath.isEmpty()) return &quot;/&quot; + name;
+        return parentPath.endsWith(&quot;/&quot;) ? parentPath + name : parentPath + &quot;/&quot; + name;
+    }
+
+    @Override
+    public void accept(FileSystemVisitor visitor) {
+        visitor.visitDirectory(this);
+        // Visitor decides whether to recurse into children
+        children.forEach(child -&gt; child.accept(visitor));
+    }
+
+    public void addChild(FileSystemNode node) {
+        children.add(node);
+    }
+
+    public boolean removeChild(String name) {
+        return children.removeIf(n -&gt; n.getName().equals(name));
+    }
+
+    public Optional&lt;FileSystemNode&gt; getChild(String name) {
+        return children.stream().filter(n -&gt; n.getName().equals(name)).findFirst();
+    }
+
+    public List&lt;FileSystemNode&gt; getChildren() {
+        return Collections.unmodifiableList(children);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(&quot;Dir{%s, children=%d}&quot;, getPath(), children.size());
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="DiskUsageVisitor-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Visitor that computes total disk usage per directory.
+ * After traversal, call getUsageMap() to retrieve directory → bytes mappings.
+ */
+public class DiskUsageVisitor implements FileSystemVisitor {
+
+    private final Map&lt;String, Long&gt; usageMap = new HashMap&lt;&gt;();
+    private long totalBytes = 0;
+
+    @Override
+    public void visitFile(FileNode file) {
+        totalBytes += file.getSize();
+    }
+
+    @Override
+    public void visitDirectory(DirectoryNode directory) {
+        // Record each directory&#x27;s total size (recursive, since getSize() is recursive)
+        usageMap.put(directory.getPath(), directory.getSize());
+    }
+
+    /** Returns disk usage per directory path in bytes. */
+    public Map&lt;String, Long&gt; getUsageMap() {
+        return Map.copyOf(usageMap);
+    }
+
+    /** Returns the total bytes across all visited files. */
+    public long getTotalBytes() {
+        return totalBytes;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="FileNode-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+import java.time.LocalDateTime;
+
+/**
+ * Leaf node representing a file in the file system.
+ * Pattern: Composite (leaf)
+ */
+public class FileNode implements FileSystemNode {
+
+    private final String name;
+    private String content;
+    private final String parentPath;
+    private final LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+    private Permissions permissions;
+
+    public FileNode(String name, String parentPath) {
+        this(name, parentPath, &quot;&quot;);
+    }
+
+    public FileNode(String name, String parentPath, String content) {
+        this.name = name;
+        this.parentPath = parentPath;
+        this.content = content;
+        this.createdAt = LocalDateTime.now();
+        this.modifiedAt = this.createdAt;
+        this.permissions = Permissions.defaultPermissions();
+    }
+
+    @Override
+    public String getName() { return name; }
+
+    @Override
+    public long getSize() {
+        return content == null ? 0 : content.getBytes().length;
+    }
+
+    @Override
+    public String getPath() {
+        return parentPath.endsWith(&quot;/&quot;) ? parentPath + name : parentPath + &quot;/&quot; + name;
+    }
+
+    @Override
+    public void accept(FileSystemVisitor visitor) {
+        visitor.visitFile(this);
+    }
+
+    public String getContent() { return content; }
+
+    public void setContent(String content) {
+        this.content = content;
+        this.modifiedAt = LocalDateTime.now();
+    }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getModifiedAt() { return modifiedAt; }
+    public Permissions getPermissions() { return permissions; }
+    public void setPermissions(Permissions permissions) { this.permissions = permissions; }
+
+    @Override
+    public String toString() {
+        return String.format(&quot;File{%s, size=%d bytes}&quot;, getPath(), getSize());
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="FilePermission-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+/** Standard UNIX-style file permission bits. */
+public enum FilePermission {
+    READ,
+    WRITE,
+    EXECUTE
+}</code></pre>
+</div>
+<div class="tab-content" id="FileSystem-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+/**
+ * In-memory virtual file system supporting standard shell-like operations.
+ * Uses the Composite tree as backing storage and Visitors for read operations.
+ */
+public class FileSystem {
+
+    private final DirectoryNode root;
+    private DirectoryNode currentDirectory;
+
+    public FileSystem() {
+        // Root directory has no parent path — represented as empty string
+        this.root = new DirectoryNode(&quot;&quot;, &quot;&quot;);
+        this.currentDirectory = root;
+    }
+
+    // ---- Navigation ----
+
+    /** Returns the absolute path of the current directory. */
+    public String pwd() {
+        String path = currentDirectory.getPath();
+        return path.isEmpty() ? &quot;/&quot; : path;
+    }
+
+    /**
+     * Changes the current directory.
+     *
+     * @param path absolute path starting with &quot;/&quot;, or &quot;..&quot; to go up one level
+     */
+    public boolean cd(String path) {
+        if (&quot;..&quot;.equals(path)) {
+            // Navigate to parent — find the parent of currentDirectory
+            DirectoryNode parent = findParent(root, currentDirectory);
+            if (parent != null) currentDirectory = parent;
+            return true;
+        }
+        Optional&lt;DirectoryNode&gt; target = resolveDirectory(path);
+        target.ifPresent(d -&gt; currentDirectory = d);
+        return target.isPresent();
+    }
+
+    // ---- Mutation ----
+
+    /**
+     * Creates a directory at the given path under the current directory.
+     */
+    public boolean mkdir(String name) {
+        if (name.contains(&quot;/&quot;)) {
+            System.out.println(&quot;mkdir: nested paths not supported; use absolute path&quot;);
+            return false;
+        }
+        if (currentDirectory.getChild(name).isPresent()) {
+            System.out.println(&quot;mkdir: &quot; + name + &quot; already exists&quot;);
+            return false;
+        }
+        DirectoryNode dir = new DirectoryNode(name, currentDirectory.getPath());
+        currentDirectory.addChild(dir);
+        return true;
+    }
+
+    /**
+     * Creates an empty file in the current directory.
+     */
+    public boolean touch(String name) {
+        if (currentDirectory.getChild(name).isPresent()) {
+            // Idempotent: no error if already exists
+            return true;
+        }
+        FileNode file = new FileNode(name, currentDirectory.getPath());
+        currentDirectory.addChild(file);
+        return true;
+    }
+
+    /**
+     * Creates a file with content in the current directory.
+     */
+    public boolean write(String name, String content) {
+        Optional&lt;FileSystemNode&gt; existing = currentDirectory.getChild(name);
+        if (existing.isPresent()) {
+            if (existing.get() instanceof FileNode) {
+                ((FileNode) existing.get()).setContent(content);
+                return true;
+            }
+            System.out.println(&quot;write: &quot; + name + &quot; is a directory&quot;);
+            return false;
+        }
+        FileNode file = new FileNode(name, currentDirectory.getPath(), content);
+        currentDirectory.addChild(file);
+        return true;
+    }
+
+    /**
+     * Removes a file or empty directory from the current directory.
+     */
+    public boolean rm(String name) {
+        return currentDirectory.removeChild(name);
+    }
+
+    // ---- Listing ----
+
+    /** Lists names of all children in the current directory. */
+    public List&lt;String&gt; ls() {
+        return currentDirectory.getChildren().stream()
+                .map(FileSystemNode::getName)
+                .collect(Collectors.toList());
+    }
+
+    // ---- Search ----
+
+    /**
+     * Searches recursively from the current directory for files matching the pattern.
+     */
+    public List&lt;FileNode&gt; find(String pattern) {
+        SearchVisitor visitor = new SearchVisitor(pattern);
+        currentDirectory.accept(visitor);
+        return visitor.getResults();
+    }
+
+    // ---- Disk usage ----
+
+    /**
+     * Returns total disk usage in bytes for the current directory tree.
+     */
+    public long du() {
+        DiskUsageVisitor visitor = new DiskUsageVisitor();
+        currentDirectory.accept(visitor);
+        return currentDirectory.getSize();
+    }
+
+    // ---- Private helpers ----
+
+    private Optional&lt;DirectoryNode&gt; resolveDirectory(String path) {
+        // Support absolute paths only (starting with &quot;/&quot;)
+        DirectoryNode start = path.startsWith(&quot;/&quot;) ? root : currentDirectory;
+        String[] parts = path.replaceFirst(&quot;^/&quot;, &quot;&quot;).split(&quot;/&quot;);
+        DirectoryNode current = start;
+        for (String part : parts) {
+            if (part.isEmpty()) continue;
+            Optional&lt;FileSystemNode&gt; child = current.getChild(part);
+            if (child.isEmpty() || !(child.get() instanceof DirectoryNode)) {
+                return Optional.empty();
+            }
+            current = (DirectoryNode) child.get();
+        }
+        return Optional.of(current);
+    }
+
+    private DirectoryNode findParent(DirectoryNode node, DirectoryNode target) {
+        for (FileSystemNode child : node.getChildren()) {
+            if (child == target) return node;
+            if (child instanceof DirectoryNode) {
+                DirectoryNode found = findParent((DirectoryNode) child, target);
+                if (found != null) return found;
+            }
+        }
+        return null;
+    }
+
+    public DirectoryNode getRoot() { return root; }
+    public DirectoryNode getCurrentDirectory() { return currentDirectory; }
+}</code></pre>
+</div>
+<div class="tab-content" id="FileSystemNode-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+/**
+ * Component interface for the Composite pattern.
+ * Both files (leaves) and directories (composites) implement this.
+ * Pattern: Composite
+ */
+public interface FileSystemNode {
+    /** Returns the file or directory name. */
+    String getName();
+
+    /** Returns the size in bytes. Directories return the sum of their children. */
+    long getSize();
+
+    /** Returns the absolute path from the root. */
+    String getPath();
+
+    /** Accepts a visitor, delegating to the appropriate visit method. */
+    void accept(FileSystemVisitor visitor);
+}</code></pre>
+</div>
+<div class="tab-content" id="FileSystemVisitor-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+/**
+ * Visitor interface for traversing the file system tree.
+ * Pattern: Visitor
+ */
+public interface FileSystemVisitor {
+    void visitFile(FileNode file);
+    void visitDirectory(DirectoryNode directory);
+}</code></pre>
+</div>
+<div class="tab-content" id="Main-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+import java.util.List;
+
+/**
+ * Demo runner for the File System LLD.
+ * Patterns: Composite (directory tree), Visitor (size printer, search, disk usage)
+ */
+public class Main {
+
+    private static void banner(String text) {
+        System.out.println();
+        System.out.println(&quot;=== &quot; + text + &quot; ===&quot;);
+    }
+
+    public static void main(String[] args) {
+
+        // Scenario 1: Build tree and print with SizePrinterVisitor
+        banner(&quot;Scenario 1: Build directory tree + SizePrinterVisitor&quot;);
+
+        DirectoryNode root     = new DirectoryNode(&quot;&quot;, &quot;&quot;);
+        DirectoryNode projects = new DirectoryNode(&quot;projects&quot;, root.getPath());
+        DirectoryNode java     = new DirectoryNode(&quot;java&quot;, projects.getPath());
+        DirectoryNode python   = new DirectoryNode(&quot;python&quot;, projects.getPath());
+        DirectoryNode docs     = new DirectoryNode(&quot;docs&quot;, root.getPath());
+
+        FileNode appJava  = new FileNode(&quot;App.java&quot;,  java.getPath(),    &quot;public class App {}&quot;);
+        FileNode utilJava = new FileNode(&quot;Util.java&quot;, java.getPath(),    &quot;public class Util {}&quot;);
+        FileNode scriptPy = new FileNode(&quot;script.py&quot;, python.getPath(),  &quot;print(&#x27;hello&#x27;)&quot;);
+        FileNode readme   = new FileNode(&quot;README.md&quot;, docs.getPath(),    &quot;# Project&quot;);
+        FileNode license  = new FileNode(&quot;LICENSE&quot;,   docs.getPath(),    &quot;MIT License...&quot;);
+
+        java.addChild(appJava);
+        java.addChild(utilJava);
+        python.addChild(scriptPy);
+        projects.addChild(java);
+        projects.addChild(python);
+        docs.addChild(readme);
+        docs.addChild(license);
+        root.addChild(projects);
+        root.addChild(docs);
+
+        SizePrinterVisitor printer = new SizePrinterVisitor();
+        root.accept(printer);
+
+        // Scenario 2: SearchVisitor -- find .java files
+        banner(&quot;Scenario 2: SearchVisitor -- find files containing &#x27;.java&#x27;&quot;);
+        SearchVisitor searcher = new SearchVisitor(&quot;.java&quot;);
+        root.accept(searcher);
+        List&lt;FileNode&gt; found = searcher.getResults();
+        System.out.println(&quot;  Found &quot; + found.size() + &quot; match(es):&quot;);
+        found.forEach(f -&gt; System.out.println(&quot;    &quot; + f.getPath()));
+
+        // Scenario 3: DiskUsageVisitor
+        banner(&quot;Scenario 3: DiskUsageVisitor -- per-directory sizes&quot;);
+        DiskUsageVisitor du = new DiskUsageVisitor();
+        root.accept(du);
+        du.getUsageMap().forEach((dir, size) -&gt;
+                System.out.printf(&quot;  %-20s %d bytes%n&quot;, dir, size));
+
+        // Scenario 4: FileSystem shell-style operations
+        banner(&quot;Scenario 4: FileSystem shell operations&quot;);
+        FileSystem fs = new FileSystem();
+
+        fs.mkdir(&quot;home&quot;);
+        fs.cd(&quot;/home&quot;);
+        fs.mkdir(&quot;user&quot;);
+        fs.cd(&quot;/home/user&quot;);
+        fs.mkdir(&quot;documents&quot;);
+        fs.cd(&quot;/home/user/documents&quot;);
+        fs.touch(&quot;notes.txt&quot;);
+        fs.touch(&quot;report.pdf&quot;);
+        fs.cd(&quot;/&quot;);
+        fs.mkdir(&quot;var&quot;);
+        fs.cd(&quot;/var&quot;);
+        fs.mkdir(&quot;log&quot;);
+        fs.cd(&quot;/var/log&quot;);
+        fs.touch(&quot;system.log&quot;);
+        fs.cd(&quot;/&quot;);
+
+        System.out.println(&quot;  pwd: &quot; + fs.pwd());
+        System.out.println(&quot;  ls /: &quot; + fs.ls());
+        fs.cd(&quot;/home/user&quot;);
+        System.out.println(&quot;  cd /home/user -&gt; pwd: &quot; + fs.pwd());
+        System.out.println(&quot;  ls: &quot; + fs.ls());
+        fs.cd(&quot;/home/user/documents&quot;);
+        System.out.println(&quot;  ls documents: &quot; + fs.ls());
+
+        // Scenario 5: rm and find
+        banner(&quot;Scenario 5: rm a file, find across tree&quot;);
+        fs.cd(&quot;/home/user/documents&quot;);
+        System.out.println(&quot;  Before rm: ls documents = &quot; + fs.ls());
+        fs.rm(&quot;notes.txt&quot;);
+        System.out.println(&quot;  After  rm: ls documents = &quot; + fs.ls());
+
+        fs.cd(&quot;/&quot;);
+        List&lt;FileNode&gt; logFiles = fs.find(&quot;system.log&quot;);
+        System.out.println(&quot;  find &#x27;system.log&#x27;: &quot; + logFiles.size() + &quot; result(s)&quot;);
+        logFiles.forEach(f -&gt; System.out.println(&quot;    &quot; + f.getPath()));
+
+        System.out.println();
+        System.out.println(&quot;=== File System Demo Complete ===&quot;);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="Permissions-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
+
+/**
+ * Holds permission sets for owner, group, and others.
+ */
+public class Permissions {
+
+    private final Set&lt;FilePermission&gt; owner;
+    private final Set&lt;FilePermission&gt; group;
+    private final Set&lt;FilePermission&gt; others;
+
+    public Permissions(Set&lt;FilePermission&gt; owner,
+                       Set&lt;FilePermission&gt; group,
+                       Set&lt;FilePermission&gt; others) {
+        this.owner = EnumSet.copyOf(owner.isEmpty() ? EnumSet.noneOf(FilePermission.class) : owner);
+        this.group = EnumSet.copyOf(group.isEmpty() ? EnumSet.noneOf(FilePermission.class) : group);
+        this.others = EnumSet.copyOf(others.isEmpty() ? EnumSet.noneOf(FilePermission.class) : others);
+    }
+
+    /** Returns default permissions: owner=rwx, group=r-x, others=r-- */
+    public static Permissions defaultPermissions() {
+        return new Permissions(
+                EnumSet.of(FilePermission.READ, FilePermission.WRITE, FilePermission.EXECUTE),
+                EnumSet.of(FilePermission.READ, FilePermission.EXECUTE),
+                EnumSet.of(FilePermission.READ)
+        );
+    }
+
+    public Set&lt;FilePermission&gt; getOwner() { return Collections.unmodifiableSet(owner); }
+    public Set&lt;FilePermission&gt; getGroup() { return Collections.unmodifiableSet(group); }
+    public Set&lt;FilePermission&gt; getOthers() { return Collections.unmodifiableSet(others); }
+
+    @Override
+    public String toString() {
+        return String.format(&quot;owner=%s, group=%s, others=%s&quot;, owner, group, others);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="SearchVisitor-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Visitor that searches for files whose name contains the given pattern.
+ */
+public class SearchVisitor implements FileSystemVisitor {
+
+    private final String pattern;
+    private final List&lt;FileNode&gt; results = new ArrayList&lt;&gt;();
+
+    public SearchVisitor(String pattern) {
+        this.pattern = pattern.toLowerCase();
+    }
+
+    @Override
+    public void visitFile(FileNode file) {
+        if (file.getName().toLowerCase().contains(pattern)) {
+            results.add(file);
+        }
+    }
+
+    @Override
+    public void visitDirectory(DirectoryNode directory) {
+        // Directories themselves are not searched; we continue traversal via children
+    }
+
+    /** Returns all matching files found during traversal. */
+    public List&lt;FileNode&gt; getResults() {
+        return Collections.unmodifiableList(results);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="SizePrinterVisitor-java">
+<pre><code class="language-java">package org.interview.system_design.lld.filesystem;
+
+/**
+ * Visitor that prints the name and size of every node it visits.
+ */
+public class SizePrinterVisitor implements FileSystemVisitor {
+
+    private int depth = 0;
+
+    @Override
+    public void visitFile(FileNode file) {
+        System.out.printf(&quot;%s[FILE] %s (%d bytes)%n&quot;,
+                indent(), file.getName(), file.getSize());
+    }
+
+    @Override
+    public void visitDirectory(DirectoryNode directory) {
+        System.out.printf(&quot;%s[DIR]  %s (%d bytes total)%n&quot;,
+                indent(), directory.getName(), directory.getSize());
+        depth++;
+        // Children are visited by DirectoryNode.accept → children.forEach
+        // We adjust depth back after visitDirectory returns to its caller,
+        // but since accept calls children recursively, we must manage depth here.
+        // Reset depth after this directory&#x27;s children are processed by the caller.
+    }
+
+    private String indent() {
+        return &quot;  &quot;.repeat(depth);
+    }
+
+    /** Call this after visiting a directory&#x27;s children to restore indentation. */
+    public void exitDirectory() {
+        if (depth &gt; 0) depth--;
+    }
+}</code></pre>
+</div>
+</div>
+
+    </div>
+
+    <nav aria-label="LLD navigation">
+      <a href="/interview_problems/lld/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to LLD Index
+      </a>
+    </nav>
+  </article>
+</div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

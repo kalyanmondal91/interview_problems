@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="- Upload and download files of any type (up to 5GB per file)">
+<title>Google Drive | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <a href="/interview_problems/design-patterns/" class="nav-link">
+        <span class="nav-icon">🎨</span> Design Patterns
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="hld-page">
+    <header class="hld-header">
+      <h1 class="hld-title">Google Drive</h1>
+      
+      <p style="color: var(--text-secondary); font-size: 1.05em;">- Upload and download files of any type (up to 5GB per file)</p>
+      
+      
+    </header>
+
+    <div class="hld-content">
+      <h1 id="system-design-google-drive">System Design: Google Drive</h1>
+
+<h2 id="1-requirements">1. Requirements</h2>
+
+<h3 id="functional-requirements">Functional Requirements</h3>
+<ul>
+  <li>Upload and download files of any type (up to 5GB per file)</li>
+  <li>Organize files in folder hierarchy</li>
+  <li>Share files/folders with specific users (view / comment / edit permissions)</li>
+  <li>Version history: restore any previous version of a file</li>
+  <li>Real-time collaborative editing for Google Docs/Sheets/Slides</li>
+  <li>Sync client: changes on one device propagate to all others automatically</li>
+  <li>Search files by name and content</li>
+</ul>
+
+<h3 id="non-functional-requirements">Non-Functional Requirements</h3>
+<ul>
+  <li><strong>Scale</strong>: 1B registered users, 15M concurrent uploads at peak</li>
+  <li><strong>Storage</strong>: ~2TB average per user → 1B × 2TB = 2 Exabytes total (across all tiers)</li>
+  <li><strong>Upload throughput</strong>: 15M × avg 1MB/s = ~15 PB/s burst (handled by chunking + CDN)</li>
+  <li><strong>Availability</strong>: 99.99% for file access; 99.9% for real-time collaboration</li>
+  <li><strong>Durability</strong>: 11 nines (same as S3) — files never lost</li>
+  <li><strong>Consistency</strong>: Strong for metadata (file tree); eventual for replica propagation</li>
+  <li><strong>Latency</strong>: Metadata operations &lt; 50ms; file open &lt; 500ms (first byte)</li>
+</ul>
+
+<hr />
+
+<h2 id="2-capacity-estimation">2. Capacity Estimation</h2>
+
+<h3 id="qps">QPS</h3>
+<ul>
+  <li>1B users × avg 10 file ops/day = 10B ops/day → ~115K ops/sec</li>
+  <li>15M concurrent uploads at peak; ~50M downloads</li>
+  <li>Collaboration: 100M active Docs users, avg 5 edits/min = ~8.3M OT ops/sec</li>
+</ul>
+
+<h3 id="storage">Storage</h3>
+<ul>
+  <li>Raw: 1B users × 2TB = 2 EB</li>
+  <li>With replication (3×): 6 EB</li>
+  <li>Block deduplication saves ~30% → effective ~4.2 EB</li>
+  <li>Metadata DB: 1B users × 10K files × 500B metadata = ~5 PB</li>
+</ul>
+
+<h3 id="bandwidth">Bandwidth</h3>
+<ul>
+  <li>Upload: 15M concurrent × 1MB/s = 15 TB/s (handled by multipart upload to regional clusters)</li>
+  <li>Download: 50M concurrent × 2MB/s = 100 TB/s (CDN absorbs ~85%)</li>
+</ul>
+
+<hr />
+
+<h2 id="3-high-level-architecture">3. High-Level Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Web Browser / Desktop Client / Mobile App
+         │              │              │
+         │              │              │
+  ┌──────▼──────────────▼──────────────▼──────┐
+  │           API Gateway (Global LB)          │
+  └─────┬────────────────────────────┬─────────┘
+        │                            │
+  ┌─────▼──────┐              ┌──────▼──────┐
+  │  Metadata  │              │  File/Block │
+  │  Service   │              │  Service    │
+  │            │              │             │
+  │ Postgres   │              │  Chunker    │
+  │ (sharded)  │              │  +  S3      │
+  └─────┬──────┘              └──────┬──────┘
+        │                            │
+  ┌─────▼──────┐              ┌──────▼──────┐
+  │  Change    │              │  CDN        │
+  │  Log       │              │  (CloudFront│
+  │  (Kafka)   │              │  /Akamai)   │
+  └─────┬──────┘              └─────────────┘
+        │
+  ┌─────▼─────────────────────────────────┐
+  │         Sync Service                  │
+  │   (delta detection, change push)      │
+  └─────┬─────────────────────────────────┘
+        │
+  ┌─────▼──────────────────┐
+  │  Notification Service  │
+  │  (WebSocket / SSE)     │
+  └────────────────────────┘
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                Upload Flow
+  Client ──chunk──► Block Service ──► S3 (block by hash)
+                         │
+                    ──metadata──► Metadata DB (file record + block refs)
+                         │
+                    ──event──► Kafka ──► Sync Service ──► Other devices
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="4-core-components">4. Core Components</h2>
+
+<h3 id="41-metadata-service">4.1 Metadata Service</h3>
+<ul>
+  <li>Manages file/folder tree: parent_id, name, owner, permissions, version pointer</li>
+  <li>CRUD on file metadata; resolves path → file_id lookups</li>
+  <li>Postgres sharded by user_id; read replicas for listings</li>
+  <li>Caches hot file metadata in Redis (file_id → metadata)</li>
+</ul>
+
+<h3 id="42-block--chunk-service">4.2 Block / Chunk Service</h3>
+<ul>
+  <li>Splits incoming files into fixed-size chunks (default 4MB per block)</li>
+  <li>Computes SHA-256 of each block for content-addressable storage (CAS)</li>
+  <li>Deduplication: if block_hash already exists in S3, skip upload (link only)</li>
+  <li>Issues pre-signed S3 URLs for direct client-to-S3 upload (avoids proxying large data)</li>
+  <li>Stores block manifest: file_version → ordered list of block hashes</li>
+</ul>
+
+<h3 id="43-sync-engine-client-side">4.3 Sync Engine (Client-side)</h3>
+<ul>
+  <li>Watches file system for changes (inotify on Linux, FSEvents on macOS, ReadDirectoryChangesW on Windows)</li>
+  <li>On change: compute block diff (only changed blocks are uploaded)</li>
+  <li>Downloads only delta blocks when remote changes arrive</li>
+  <li>Maintains local SQLite index of file_id → local_path, block_hashes, version</li>
+</ul>
+
+<h3 id="44-change-detection--notification">4.4 Change Detection &amp; Notification</h3>
+<ul>
+  <li>Every file mutation publishes to Kafka <code class="language-plaintext highlighter-rouge">file-changes</code> topic (user_id, file_id, version, change_type)</li>
+  <li>Sync Service subscribes; looks up which devices the user has registered</li>
+  <li>Pushes lightweight change notification (not the file itself) via WebSocket/SSE to all user devices</li>
+  <li>Client pulls specific changed blocks on notification receipt</li>
+</ul>
+
+<h3 id="45-versioning-service">4.5 Versioning Service</h3>
+<ul>
+  <li>Each upload creates a new file_version record (immutable snapshot of block list)</li>
+  <li>Version history: up to 100 versions for free tier, unlimited for Workspace</li>
+  <li>Soft-delete + 30-day trash for deleted files</li>
+  <li>Version restore: atomic metadata pointer swap (no data copy needed)</li>
+</ul>
+
+<h3 id="46-sharing--permission-service">4.6 Sharing &amp; Permission Service</h3>
+<ul>
+  <li>ACL model: (file_id, principal_id, role) — role ∈ {VIEWER, COMMENTER, EDITOR, OWNER}</li>
+  <li>Public link sharing: generates signed token; token → permission lookup</li>
+  <li>Inheritance: folder permission propagates to children unless overridden</li>
+  <li>Stored in Postgres; heavily cached in Redis (ACL lookups on every file access)</li>
+</ul>
+
+<h3 id="47-real-time-collaboration-service-for-docs">4.7 Real-Time Collaboration Service (for Docs)</h3>
+<ul>
+  <li>Uses Operational Transformation (OT) or CRDT</li>
+  <li>Collaboration server maintains authoritative document state</li>
+  <li>Each edit is a delta op (insert/delete at position)</li>
+  <li>OT server serializes concurrent edits; transforms conflicting ops</li>
+  <li>Document state snapshotted every 100 ops and persisted</li>
+</ul>
+
+<h3 id="48-cdn-layer">4.8 CDN Layer</h3>
+<ul>
+  <li>Static file downloads served from CDN edge nodes</li>
+  <li>Cache-key = block_hash (content-addressable → immutable, cacheable forever)</li>
+  <li>Popular files (shared publicly) pre-warmed to edge; others fetched on first request</li>
+</ul>
+
+<hr />
+
+<h2 id="5-data-models">5. Data Models</h2>
+
+<h3 id="files-postgres-sharded-by-owner_id">files (Postgres, sharded by owner_id)</h3>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">files</span> <span class="p">(</span>
+  <span class="n">file_id</span>         <span class="n">UUID</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">owner_id</span>        <span class="nb">BIGINT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">parent_folder_id</span> <span class="n">UUID</span><span class="p">,</span>
+  <span class="n">name</span>            <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">mime_type</span>       <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+  <span class="n">size_bytes</span>      <span class="nb">BIGINT</span><span class="p">,</span>
+  <span class="n">current_version</span> <span class="nb">INT</span> <span class="k">DEFAULT</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">is_folder</span>       <span class="nb">BOOLEAN</span> <span class="k">DEFAULT</span> <span class="k">FALSE</span><span class="p">,</span>
+  <span class="n">is_trashed</span>      <span class="nb">BOOLEAN</span> <span class="k">DEFAULT</span> <span class="k">FALSE</span><span class="p">,</span>
+  <span class="n">created_at</span>      <span class="n">TIMESTAMPTZ</span><span class="p">,</span>
+  <span class="n">modified_at</span>     <span class="n">TIMESTAMPTZ</span><span class="p">,</span>
+  <span class="k">INDEX</span> <span class="p">(</span><span class="n">owner_id</span><span class="p">,</span> <span class="n">parent_folder_id</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="file_versions-postgres">file_versions (Postgres)</h3>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">file_versions</span> <span class="p">(</span>
+  <span class="n">file_id</span>     <span class="n">UUID</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">version</span>     <span class="nb">INT</span>  <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">created_by</span>  <span class="nb">BIGINT</span><span class="p">,</span>
+  <span class="n">created_at</span>  <span class="n">TIMESTAMPTZ</span><span class="p">,</span>
+  <span class="n">size_bytes</span>  <span class="nb">BIGINT</span><span class="p">,</span>
+  <span class="n">block_list</span>  <span class="nb">TEXT</span><span class="p">,</span>  <span class="c1">-- JSON array of block hashes in order</span>
+  <span class="n">checksum</span>    <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">file_id</span><span class="p">,</span> <span class="k">version</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="blocks-s3--object-store">blocks (S3 / object store)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Key pattern: blocks/{first2_of_hash}/{block_sha256_hex}
+Content: raw 4MB block data (compressed + encrypted at rest)
+Metadata: ref_count (managed separately in Postgres)
+
+Table: block_refs (Postgres)
+  block_hash    VARCHAR(64) PRIMARY KEY
+  size_bytes    INT
+  ref_count     INT          -- deduplication reference count
+  stored_at     TIMESTAMPTZ
+</code></pre></div></div>
+
+<h3 id="file_acls-postgres">file_acls (Postgres)</h3>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">file_acls</span> <span class="p">(</span>
+  <span class="n">file_id</span>      <span class="n">UUID</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">principal_id</span> <span class="nb">BIGINT</span><span class="p">,</span>          <span class="c1">-- user_id or group_id</span>
+  <span class="n">principal_type</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>    <span class="c1">-- USER | GROUP | LINK</span>
+  <span class="k">role</span>         <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>      <span class="c1">-- VIEWER|COMMENTER|EDITOR|OWNER</span>
+  <span class="n">granted_at</span>   <span class="n">TIMESTAMPTZ</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">file_id</span><span class="p">,</span> <span class="n">principal_id</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="6-api-design">6. API Design</h2>
+
+<h3 id="file-operations">File Operations</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /v1/files/upload-session
+  Body: { name, parent_id, size_bytes, mime_type }
+  Response: { upload_id, chunk_urls: [ { chunk_index, upload_url } ] }
+
+PUT  &lt;pre-signed-s3-url&gt;   (direct client → S3, per chunk)
+
+POST /v1/files/upload-session/{upload_id}/complete
+  Body: { block_hashes: [ "sha256_1", "sha256_2", ... ] }
+  Response: { file_id, version: 1 }
+
+GET  /v1/files/{file_id}
+  Response: { file_id, name, size, mime_type, version, download_url }
+
+GET  /v1/files/{file_id}/download
+  Response: 302 → CDN pre-signed URL
+
+DELETE /v1/files/{file_id}
+  Response: 204  (moves to trash)
+
+POST /v1/files/{file_id}/versions/{version}/restore
+  Response: { new_version: 5 }
+</code></pre></div></div>
+
+<h3 id="folder-operations">Folder Operations</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /v1/folders
+  Body: { name, parent_id }
+  Response: { folder_id }
+
+GET  /v1/folders/{folder_id}/children?page_token=&amp;limit=100
+  Response: { items: [ file|folder ], next_page_token }
+</code></pre></div></div>
+
+<h3 id="sharing">Sharing</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /v1/files/{file_id}/permissions
+  Body: { email: "user@example.com", role: "EDITOR" }
+  Response: { permission_id }
+
+GET  /v1/files/{file_id}/permissions
+  Response: [ { principal, role, granted_at } ]
+
+POST /v1/files/{file_id}/share-link
+  Body: { role: "VIEWER", expiry: "2024-12-31" }
+  Response: { link: "https://drive.google.com/file/d/abc/view?usp=sharing" }
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="7-deep-dive-key-design-decisions">7. Deep Dive: Key Design Decisions</h2>
+
+<h3 id="71-chunked-upload--deduplication">7.1 Chunked Upload &amp; Deduplication</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>File (10GB)
+  │
+  ├── Block 0: [bytes 0–4MB]    SHA256 = aaa → exists in S3? YES → skip upload
+  ├── Block 1: [bytes 4–8MB]    SHA256 = bbb → exists? NO  → upload to S3
+  ├── Block 2: [bytes 8–12MB]   SHA256 = ccc → exists? YES → skip
+  └── ...
+
+file_version record: { file_id, version, blocks: ["aaa", "bbb", "ccc", ...] }
+</code></pre></div></div>
+<ul>
+  <li>Deduplication across all users saves ~30-40% storage (common blocks in popular files)</li>
+  <li>Rolling hash (Rabin fingerprinting) used for variable-size blocks in sync client for better diff</li>
+</ul>
+
+<h3 id="72-delta-sync-algorithm">7.2 Delta Sync Algorithm</h3>
+<ol>
+  <li>Client watches FS; on change: compute current block list via rolling hash</li>
+  <li>Compare with last-known block list (stored in local SQLite)</li>
+  <li>Upload only new/changed blocks; metadata update is atomic pointer swap</li>
+  <li>Download: on notification, fetch new block list → download only missing blocks
+    <ul>
+      <li>Network usage reduced ~10× vs full file transfer for small edits</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="73-conflict-resolution">7.3 Conflict Resolution</h3>
+<ul>
+  <li><strong>Last-write-wins</strong> for binary files (Office docs): timestamp-based; older version kept as sibling</li>
+  <li><strong>OT for Docs</strong>: server serializes all operations; clients apply transforms</li>
+  <li><strong>CRDT for Sheets</strong>: conflict-free distributed data structure; no server coordination needed</li>
+  <li>On sync conflict: create both versions (“filename (1).docx” copy) and notify user</li>
+</ul>
+
+<h3 id="74-metadata-sharding">7.4 Metadata Sharding</h3>
+<ul>
+  <li>Shard by user_id (range sharding for hot user isolation)</li>
+  <li>Cross-shard joins (shared files): denormalize — store shared file reference in both users’ shards</li>
+  <li>Global file_id index maintained in a separate lookup table for sharing</li>
+</ul>
+
+<h3 id="75-s3-multipart-upload">7.5 S3 Multipart Upload</h3>
+<ul>
+  <li>Files &gt; 100MB use S3 multipart upload (up to 10K parts, 5MB–5GB each)</li>
+  <li>Parallel chunk upload: client uploads 4 chunks simultaneously</li>
+  <li>Server-side encryption: AES-256 at S3 layer; optionally client-side for sensitive files</li>
+</ul>
+
+<h3 id="76-real-time-collaboration-ot-detail">7.6 Real-Time Collaboration (OT Detail)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Initial state: "Hello"
+Client A: insert "World" at pos 5 → op_A = Insert(5, "World")
+Client B: delete char at pos 0    → op_B = Delete(0, 1)
+
+Without OT: applying both gives different results on A and B
+With OT:    Transform(op_B, op_A) → Delete(0, 1) becomes valid on new doc
+            Server applies op_A first, then transformed op_B → "Hello World" on both
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="8-scalability--bottlenecks">8. Scalability &amp; Bottlenecks</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Challenge</th>
+      <th>Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Block storage</td>
+      <td>2 EB total</td>
+      <td>S3-compatible object store; tiered (hot/warm/cold)</td>
+    </tr>
+    <tr>
+      <td>Metadata DB</td>
+      <td>5 PB metadata</td>
+      <td>Shard by user_id; Redis cache hot metadata</td>
+    </tr>
+    <tr>
+      <td>Upload bandwidth</td>
+      <td>15 TB/s peak</td>
+      <td>Direct-to-S3 uploads; bypass app servers</td>
+    </tr>
+    <tr>
+      <td>CDN download</td>
+      <td>100 TB/s</td>
+      <td>200+ edge PoPs; content-addressed cache (infinite TTL)</td>
+    </tr>
+    <tr>
+      <td>Sync notifications</td>
+      <td>500M devices</td>
+      <td>Kafka fan-out; WebSocket servers sharded by user_id</td>
+    </tr>
+    <tr>
+      <td>Collaboration</td>
+      <td>8.3M OT ops/sec</td>
+      <td>Collab servers per document; actor model</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="9-fault-tolerance--reliability">9. Fault Tolerance &amp; Reliability</h2>
+
+<ul>
+  <li><strong>S3 durability</strong>: 11 nines with cross-region replication; versioning enabled</li>
+  <li><strong>Block ref counting</strong>: garbage collection process removes unreferenced blocks (refcount=0)</li>
+  <li><strong>Upload resumability</strong>: multipart upload state stored; client can resume after crash</li>
+  <li><strong>Metadata DB</strong>: Postgres streaming replication; automatic failover via Patroni</li>
+  <li><strong>Change log</strong>: Kafka retention 7 days; sync service can replay missed notifications</li>
+  <li><strong>Collaboration server crash</strong>: document state snapshotted every 100 ops; replay remaining ops from Kafka</li>
+  <li><strong>Client offline</strong>: sync queue persisted locally; applies changes on reconnect with conflict detection</li>
+</ul>
+
+<hr />
+
+<h2 id="10-trade-offs--alternatives">10. Trade-offs &amp; Alternatives</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Decision</th>
+      <th>Chosen</th>
+      <th>Alternative</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Block size</td>
+      <td>4MB fixed</td>
+      <td>Variable (Rabin)</td>
+      <td>Fixed simpler; Rabin better dedup for edits</td>
+    </tr>
+    <tr>
+      <td>Dedup scope</td>
+      <td>Global (all users)</td>
+      <td>Per-user</td>
+      <td>Global saves more; requires cross-user block sharing</td>
+    </tr>
+    <tr>
+      <td>Collab</td>
+      <td>OT</td>
+      <td>CRDT</td>
+      <td>OT: server-authoritative, simpler; CRDT: fully P2P</td>
+    </tr>
+    <tr>
+      <td>Metadata store</td>
+      <td>Postgres sharded</td>
+      <td>Spanner</td>
+      <td>Postgres cheaper; Spanner for true global strong consistency</td>
+    </tr>
+    <tr>
+      <td>Notifications</td>
+      <td>Kafka + WebSocket</td>
+      <td>Long Poll</td>
+      <td>Kafka durable; long poll wastes connections</td>
+    </tr>
+    <tr>
+      <td>CDN cache</td>
+      <td>Content-addressed forever</td>
+      <td>TTL-based</td>
+      <td>Block hash immutable → can cache forever safely</td>
+    </tr>
+  </tbody>
+</table>
+
+    </div>
+
+    <nav aria-label="HLD navigation">
+      <a href="/interview_problems/hld/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to HLD Index
+      </a>
+    </nav>
+  </article>
+</div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

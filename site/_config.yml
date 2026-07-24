@@ -1,0 +1,45 @@
+title: "Interview Problems"
+description: "150+ coding problems, LLD & HLD system design solutions"
+baseurl: "/interview_problems"
+url: "https://yourusername.github.io"
+theme: null
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+collections:
+  coding:
+    output: true
+    permalink: /coding/:path/
+  lld:
+    output: true
+    permalink: /lld/:name/
+  hld:
+    output: true
+    permalink: /hld/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: "coding"
+    values:
+      layout: "problem"
+  - scope:
+      path: ""
+      type: "lld"
+    values:
+      layout: "lld"
+  - scope:
+      path: ""
+      type: "hld"
+    values:
+      layout: "hld"
+
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    block:
+      line_numbers: false

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LLD of Cab Booking System">
+<title>Cab Booking System | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <a href="/interview_problems/design-patterns/" class="nav-link">
+        <span class="nav-icon">🎨</span> Design Patterns
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="lld-page">
+    <header class="lld-header">
+      <h1 class="lld-title">Cab Booking System</h1>
+      
+      <p class="lld-description">LLD of Cab Booking System</p>
+      
+      
+    </header>
+
+    <div class="lld-content">
+      <h2 id="cab-booking-system">Cab Booking System</h2>
+
+<p>Complete Java LLD implementation.</p>
+
+<h2 id="source-files">Source Files</h2>
+
+<div class="lld-tabs">
+<div class="tab-buttons">
+<button class="tab-btn active" data-tab="CabBookingService.java">CabBookingService.java</button>
+<button class="tab-btn" data-tab="CabType.java">CabType.java</button>
+<button class="tab-btn" data-tab="Driver.java">Driver.java</button>
+<button class="tab-btn" data-tab="DriverMatchStrategy.java">DriverMatchStrategy.java</button>
+<button class="tab-btn" data-tab="DriverStatus.java">DriverStatus.java</button>
+<button class="tab-btn" data-tab="FareCalculator.java">FareCalculator.java</button>
+<button class="tab-btn" data-tab="Location.java">Location.java</button>
+<button class="tab-btn" data-tab="Main.java">Main.java</button>
+<button class="tab-btn" data-tab="NearestDriverStrategy.java">NearestDriverStrategy.java</button>
+<button class="tab-btn" data-tab="RatingWeightedStrategy.java">RatingWeightedStrategy.java</button>
+<button class="tab-btn" data-tab="Ride.java">Ride.java</button>
+<button class="tab-btn" data-tab="RideObserver.java">RideObserver.java</button>
+<button class="tab-btn" data-tab="RideStatus.java">RideStatus.java</button>
+<button class="tab-btn" data-tab="Rider.java">Rider.java</button>
+<button class="tab-btn" data-tab="StandardFareCalculator.java">StandardFareCalculator.java</button>
+</div>
+<div class="tab-content active" id="CabBookingService-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
+/**
+ * Core service for the cab booking system.
+ *
+ * Design patterns:
+ *  - Strategy: DriverMatchStrategy and FareCalculator are injectable
+ *  - Observer: RideObserver notified on every status change
+ *  - State: Ride transitions through REQUESTED → DRIVER_ASSIGNED → IN_PROGRESS
+ *            → COMPLETED / CANCELLED
+ */
+public class CabBookingService {
+    private final Map&lt;String, Driver&gt; drivers = new HashMap&lt;&gt;();
+    private final Map&lt;String, Rider&gt; riders = new HashMap&lt;&gt;();
+    private final Map&lt;String, Ride&gt; rides = new HashMap&lt;&gt;();
+    private final List&lt;RideObserver&gt; observers = new ArrayList&lt;&gt;();
+    private DriverMatchStrategy matchStrategy;
+    private FareCalculator fareCalculator;
+
+    public CabBookingService() {
+        this.matchStrategy = new NearestDriverStrategy();
+        this.fareCalculator = new StandardFareCalculator();
+    }
+
+    public CabBookingService(DriverMatchStrategy matchStrategy, FareCalculator fareCalculator) {
+        this.matchStrategy = matchStrategy;
+        this.fareCalculator = fareCalculator;
+    }
+
+    // ---- Observer management ----
+
+    public void addObserver(RideObserver observer) { observers.add(observer); }
+    public void removeObserver(RideObserver observer) { observers.remove(observer); }
+
+    private void notifyStatusChange(Ride ride, RideStatus status) {
+        observers.forEach(o -&gt; o.onRideStatusChanged(ride, status));
+    }
+
+    // ---- Registration ----
+
+    public void registerDriver(Driver driver) { drivers.put(driver.getDriverId(), driver); }
+    public void registerRider(Rider rider) { riders.put(rider.getRiderId(), rider); }
+
+    // ---- Ride lifecycle ----
+
+    /**
+     * Creates a ride request and immediately attempts driver assignment.
+     *
+     * @param riderId        the requesting rider ID
+     * @param pickupLocation rider&#x27;s pickup location
+     * @param dropLocation   destination
+     * @param cabType        requested cab type
+     * @return the created Ride (status = DRIVER_ASSIGNED or REQUESTED if no driver)
+     */
+    public Ride requestRide(String riderId, Location pickupLocation,
+                            Location dropLocation, CabType cabType) {
+        Rider rider = Optional.ofNullable(riders.get(riderId))
+                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Rider not found: &quot; + riderId));
+
+        String rideId = &quot;RD-&quot; + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        Ride ride = new Ride(rideId, rider, pickupLocation, dropLocation, cabType);
+        rides.put(rideId, ride);
+
+        notifyStatusChange(ride, RideStatus.REQUESTED);
+        System.out.printf(&quot;Ride requested by %s [%s]%n&quot;, rider.getName(), rideId);
+
+        // Attempt driver assignment immediately
+        Optional&lt;Driver&gt; driverOpt = matchStrategy.findBestDriver(pickupLocation, cabType,
+                new ArrayList&lt;&gt;(drivers.values()));
+        if (driverOpt.isPresent()) {
+            assignDriver(ride, driverOpt.get());
+        } else {
+            System.out.println(&quot;No available driver found. Ride remains in REQUESTED state.&quot;);
+        }
+        return ride;
+    }
+
+    /**
+     * Assigns a specific driver to a ride (also callable manually).
+     */
+    public void assignDriver(Ride ride, Driver driver) {
+        ride.setDriver(driver);
+        ride.setStatus(RideStatus.DRIVER_ASSIGNED);
+        driver.setStatus(DriverStatus.ON_TRIP);
+        notifyStatusChange(ride, RideStatus.DRIVER_ASSIGNED);
+        System.out.printf(&quot;Driver %s assigned to ride %s%n&quot;, driver.getName(), ride.getRideId());
+    }
+
+    /**
+     * Marks a ride as IN_PROGRESS (driver has picked up the rider).
+     */
+    public void startRide(String rideId) {
+        Ride ride = getRide(rideId);
+        if (ride.getStatus() != RideStatus.DRIVER_ASSIGNED) {
+            throw new IllegalStateException(&quot;Ride must be DRIVER_ASSIGNED to start: &quot; + rideId);
+        }
+        ride.setStatus(RideStatus.IN_PROGRESS);
+        ride.setStartTime(LocalDateTime.now());
+        notifyStatusChange(ride, RideStatus.IN_PROGRESS);
+        System.out.printf(&quot;Ride %s started.%n&quot;, rideId);
+    }
+
+    /**
+     * Completes a ride, calculates fare, and frees the driver.
+     *
+     * @return the calculated fare
+     */
+    public double completeRide(String rideId) {
+        Ride ride = getRide(rideId);
+        if (ride.getStatus() != RideStatus.IN_PROGRESS) {
+            throw new IllegalStateException(&quot;Ride must be IN_PROGRESS to complete: &quot; + rideId);
+        }
+        ride.setEndTime(LocalDateTime.now());
+        double fare = fareCalculator.calculateFare(ride);
+        ride.setFare(fare);
+        ride.setStatus(RideStatus.COMPLETED);
+
+        // Free the driver
+        if (ride.getDriver() != null) {
+            ride.getDriver().setStatus(DriverStatus.AVAILABLE);
+            ride.getDriver().setCurrentLocation(ride.getDropLocation());
+        }
+
+        notifyStatusChange(ride, RideStatus.COMPLETED);
+        System.out.printf(&quot;Ride %s completed. Fare: $%.2f (%.2f km)%n&quot;,
+                rideId, fare, ride.getDistanceKm());
+        return fare;
+    }
+
+    /**
+     * Cancels a ride. Driver is freed if one was assigned.
+     */
+    public void cancelRide(String rideId) {
+        Ride ride = getRide(rideId);
+        if (ride.getStatus() == RideStatus.COMPLETED || ride.getStatus() == RideStatus.CANCELLED) {
+            throw new IllegalStateException(&quot;Cannot cancel a finished ride: &quot; + rideId);
+        }
+        // Free driver if assigned
+        if (ride.getDriver() != null) {
+            ride.getDriver().setStatus(DriverStatus.AVAILABLE);
+        }
+        ride.setStatus(RideStatus.CANCELLED);
+        notifyStatusChange(ride, RideStatus.CANCELLED);
+        System.out.printf(&quot;Ride %s cancelled.%n&quot;, rideId);
+    }
+
+    // ---- Helpers / Accessors ----
+
+    private Ride getRide(String rideId) {
+        return Optional.ofNullable(rides.get(rideId))
+                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Ride not found: &quot; + rideId));
+    }
+
+    public Optional&lt;Ride&gt; findRide(String rideId) { return Optional.ofNullable(rides.get(rideId)); }
+    public List&lt;Driver&gt; getAllDrivers() { return new ArrayList&lt;&gt;(drivers.values()); }
+
+    public void setMatchStrategy(DriverMatchStrategy strategy) { this.matchStrategy = strategy; }
+    public void setFareCalculator(FareCalculator calculator) { this.fareCalculator = calculator; }
+
+    /**
+     * Demo main method.
+     */
+    public static void main(String[] args) {
+        CabBookingService service = new CabBookingService();
+
+        service.addObserver((ride, status) -&gt;
+                System.out.printf(&quot;[Observer] Ride %s → %s%n&quot;, ride.getRideId(), status));
+
+        Driver d1 = new Driver(&quot;D1&quot;, &quot;Raju&quot;, &quot;9876543210&quot;, CabType.SEDAN,
+                new Location(28.6139, 77.2090));
+        Driver d2 = new Driver(&quot;D2&quot;, &quot;Vijay&quot;, &quot;9876543211&quot;, CabType.MINI,
+                new Location(28.6200, 77.2150));
+        service.registerDriver(d1);
+        service.registerDriver(d2);
+
+        Rider rider = new Rider(&quot;R1&quot;, &quot;Priya&quot;, &quot;9123456789&quot;,
+                new Location(28.6145, 77.2095));
+        service.registerRider(rider);
+
+        Ride ride = service.requestRide(&quot;R1&quot;,
+                new Location(28.6145, 77.2095),
+                new Location(28.7041, 77.1025),
+                CabType.SEDAN);
+
+        service.startRide(ride.getRideId());
+        double fare = service.completeRide(ride.getRideId());
+        System.out.printf(&quot;Final fare paid: $%.2f%n&quot;, fare);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="CabType-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Enum representing types of cabs available.
+ */
+public enum CabType {
+    MINI,
+    SEDAN,
+    SUV,
+    PREMIUM,
+    AUTO
+}</code></pre>
+</div>
+<div class="tab-content" id="Driver-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Represents a cab driver in the system.
+ */
+public class Driver {
+    private final String driverId;
+    private final String name;
+    private final String phone;
+    private final CabType cabType;
+    private Location currentLocation;
+    private DriverStatus status;
+    private double rating;
+    private int totalRatings;
+
+    public Driver(String driverId, String name, String phone, CabType cabType, Location initialLocation) {
+        this.driverId = driverId;
+        this.name = name;
+        this.phone = phone;
+        this.cabType = cabType;
+        this.currentLocation = initialLocation;
+        this.status = DriverStatus.AVAILABLE;
+        this.rating = 5.0;
+        this.totalRatings = 0;
+    }
+
+    public String getDriverId() { return driverId; }
+    public String getName() { return name; }
+    public String getPhone() { return phone; }
+    public CabType getCabType() { return cabType; }
+    public Location getCurrentLocation() { return currentLocation; }
+    public DriverStatus getStatus() { return status; }
+    public double getRating() { return rating; }
+
+    public void setCurrentLocation(Location location) { this.currentLocation = location; }
+    public void setStatus(DriverStatus status) { this.status = status; }
+
+    /** Updates the driver&#x27;s rating using a running average. */
+    public void addRating(double newRating) {
+        totalRatings++;
+        rating = ((rating * (totalRatings - 1)) + newRating) / totalRatings;
+    }
+
+    public boolean isAvailable() { return status == DriverStatus.AVAILABLE; }
+
+    @Override
+    public String toString() {
+        return String.format(&quot;Driver{id=&#x27;%s&#x27;, name=&#x27;%s&#x27;, type=%s, rating=%.1f, status=%s}&quot;,
+                driverId, name, cabType, rating, status);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="DriverMatchStrategy-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Strategy interface for matching drivers to ride requests.
+ * Allows different algorithms (nearest, highest-rated, etc.) to be plugged in.
+ */
+public interface DriverMatchStrategy {
+    /**
+     * Finds the best available driver for a ride request.
+     *
+     * @param pickupLocation the rider&#x27;s pickup location
+     * @param cabType        the requested cab type
+     * @param drivers        the full list of registered drivers
+     * @return the best matched driver, or empty if none available
+     */
+    Optional&lt;Driver&gt; findBestDriver(Location pickupLocation, CabType cabType, List&lt;Driver&gt; drivers);
+}</code></pre>
+</div>
+<div class="tab-content" id="DriverStatus-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Enum representing driver availability status.
+ */
+public enum DriverStatus {
+    AVAILABLE,
+    ON_TRIP,
+    OFFLINE
+}</code></pre>
+</div>
+<div class="tab-content" id="FareCalculator-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Strategy interface for fare calculation.
+ */
+public interface FareCalculator {
+    /**
+     * Calculates the fare for a completed ride.
+     *
+     * @param ride the completed ride with distance data
+     * @return the fare amount
+     */
+    double calculateFare(Ride ride);
+}</code></pre>
+</div>
+<div class="tab-content" id="Location-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Represents a geographic location with latitude and longitude.
+ * Uses the Haversine formula to compute distances between coordinates.
+ */
+public class Location {
+    private final double latitude;
+    private final double longitude;
+
+    public Location(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() { return latitude; }
+    public double getLongitude() { return longitude; }
+
+    /**
+     * Computes the great-circle distance between two locations using the Haversine formula.
+     *
+     * @param other the other location
+     * @return distance in kilometers
+     */
+    public double distanceTo(Location other) {
+        final double EARTH_RADIUS_KM = 6371.0;
+        double lat1 = Math.toRadians(this.latitude);
+        double lat2 = Math.toRadians(other.latitude);
+        double deltaLat = Math.toRadians(other.latitude - this.latitude);
+        double deltaLon = Math.toRadians(other.longitude - this.longitude);
+
+        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return EARTH_RADIUS_KM * c;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(&quot;Location(%.4f, %.4f)&quot;, latitude, longitude);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="Main-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Demo runner for the Cab Booking LLD (Uber/Ola style).
+ * Patterns: Strategy (driver matching, fare), Observer, State
+ */
+public class Main {
+
+    private static void banner(String text) {
+        System.out.println();
+        System.out.println(&quot;=== &quot; + text + &quot; ===&quot;);
+    }
+
+    public static void main(String[] args) {
+
+        // -- Setup: locations --
+        Location riderLoc  = new Location(12.9716, 77.5946); // Bangalore center
+        Location dropLoc   = new Location(12.9352, 77.6245); // ~5 km away
+
+        Location driverLoc1 = new Location(12.9720, 77.5950); // very close (0.05 km)
+        Location driverLoc2 = new Location(12.9800, 77.5900); // medium (1.0 km)
+        Location driverLoc3 = new Location(12.9600, 77.6100); // farther (2.5 km)
+
+        // -- Scenario 1: Nearest driver match --
+        banner(&quot;Scenario 1: NearestDriverStrategy -- 3 SEDAN drivers&quot;);
+        CabBookingService service1 = new CabBookingService(
+                new NearestDriverStrategy(), new StandardFareCalculator());
+
+        service1.addObserver(new RideObserver() {
+            @Override public void onRideStatusChanged(Ride ride, RideStatus status) {
+                System.out.printf(&quot;  [Event] Ride %s -&gt; %s%n&quot;, ride.getRideId(), status);
+            }
+        });
+
+        Driver d1 = new Driver(&quot;dr1&quot;, &quot;Ravi&quot;,   &quot;9000001111&quot;, CabType.SEDAN, driverLoc1);
+        Driver d2 = new Driver(&quot;dr2&quot;, &quot;Suresh&quot;, &quot;9000002222&quot;, CabType.SEDAN, driverLoc2);
+        Driver d3 = new Driver(&quot;dr3&quot;, &quot;Kumar&quot;,  &quot;9000003333&quot;, CabType.SEDAN, driverLoc3);
+        Rider  r1 = new Rider(&quot;rd1&quot;, &quot;Alice&quot;, &quot;8000001111&quot;, riderLoc);
+
+        service1.registerDriver(d1); service1.registerDriver(d2); service1.registerDriver(d3);
+        service1.registerRider(r1);
+
+        Ride ride1 = service1.requestRide(&quot;rd1&quot;, riderLoc, dropLoc, CabType.SEDAN);
+        if (ride1 != null) {
+            System.out.println(&quot;  Assigned driver: &quot; + ride1.getDriver().getName()
+                    + &quot; (expected: Ravi -- nearest)&quot;);
+        } else {
+            System.out.println(&quot;  No driver found.&quot;);
+        }
+
+        // -- Scenario 2: Full ride lifecycle --
+        banner(&quot;Scenario 2: Full ride lifecycle&quot;);
+        service1.startRide(ride1.getRideId());
+        System.out.println(&quot;  Ride started. Status: &quot; + ride1.getStatus());
+
+        double fare = service1.completeRide(ride1.getRideId());
+        System.out.printf(&quot;  Ride completed. Fare: $%.2f | Distance: ~%.2f km%n&quot;,
+                fare, riderLoc.distanceTo(dropLoc));
+        System.out.println(&quot;  Ride status: &quot; + ride1.getStatus());
+
+        // -- Scenario 3: Cancel a ride before start --
+        banner(&quot;Scenario 3: Cancel ride before it starts&quot;);
+        CabBookingService service2 = new CabBookingService(
+                new NearestDriverStrategy(), new StandardFareCalculator());
+        Driver d4  = new Driver(&quot;dr4&quot;, &quot;Anand&quot;, &quot;9111111111&quot;, CabType.MINI, driverLoc1);
+        Rider  r2  = new Rider(&quot;rd2&quot;, &quot;Bob&quot;, &quot;8222222222&quot;, riderLoc);
+        service2.registerDriver(d4);
+        service2.registerRider(r2);
+
+        Ride ride2 = service2.requestRide(&quot;rd2&quot;, riderLoc, dropLoc, CabType.MINI);
+        if (ride2 != null) {
+            System.out.println(&quot;  Ride requested. Status: &quot; + ride2.getStatus());
+            service2.cancelRide(ride2.getRideId());
+            System.out.println(&quot;  Ride cancelled. Status: &quot; + ride2.getStatus());
+            System.out.println(&quot;  Driver status after cancel: &quot; + d4.getStatus());
+        }
+
+        // -- Scenario 4: RatingWeightedStrategy --
+        banner(&quot;Scenario 4: RatingWeightedStrategy -- rating matters&quot;);
+        CabBookingService service3 = new CabBookingService(
+                new RatingWeightedStrategy(), new StandardFareCalculator());
+        Driver near    = new Driver(&quot;dr5&quot;, &quot;LowRating&quot;,  &quot;9333333333&quot;, CabType.SEDAN, driverLoc1);
+        Driver farHigh = new Driver(&quot;dr6&quot;, &quot;HighRating&quot;, &quot;9444444444&quot;, CabType.SEDAN, driverLoc2);
+        near.addRating(3.0);
+        farHigh.addRating(4.9);
+        Rider r3 = new Rider(&quot;rd3&quot;, &quot;Carol&quot;, &quot;8333333333&quot;, riderLoc);
+        service3.registerDriver(near); service3.registerDriver(farHigh);
+        service3.registerRider(r3);
+
+        Ride ride3 = service3.requestRide(&quot;rd3&quot;, riderLoc, dropLoc, CabType.SEDAN);
+        if (ride3 != null) {
+            System.out.println(&quot;  Assigned: &quot; + ride3.getDriver().getName()
+                    + &quot; (rating=&quot; + ride3.getDriver().getRating() + &quot;)&quot;);
+        }
+
+        // -- Scenario 5: No available driver --
+        banner(&quot;Scenario 5: No available driver&quot;);
+        CabBookingService service4 = new CabBookingService(
+                new NearestDriverStrategy(), new StandardFareCalculator());
+        Driver busy = new Driver(&quot;dr7&quot;, &quot;Busy&quot;, &quot;9555555555&quot;, CabType.SUV, driverLoc1);
+        busy.setStatus(DriverStatus.ON_TRIP);
+        Rider  r4   = new Rider(&quot;rd4&quot;, &quot;Dave&quot;, &quot;8444444444&quot;, riderLoc);
+        service4.registerDriver(busy);
+        service4.registerRider(r4);
+
+        Ride ride4 = service4.requestRide(&quot;rd4&quot;, riderLoc, dropLoc, CabType.SUV);
+        System.out.println(&quot;  Ride result: &quot; + (ride4 == null ? &quot;No driver available&quot; : ride4.getRideId()));
+
+        System.out.println();
+        System.out.println(&quot;=== Cab Booking Demo Complete ===&quot;);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="NearestDriverStrategy-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Driver matching strategy that selects the nearest available driver
+ * of the requested cab type.
+ */
+public class NearestDriverStrategy implements DriverMatchStrategy {
+
+    @Override
+    public Optional&lt;Driver&gt; findBestDriver(Location pickupLocation, CabType cabType,
+                                           List&lt;Driver&gt; drivers) {
+        return drivers.stream()
+                .filter(d -&gt; d.isAvailable() &amp;&amp; d.getCabType() == cabType)
+                .min(Comparator.comparingDouble(
+                        d -&gt; d.getCurrentLocation().distanceTo(pickupLocation)));
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="RatingWeightedStrategy-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Driver matching strategy that balances proximity and driver rating.
+ *
+ * Score formula: score = distance_weight * distanceKm - rating_weight * rating
+ * Lower score = better match (closer and higher rated).
+ */
+public class RatingWeightedStrategy implements DriverMatchStrategy {
+
+    /** How much distance (km) penalises the score. */
+    private final double distanceWeight;
+
+    /** How much rating rewards the score. */
+    private final double ratingWeight;
+
+    public RatingWeightedStrategy() {
+        this(1.0, 2.0);  // default: rating counts twice as much per unit
+    }
+
+    public RatingWeightedStrategy(double distanceWeight, double ratingWeight) {
+        this.distanceWeight = distanceWeight;
+        this.ratingWeight = ratingWeight;
+    }
+
+    @Override
+    public Optional&lt;Driver&gt; findBestDriver(Location pickupLocation, CabType cabType,
+                                           List&lt;Driver&gt; drivers) {
+        return drivers.stream()
+                .filter(d -&gt; d.isAvailable() &amp;&amp; d.getCabType() == cabType)
+                .min(Comparator.comparingDouble(d -&gt; score(d, pickupLocation)));
+    }
+
+    private double score(Driver driver, Location pickup) {
+        double distance = driver.getCurrentLocation().distanceTo(pickup);
+        return distanceWeight * distance - ratingWeight * driver.getRating();
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="Ride-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+import java.time.LocalDateTime;
+
+/**
+ * Represents a single cab ride from pickup to drop-off.
+ * Models the State pattern: status transitions through REQUESTED → DRIVER_ASSIGNED
+ * → IN_PROGRESS → COMPLETED / CANCELLED.
+ */
+public class Ride {
+    private final String rideId;
+    private final Rider rider;
+    private Driver driver;
+    private final Location pickupLocation;
+    private final Location dropLocation;
+    private final CabType cabType;
+    private RideStatus status;
+    private double fare;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+
+    public Ride(String rideId, Rider rider, Location pickupLocation,
+                Location dropLocation, CabType cabType) {
+        this.rideId = rideId;
+        this.rider = rider;
+        this.pickupLocation = pickupLocation;
+        this.dropLocation = dropLocation;
+        this.cabType = cabType;
+        this.status = RideStatus.REQUESTED;
+    }
+
+    public String getRideId() { return rideId; }
+    public Rider getRider() { return rider; }
+    public Driver getDriver() { return driver; }
+    public Location getPickupLocation() { return pickupLocation; }
+    public Location getDropLocation() { return dropLocation; }
+    public CabType getCabType() { return cabType; }
+    public RideStatus getStatus() { return status; }
+    public double getFare() { return fare; }
+    public LocalDateTime getStartTime() { return startTime; }
+    public LocalDateTime getEndTime() { return endTime; }
+
+    public void setDriver(Driver driver) { this.driver = driver; }
+    public void setStatus(RideStatus status) { this.status = status; }
+    public void setFare(double fare) { this.fare = fare; }
+    public void setStartTime(LocalDateTime time) { this.startTime = time; }
+    public void setEndTime(LocalDateTime time) { this.endTime = time; }
+
+    /** Computes the straight-line distance between pickup and drop in km. */
+    public double getDistanceKm() {
+        return pickupLocation.distanceTo(dropLocation);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(&quot;Ride{id=&#x27;%s&#x27;, rider=&#x27;%s&#x27;, driver=&#x27;%s&#x27;, status=%s, fare=%.2f}&quot;,
+                rideId, rider.getName(),
+                driver != null ? driver.getName() : &quot;unassigned&quot;,
+                status, fare);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="RideObserver-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Observer interface for ride status change events.
+ */
+public interface RideObserver {
+    /**
+     * Called whenever the status of a ride changes.
+     *
+     * @param ride      the ride whose status changed
+     * @param newStatus the new status of the ride
+     */
+    void onRideStatusChanged(Ride ride, RideStatus newStatus);
+}</code></pre>
+</div>
+<div class="tab-content" id="RideStatus-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Enum representing the status of a ride.
+ */
+public enum RideStatus {
+    REQUESTED,
+    DRIVER_ASSIGNED,
+    IN_PROGRESS,
+    COMPLETED,
+    CANCELLED
+}</code></pre>
+</div>
+<div class="tab-content" id="Rider-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Represents a rider who requests cab rides.
+ */
+public class Rider {
+    private final String riderId;
+    private final String name;
+    private final String phone;
+    private Location currentLocation;
+
+    public Rider(String riderId, String name, String phone, Location currentLocation) {
+        this.riderId = riderId;
+        this.name = name;
+        this.phone = phone;
+        this.currentLocation = currentLocation;
+    }
+
+    public String getRiderId() { return riderId; }
+    public String getName() { return name; }
+    public String getPhone() { return phone; }
+    public Location getCurrentLocation() { return currentLocation; }
+
+    public void setCurrentLocation(Location location) { this.currentLocation = location; }
+
+    @Override
+    public String toString() {
+        return String.format(&quot;Rider{id=&#x27;%s&#x27;, name=&#x27;%s&#x27;, location=%s}&quot;, riderId, name, currentLocation);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="StandardFareCalculator-java">
+<pre><code class="language-java">package org.interview.system_design.lld.cabbooking;
+
+/**
+ * Standard fare calculator: baseFare + perKm rate, varying by cab type.
+ */
+public class StandardFareCalculator implements FareCalculator {
+
+    @Override
+    public double calculateFare(Ride ride) {
+        double baseFare = getBaseFare(ride.getCabType());
+        double perKmRate = getPerKmRate(ride.getCabType());
+        double distanceKm = ride.getDistanceKm();
+        return baseFare + (perKmRate * distanceKm);
+    }
+
+    private double getBaseFare(CabType type) {
+        return switch (type) {
+            case AUTO    -&gt; 15.0;
+            case MINI    -&gt; 20.0;
+            case SEDAN   -&gt; 30.0;
+            case SUV     -&gt; 40.0;
+            case PREMIUM -&gt; 60.0;
+        };
+    }
+
+    private double getPerKmRate(CabType type) {
+        return switch (type) {
+            case AUTO    -&gt; 6.0;
+            case MINI    -&gt; 8.0;
+            case SEDAN   -&gt; 12.0;
+            case SUV     -&gt; 15.0;
+            case PREMIUM -&gt; 20.0;
+        };
+    }
+}</code></pre>
+</div>
+</div>
+
+    </div>
+
+    <nav aria-label="LLD navigation">
+      <a href="/interview_problems/lld/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to LLD Index
+      </a>
+    </nav>
+  </article>
+</div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

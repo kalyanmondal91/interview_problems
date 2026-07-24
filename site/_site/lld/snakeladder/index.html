@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LLD of Snake and Ladder Game">
+<title>Snake and Ladder Game | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <a href="/interview_problems/design-patterns/" class="nav-link">
+        <span class="nav-icon">🎨</span> Design Patterns
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="lld-page">
+    <header class="lld-header">
+      <h1 class="lld-title">Snake and Ladder Game</h1>
+      
+      <p class="lld-description">LLD of Snake and Ladder Game</p>
+      
+      
+    </header>
+
+    <div class="lld-content">
+      <h2 id="snake-and-ladder-game">Snake and Ladder Game</h2>
+
+<p>Complete Java LLD implementation.</p>
+
+<h2 id="source-files">Source Files</h2>
+
+<div class="lld-tabs">
+<div class="tab-buttons">
+<button class="tab-btn active" data-tab="Board.java">Board.java</button>
+<button class="tab-btn" data-tab="BoardElement.java">BoardElement.java</button>
+<button class="tab-btn" data-tab="BoardElementFactory.java">BoardElementFactory.java</button>
+<button class="tab-btn" data-tab="Cell.java">Cell.java</button>
+<button class="tab-btn" data-tab="CellType.java">CellType.java</button>
+<button class="tab-btn" data-tab="Dice.java">Dice.java</button>
+<button class="tab-btn" data-tab="GameTemplate.java">GameTemplate.java</button>
+<button class="tab-btn" data-tab="Ladder.java">Ladder.java</button>
+<button class="tab-btn" data-tab="Main.java">Main.java</button>
+<button class="tab-btn" data-tab="Player.java">Player.java</button>
+<button class="tab-btn" data-tab="Snake.java">Snake.java</button>
+<button class="tab-btn" data-tab="SnakeLadderGame.java">SnakeLadderGame.java</button>
+</div>
+<div class="tab-content active" id="Board-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+/**
+ * Represents the Snake &amp; Ladder board (100 cells, 1-indexed).
+ * Cells are initialised as NORMAL and then modified via addSnake / addLadder.
+ */
+public class Board {
+    private static final int SIZE = 100;
+    private final Cell[] cells;
+
+    public Board() {
+        cells = new Cell[SIZE + 1]; // index 0 unused; positions 1..100
+        for (int i = 1; i &lt;= SIZE; i++) {
+            cells[i] = new Cell(i);
+        }
+    }
+
+    /**
+     * Returns the cell at the given 1-based position.
+     *
+     * @param position board position (1..100)
+     */
+    public Cell getCell(int position) {
+        if (position &lt; 1 || position &gt; SIZE) {
+            throw new IllegalArgumentException(&quot;Invalid position: &quot; + position);
+        }
+        return cells[position];
+    }
+
+    /**
+     * Adds a snake using the Factory + Template pattern.
+     * Marks head as SNAKE_HEAD, tail as SNAKE_TAIL, links head -&gt; tail.
+     */
+    public void addSnake(int head, int tail) {
+        BoardElement snake = BoardElementFactory.createSnake(head, tail);
+        snake.apply(this);
+    }
+
+    /**
+     * Adds a ladder using the Factory + Template pattern.
+     * Marks bottom as LADDER_BOTTOM, top as LADDER_TOP, links bottom -&gt; top.
+     */
+    public void addLadder(int bottom, int top) {
+        BoardElement ladder = BoardElementFactory.createLadder(bottom, top);
+        ladder.apply(this);
+    }
+
+    /**
+     * Returns the effective landing position after applying any snake or ladder.
+     * If the cell has no effect, the same position is returned.
+     *
+     * @param position the rolled-to position
+     * @return final position after applying effects
+     */
+    public int applyEffects(int position) {
+        Cell cell = getCell(position);
+        if (cell.hasEffect()) {
+            return cell.getLinkedPosition();
+        }
+        return position;
+    }
+
+    public int getSize() { return SIZE; }
+}</code></pre>
+</div>
+<div class="tab-content" id="BoardElement-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+/**
+ * Abstract Template Method base class for board elements (Snake and Ladder).
+ *
+ * Template method: apply(board) defines the skeleton algorithm:
+ *   1. validate()       — subclass checks start/end invariants
+ *   2. markStartCell()  — subclass marks the starting cell type
+ *   3. markEndCell()    — subclass marks the ending cell type
+ *   4. linkCells()      — links start to end on the board
+ */
+public abstract class BoardElement {
+    protected final int start;  // Snake head or Ladder bottom
+    protected final int end;    // Snake tail or Ladder top
+
+    protected BoardElement(int start, int end) {
+        this.start = start;
+        this.end   = end;
+    }
+
+    /**
+     * Template method — applies this element to the board.
+     * Subclasses customise steps via the abstract/hook methods below.
+     */
+    public final void apply(Board board) {
+        validate();
+        Cell startCell = board.getCell(start);
+        Cell endCell   = board.getCell(end);
+        markStartCell(startCell);
+        markEndCell(endCell);
+        startCell.setLinkedPosition(end);
+    }
+
+    /** Validates start/end constraints (e.g., snake head &gt; tail). */
+    protected abstract void validate();
+
+    /** Sets the cell type for the start cell (SNAKE_HEAD or LADDER_BOTTOM). */
+    protected abstract void markStartCell(Cell cell);
+
+    /** Sets the cell type for the end cell (SNAKE_TAIL or LADDER_TOP). */
+    protected abstract void markEndCell(Cell cell);
+
+    public int getStart() { return start; }
+    public int getEnd()   { return end; }
+}</code></pre>
+</div>
+<div class="tab-content" id="BoardElementFactory-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+/**
+ * Factory Pattern — creates BoardElement instances (Snake or Ladder).
+ * Callers depend only on the abstract type; concrete classes are hidden.
+ */
+public class BoardElementFactory {
+
+    /**
+     * Creates a Snake with the given head and tail positions.
+     *
+     * @param head snake&#x27;s head position (must be &gt; tail)
+     * @param tail snake&#x27;s tail position
+     * @return a new Snake BoardElement
+     */
+    public static BoardElement createSnake(int head, int tail) {
+        return new Snake(head, tail);
+    }
+
+    /**
+     * Creates a Ladder with the given bottom and top positions.
+     *
+     * @param bottom ladder&#x27;s bottom position (must be &lt; top)
+     * @param top    ladder&#x27;s top position
+     * @return a new Ladder BoardElement
+     */
+    public static BoardElement createLadder(int bottom, int top) {
+        return new Ladder(bottom, top);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="Cell-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+/**
+ * Represents a single cell on the board.
+ * NORMAL cells have linkedPosition == -1 (no effect).
+ * SNAKE_HEAD cells link to their tail (lower position).
+ * LADDER_BOTTOM cells link to their top (higher position).
+ */
+public class Cell {
+    private final int position;     // 1-based board position (1..100)
+    private CellType cellType;
+    private int linkedPosition;     // -1 if no link
+
+    public Cell(int position) {
+        this.position       = position;
+        this.cellType       = CellType.NORMAL;
+        this.linkedPosition = -1;
+    }
+
+    public int getPosition() { return position; }
+    public CellType getCellType() { return cellType; }
+    public int getLinkedPosition() { return linkedPosition; }
+
+    public void setCellType(CellType cellType) { this.cellType = cellType; }
+    public void setLinkedPosition(int linkedPosition) { this.linkedPosition = linkedPosition; }
+
+    /** Returns true if this cell has a special effect (snake or ladder). */
+    public boolean hasEffect() { return linkedPosition != -1; }
+
+    @Override
+    public String toString() {
+        return position + &quot;(&quot; + cellType + (hasEffect() ? &quot;-&gt;&quot; + linkedPosition : &quot;&quot;) + &quot;)&quot;;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="CellType-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+/**
+ * Enum representing the type of a board cell.
+ * NORMAL cells have no special effect.
+ * SNAKE_HEAD and LADDER_BOTTOM cells trigger movement.
+ */
+public enum CellType {
+    NORMAL,
+    SNAKE_HEAD,    // Player slides down to SNAKE_TAIL
+    LADDER_BOTTOM, // Player climbs up to LADDER_TOP
+    SNAKE_TAIL,    // Destination of a snake
+    LADDER_TOP     // Destination of a ladder
+}</code></pre>
+</div>
+<div class="tab-content" id="Dice-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+import java.util.Random;
+
+/**
+ * Represents one or more dice.
+ * roll() returns the sum of all dice rolls (each die: 1–6).
+ */
+public class Dice {
+    private final int numberOfDice;
+    private final Random random;
+
+    public Dice(int numberOfDice) {
+        if (numberOfDice &lt; 1) throw new IllegalArgumentException(&quot;Must have at least one die.&quot;);
+        this.numberOfDice = numberOfDice;
+        this.random = new Random();
+    }
+
+    /**
+     * Rolls all dice and returns the combined total.
+     *
+     * @return sum in range [numberOfDice, 6 * numberOfDice]
+     */
+    public int roll() {
+        int total = 0;
+        for (int i = 0; i &lt; numberOfDice; i++) {
+            total += random.nextInt(6) + 1;
+        }
+        return total;
+    }
+
+    public int getNumberOfDice() { return numberOfDice; }
+}</code></pre>
+</div>
+<div class="tab-content" id="GameTemplate-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+import java.util.List;
+
+/**
+ * Template Method Pattern — defines the skeleton algorithm for a Snake &amp; Ladder game.
+ *
+ * The fixed sequence in play():
+ *   1. initializeBoard()  — set up snakes and ladders
+ *   2. Loop until a winner is found:
+ *      a. rollDice()        — determine the dice value
+ *      b. movePlayer()      — advance current player
+ *      c. checkWin()        — test for winning condition
+ *
+ * Subclasses implement the abstract steps; the high-level flow is unchanged.
+ */
+public abstract class GameTemplate {
+
+    /**
+     * Runs the full game from setup to winner announcement.
+     */
+    public final void play() {
+        initializeBoard();
+        System.out.println(&quot;Game started!\n&quot;);
+
+        List&lt;Player&gt; players = getPlayers();
+        int currentIndex = 0;
+
+        while (true) {
+            Player current = players.get(currentIndex);
+            int diceValue = rollDice();
+            movePlayer(current, diceValue);
+
+            if (checkWin(current)) {
+                System.out.println(&quot;\n*** &quot; + current.getName() + &quot; wins the game! ***&quot;);
+                break;
+            }
+            currentIndex = (currentIndex + 1) % players.size();
+        }
+    }
+
+    /** Sets up the board — subclass adds snakes and ladders. */
+    protected abstract void initializeBoard();
+
+    /** Returns the ordered list of players participating in the game. */
+    protected abstract List&lt;Player&gt; getPlayers();
+
+    /**
+     * Rolls the dice and returns the result.
+     *
+     * @return dice total (typically 1–6 for a single die)
+     */
+    protected abstract int rollDice();
+
+    /**
+     * Moves the given player by {@code diceValue} squares, applying board effects.
+     *
+     * @param player    the player to move
+     * @param diceValue the number rolled
+     */
+    protected abstract void movePlayer(Player player, int diceValue);
+
+    /**
+     * Checks whether the given player has reached or passed position 100.
+     *
+     * @param player the player to check
+     * @return true if the player has won
+     */
+    protected abstract boolean checkWin(Player player);
+}</code></pre>
+</div>
+<div class="tab-content" id="Ladder-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+/**
+ * A ladder — landing on the bottom sends the player up to the top.
+ * bottom &lt; top (ladder goes upward).
+ */
+public class Ladder extends BoardElement {
+
+    public Ladder(int bottom, int top) {
+        super(bottom, top);
+    }
+
+    @Override
+    protected void validate() {
+        if (start &gt;= end) {
+            throw new IllegalArgumentException(
+                    &quot;Ladder bottom (&quot; + start + &quot;) must be below top (&quot; + end + &quot;).&quot;);
+        }
+    }
+
+    @Override
+    protected void markStartCell(Cell cell) {
+        cell.setCellType(CellType.LADDER_BOTTOM);
+    }
+
+    @Override
+    protected void markEndCell(Cell cell) {
+        cell.setCellType(CellType.LADDER_TOP);
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Ladder[bottom=&quot; + start + &quot; -&gt; top=&quot; + end + &quot;]&quot;;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="Main-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+import java.util.List;
+
+/**
+ * Demo runner for the Snake and Ladder LLD.
+ * Patterns: Factory (BoardElementFactory), Template Method (GameTemplate)
+ */
+public class Main {
+
+    private static void banner(String text) {
+        System.out.println();
+        System.out.println(&quot;=== &quot; + text + &quot; ===&quot;);
+    }
+
+    public static void main(String[] args) {
+
+        // -- Scenario 1: Standard 2-player game --
+        banner(&quot;Scenario 1: Standard 2-player Snake &amp; Ladder game&quot;);
+        // Board takes no args (fixed size 100)
+        // SnakeLadderGame(List&lt;Player&gt;, int numberOfDice) -- board is created internally
+        Player p1 = new Player(&quot;P1&quot;, &quot;Alice&quot;);
+        Player p2 = new Player(&quot;P2&quot;, &quot;Bob&quot;);
+
+        SnakeLadderGame game1 = new SnakeLadderGame(List.of(p1, p2), 1);
+        game1.play();
+
+        // -- Scenario 2: 3-player game with step-by-step trace --
+        banner(&quot;Scenario 2: 3-player game -- first 15 turns shown&quot;);
+        Player q1 = new Player(&quot;Q1&quot;, &quot;Carol&quot;);
+        Player q2 = new Player(&quot;Q2&quot;, &quot;Dave&quot;);
+        Player q3 = new Player(&quot;Q3&quot;, &quot;Eve&quot;);
+
+        // Create game with a step-limited runner so demo doesn&#x27;t run forever
+        SnakeLadderGame game2 = new SnakeLadderGame(List.of(q1, q2, q3), 1) {
+            private int round = 0;
+            @Override
+            protected boolean checkWin(Player player) {
+                if (player.getCurrentPosition() &gt;= 100) return true;
+                if (++round &gt;= 15) { // cap at 15 turns for demo
+                    System.out.println(&quot;  (Demo capped at 15 turns -- stopping early)&quot;);
+                    return true;
+                }
+                return false;
+            }
+        };
+        game2.play();
+
+        // -- Scenario 3: BoardElementFactory usage --
+        banner(&quot;Scenario 3: BoardElementFactory creates snakes and ladders&quot;);
+        // Factory methods: createSnake(head, tail) and createLadder(bottom, top) -- 2 args only
+        BoardElement snake  = BoardElementFactory.createSnake(80, 10);
+        BoardElement ladder = BoardElementFactory.createLadder(5, 50);
+        System.out.println(&quot;  Snake  -- start: &quot; + snake.getStart()  + &quot; -&gt; end: &quot; + snake.getEnd());
+        System.out.println(&quot;  Ladder -- start: &quot; + ladder.getStart() + &quot; -&gt; end: &quot; + ladder.getEnd());
+
+        // Apply elements to a fresh board to verify linked positions
+        Board board3 = new Board();
+        snake.apply(board3);
+        ladder.apply(board3);
+
+        Cell snakeCell  = board3.getCell(80);
+        Cell ladderCell = board3.getCell(5);
+        System.out.println(&quot;  Cell 80 type : &quot; + snakeCell.getCellType()
+                + &quot; | linked to: &quot; + snakeCell.getLinkedPosition());
+        System.out.println(&quot;  Cell 5  type : &quot; + ladderCell.getCellType()
+                + &quot; | linked to: &quot; + ladderCell.getLinkedPosition());
+
+        // -- Scenario 4: Land exactly on snake head and ladder bottom --
+        banner(&quot;Scenario 4: Verify snake &amp; ladder cell transitions&quot;);
+        Board board4 = new Board();
+        board4.addSnake(30, 5);
+        board4.addLadder(20, 70);
+
+        Player solo = new Player(&quot;S1&quot;, &quot;Solo&quot;);
+        solo.setCurrentPosition(29); // one step before snake
+        // Simulate dice roll of 1 -&gt; lands on 30 (snake head)
+        int newPos = board4.getCell(30).getCellType() == CellType.SNAKE_HEAD
+                ? board4.getCell(30).getLinkedPosition()
+                : 30;
+        System.out.printf(&quot;  Player on 29, rolls 1 -&gt; lands 30 (Snake Head) -&gt; slides to %d%n&quot;, newPos);
+
+        solo.setCurrentPosition(19); // one step before ladder
+        int ladderPos = board4.getCell(20).getCellType() == CellType.LADDER_BOTTOM
+                ? board4.getCell(20).getLinkedPosition()
+                : 20;
+        System.out.printf(&quot;  Player on 19, rolls 1 -&gt; lands 20 (Ladder Bottom) -&gt; climbs to %d%n&quot;, ladderPos);
+
+        banner(&quot;Snake &amp; Ladder Demo Complete&quot;);
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="Player-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+/**
+ * Represents a game player.
+ * Position 0 means &quot;before the board&quot; (not yet entered).
+ * Position 100 means the player has won.
+ */
+public class Player {
+    private final String playerId;
+    private final String name;
+    private int currentPosition;
+
+    public Player(String playerId, String name) {
+        this.playerId        = playerId;
+        this.name            = name;
+        this.currentPosition = 0; // start position (off-board)
+    }
+
+    public String getPlayerId() { return playerId; }
+    public String getName() { return name; }
+    public int getCurrentPosition() { return currentPosition; }
+
+    public void setCurrentPosition(int position) {
+        this.currentPosition = position;
+    }
+
+    @Override
+    public String toString() { return name + &quot;@&quot; + currentPosition; }
+}</code></pre>
+</div>
+<div class="tab-content" id="Snake-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+/**
+ * A snake — landing on the head sends the player down to the tail.
+ * head &gt; tail (snake goes downward).
+ */
+public class Snake extends BoardElement {
+
+    public Snake(int head, int tail) {
+        super(head, tail);
+    }
+
+    @Override
+    protected void validate() {
+        if (start &lt;= end) {
+            throw new IllegalArgumentException(
+                    &quot;Snake head (&quot; + start + &quot;) must be above tail (&quot; + end + &quot;).&quot;);
+        }
+    }
+
+    @Override
+    protected void markStartCell(Cell cell) {
+        cell.setCellType(CellType.SNAKE_HEAD);
+    }
+
+    @Override
+    protected void markEndCell(Cell cell) {
+        cell.setCellType(CellType.SNAKE_TAIL);
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Snake[head=&quot; + start + &quot; -&gt; tail=&quot; + end + &quot;]&quot;;
+    }
+}</code></pre>
+</div>
+<div class="tab-content" id="SnakeLadderGame-java">
+<pre><code class="language-java">package org.interview.system_design.lld.snakeladder;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Concrete implementation of the Snake &amp; Ladder game template.
+ *
+ * Design Patterns used:
+ *   • Template Method — GameTemplate.play() orchestrates the game loop;
+ *                       this class provides all concrete step implementations
+ *   • Factory         — BoardElementFactory creates Snake and Ladder elements
+ *
+ * Standard board setup from the classic game (10x10, positions 1–100).
+ */
+public class SnakeLadderGame extends GameTemplate {
+
+    private final Board board;
+    private final Dice dice;
+    private final List&lt;Player&gt; players;
+
+    public SnakeLadderGame(List&lt;Player&gt; players, int numberOfDice) {
+        this.board   = new Board();
+        this.dice    = new Dice(numberOfDice);
+        this.players = new ArrayList&lt;&gt;(players);
+    }
+
+    // ── Template steps ─────────────────────────────────────────────────────────
+
+    @Override
+    protected void initializeBoard() {
+        // Standard snakes (head -&gt; tail)
+        board.addSnake(99, 54);
+        board.addSnake(70, 55);
+        board.addSnake(52, 42);
+        board.addSnake(25, 2);
+        board.addSnake(34, 6);
+        board.addSnake(65, 45);
+        board.addSnake(17, 7);
+
+        // Standard ladders (bottom -&gt; top)
+        board.addLadder(4,  14);
+        board.addLadder(9,  31);
+        board.addLadder(20, 38);
+        board.addLadder(28, 84);
+        board.addLadder(40, 59);
+        board.addLadder(51, 67);
+        board.addLadder(63, 81);
+        board.addLadder(71, 91);
+
+        System.out.println(&quot;Board initialized with snakes and ladders.&quot;);
+    }
+
+    @Override
+    protected List&lt;Player&gt; getPlayers() {
+        return Collections.unmodifiableList(players);
+    }
+
+    @Override
+    protected int rollDice() {
+        return dice.roll();
+    }
+
+    @Override
+    protected void movePlayer(Player player, int diceValue) {
+        int current = player.getCurrentPosition();
+        int newPos  = current + diceValue;
+
+        if (newPos &gt; board.getSize()) {
+            // Over-shoot: player stays put (must roll exact or less)
+            System.out.printf(&quot;  %s rolled %d (pos %d) — over-shoot, stays at %d%n&quot;,
+                    player.getName(), diceValue, current, current);
+            return;
+        }
+
+        // Apply snake or ladder effect
+        int finalPos = board.applyEffects(newPos);
+
+        Cell landedCell = board.getCell(newPos);
+        String effect = &quot;&quot;;
+        if (landedCell.getCellType() == CellType.SNAKE_HEAD) {
+            effect = &quot; [SNAKE!] slides to &quot; + finalPos;
+        } else if (landedCell.getCellType() == CellType.LADDER_BOTTOM) {
+            effect = &quot; [LADDER!] climbs to &quot; + finalPos;
+        }
+
+        player.setCurrentPosition(finalPos);
+        System.out.printf(&quot;  %s rolled %d: %d → %d%s%n&quot;,
+                player.getName(), diceValue, current, finalPos, effect);
+    }
+
+    @Override
+    protected boolean checkWin(Player player) {
+        return player.getCurrentPosition() &gt;= board.getSize();
+    }
+
+    // ── Accessors ──────────────────────────────────────────────────────────────
+
+    public Board getBoard() { return board; }
+    public Dice getDice()   { return dice; }
+
+    // ── Entry point ────────────────────────────────────────────────────────────
+
+    public static void main(String[] args) {
+        List&lt;Player&gt; players = new ArrayList&lt;&gt;();
+        players.add(new Player(&quot;p1&quot;, &quot;Alice&quot;));
+        players.add(new Player(&quot;p2&quot;, &quot;Bob&quot;));
+        players.add(new Player(&quot;p3&quot;, &quot;Carol&quot;));
+
+        SnakeLadderGame game = new SnakeLadderGame(players, 1);
+        game.play();
+    }
+}</code></pre>
+</div>
+</div>
+
+    </div>
+
+    <nav aria-label="LLD navigation">
+      <a href="/interview_problems/lld/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to LLD Index
+      </a>
+    </nav>
+  </article>
+</div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

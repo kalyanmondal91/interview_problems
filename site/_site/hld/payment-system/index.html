@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="- 1:1 messaging with text, emoji, links">
+<title>Payment System | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <a href="/interview_problems/design-patterns/" class="nav-link">
+        <span class="nav-icon">🎨</span> Design Patterns
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="hld-page">
+    <header class="hld-header">
+      <h1 class="hld-title">Payment System</h1>
+      
+      <p style="color: var(--text-secondary); font-size: 1.05em;">- 1:1 messaging with text, emoji, links</p>
+      
+      
+    </header>
+
+    <div class="hld-content">
+      <h1 id="system-design-whatsapp">System Design: WhatsApp</h1>
+
+<h2 id="1-requirements">1. Requirements</h2>
+
+<h3 id="functional-requirements">Functional Requirements</h3>
+<ul>
+  <li>1:1 messaging with text, emoji, links</li>
+  <li>Group chat (up to 256 members)</li>
+  <li>Media sharing: photos, videos, voice notes, documents</li>
+  <li>Delivery receipts: single tick (sent to server), double tick (delivered to device), blue tick (read)</li>
+  <li>Online/last-seen presence indicators</li>
+  <li>End-to-end encryption (E2EE) using Signal Protocol</li>
+  <li>Message history stored on device; minimal server-side history</li>
+  <li>Push notifications for offline users</li>
+</ul>
+
+<h3 id="non-functional-requirements">Non-Functional Requirements</h3>
+<ul>
+  <li><strong>Scale</strong>: 100B messages/day (~1.16M messages/sec), 2B registered users, ~500M DAU</li>
+  <li><strong>Latency</strong>: &lt; 100ms message delivery for online users</li>
+  <li><strong>Availability</strong>: 99.999% (5 nines) — messages must never be lost</li>
+  <li><strong>Durability</strong>: Messages stored until delivered; then deleted from server (E2EE model)</li>
+  <li><strong>Storage</strong>: Media stored on CDN/object store; text on message queue per user</li>
+  <li><strong>Consistency</strong>: At-least-once delivery with deduplication</li>
+</ul>
+
+<hr />
+
+<h2 id="2-capacity-estimation">2. Capacity Estimation</h2>
+
+<h3 id="qps">QPS</h3>
+<ul>
+  <li>100B messages/day ÷ 86,400s ≈ <strong>1.16M msg/sec</strong> (avg), ~3M/sec peak</li>
+  <li>500M DAU, avg 200 messages/day = 100B confirmed</li>
+  <li>Group messages: assume 20% of messages, avg group size 50 → fanout ~10× = 200B deliveries/day</li>
+</ul>
+
+<h3 id="storage-server-side-transient">Storage (server-side transient)</h3>
+<ul>
+  <li>Undelivered message queue: assume 5% offline at any time = 25M users
+    <ul>
+      <li>Avg 50 messages queued × 2KB = ~2.5 TB queue storage at any time</li>
+    </ul>
+  </li>
+  <li>Media: 100B messages × 5% with media × avg 500KB = <strong>2.5 PB/day</strong> (CDN-backed)</li>
+  <li>Metadata per message: ~200B → 100B/day × 200B = 20 TB/day (metadata DB)</li>
+</ul>
+
+<h3 id="bandwidth">Bandwidth</h3>
+<ul>
+  <li>Inbound: 1.16M msg/sec × avg 1KB = ~1.16 GB/s</li>
+  <li>Outbound (with group fanout): ~12 GB/s across all delivery servers</li>
+</ul>
+
+<hr />
+
+<h2 id="3-high-level-architecture">3. High-Level Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Client A (iOS/Android)                    Client B (iOS/Android)
+       │                                          │
+       │ TLS/WebSocket                            │ TLS/WebSocket
+       ▼                                          ▼
+  ┌──────────────────────────────────────────────────────┐
+  │              Connection Servers (CoS)                │
+  │   (Maintain persistent WS; ~500K connections each)   │
+  └──────────────────┬───────────────────────────────────┘
+                     │
+          ┌──────────▼──────────┐
+          │    Message Router   │  ◄── Kafka topics per user
+          └──────────┬──────────┘
+                     │
+     ┌───────────────┼────────────────┐
+     ▼               ▼                ▼
+ ┌────────┐    ┌──────────┐    ┌───────────┐
+ │  1:1   │    │  Group   │    │  Media    │
+ │  Svc   │    │  Fanout  │    │  Upload   │
+ └────┬───┘    └────┬─────┘    └─────┬─────┘
+      │              │                │
+      ▼              ▼                ▼
+ ┌─────────┐  ┌───────────┐  ┌────────────┐
+ │Cassandra│  │Cassandra  │  │  S3 / CDN  │
+ │(messages│  │(group msg)│  │  (media)   │
+ └─────────┘  └───────────┘  └────────────┘
+      │
+      ▼
+ ┌─────────────┐
+ │ Push Notif  │
+ │ (APNS/FCM)  │
+ └─────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="4-core-components">4. Core Components</h2>
+
+<h3 id="41-connection-servers-cos">4.1 Connection Servers (CoS)</h3>
+<ul>
+  <li>Each server maintains ~500K persistent WebSocket connections</li>
+  <li>At 2B users with 25% online = 500M connections → ~1000 CoS nodes</li>
+  <li>Responsible for: connection auth, heartbeat, message receive/send, presence updates</li>
+  <li>Register connection mapping: <code class="language-plaintext highlighter-rouge">user_id → CoS_node_id</code> in Redis (with TTL = session lifetime)</li>
+</ul>
+
+<h3 id="42-message-router">4.2 Message Router</h3>
+<ul>
+  <li>Looks up destination user’s CoS node from Redis</li>
+  <li>If user is online: forward directly to their CoS node via internal gRPC</li>
+  <li>If user is offline: write message to Kafka topic <code class="language-plaintext highlighter-rouge">offline:{user_id}</code> for async delivery</li>
+  <li>Assigns globally unique message_id (Snowflake-style)</li>
+</ul>
+
+<h3 id="43-message-storage-service-cassandra">4.3 Message Storage Service (Cassandra)</h3>
+<ul>
+  <li>Stores messages until ACK received from recipient device</li>
+  <li>Partitioned by <code class="language-plaintext highlighter-rouge">(chat_id)</code>, clustered by <code class="language-plaintext highlighter-rouge">(timestamp, message_id)</code> for ordered retrieval</li>
+  <li>TTL on messages after delivery confirmation (30-day default for legal/backup)</li>
+  <li>Multi-datacenter replication with LOCAL_QUORUM reads/writes</li>
+</ul>
+
+<h3 id="44-group-fanout-service">4.4 Group Fanout Service</h3>
+<ul>
+  <li>For group message: fetch all member user_ids from Group Service</li>
+  <li>Fan out delivery to each member’s CoS or offline queue</li>
+  <li>For large groups (&gt;50 members): async fanout via Kafka to avoid head-of-line blocking</li>
+  <li>Track per-member delivery state in group_delivery table</li>
+</ul>
+
+<h3 id="45-media-service">4.5 Media Service</h3>
+<ul>
+  <li>Client encrypts media locally before upload (E2EE)</li>
+  <li>Upload to pre-signed S3 URL directly (bypasses app servers)</li>
+  <li>Message contains media URL + encryption key (only shared with recipient)</li>
+  <li>CDN serves media; CDN edge cached by region for popular media</li>
+</ul>
+
+<h3 id="46-presence-service">4.6 Presence Service</h3>
+<ul>
+  <li>Users send heartbeat every 30s when app is foreground</li>
+  <li>Presence stored in Redis with 60s TTL: <code class="language-plaintext highlighter-rouge">presence:{user_id}</code> → {online, last_seen}</li>
+  <li>“Last seen” timestamp persisted to Cassandra on disconnect</li>
+  <li>Privacy setting: users can hide last seen (filter at read time)</li>
+</ul>
+
+<h3 id="47-push-notification-service">4.7 Push Notification Service</h3>
+<ul>
+  <li>Triggered when message written to offline queue</li>
+  <li>Sends silent push via APNS/FCM to wake client app</li>
+  <li>Client establishes WebSocket → drains offline queue</li>
+  <li>Rate limiting: max 1 push/second per user to avoid APNS throttling</li>
+</ul>
+
+<h3 id="48-ack--receipt-engine">4.8 ACK &amp; Receipt Engine</h3>
+<ul>
+  <li>Sender → Server: single tick after server accepts message</li>
+  <li>Server → Recipient CoS → Recipient Device: double tick sent back to sender</li>
+  <li>Recipient opens chat → read receipt event → blue tick sent to sender</li>
+  <li>All receipt events flow through Kafka; persisted to receipts table</li>
+</ul>
+
+<hr />
+
+<h2 id="5-data-models">5. Data Models</h2>
+
+<h3 id="messages-cassandra">messages (Cassandra)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Table: messages
+Partition Key: chat_id (TEXT)  -- "user1_user2" sorted, or group_id
+Clustering Key: created_at (TIMEUUID) DESC, message_id (UUID)
+
+Columns:
+  message_id    UUID
+  sender_id     BIGINT
+  chat_id       TEXT
+  message_type  TEXT  -- text|image|video|audio|document
+  content       BLOB  -- encrypted ciphertext
+  media_url     TEXT
+  status        TEXT  -- SENT|DELIVERED|READ
+  created_at    TIMEUUID
+  ttl           INT   -- Cassandra TTL for auto-expiry
+</code></pre></div></div>
+
+<h3 id="group_members-cassandra">group_members (Cassandra)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Table: group_members
+Partition Key: group_id (UUID)
+Clustering Key: user_id (BIGINT)
+
+Columns:
+  group_id     UUID
+  user_id      BIGINT
+  role         TEXT  -- ADMIN|MEMBER
+  joined_at    TIMESTAMP
+  muted        BOOLEAN
+</code></pre></div></div>
+
+<h3 id="delivery_receipts-cassandra">delivery_receipts (Cassandra)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Table: delivery_receipts
+Partition Key: message_id (UUID)
+Clustering Key: recipient_id (BIGINT)
+
+Columns:
+  delivered_at  TIMESTAMP
+  read_at       TIMESTAMP
+</code></pre></div></div>
+
+<h3 id="user_sessions-redis">user_sessions (Redis)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Key: session:{user_id}
+Value: { cos_node: "cos-node-42", device_token: "...", connected_at: epoch }
+TTL: 3600s (refreshed on heartbeat)
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="6-api-design">6. API Design</h2>
+
+<h3 id="websocket-protocol-client--cos">WebSocket Protocol (client ↔ CoS)</h3>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//</span><span class="w"> </span><span class="err">Client</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">Server:</span><span class="w"> </span><span class="err">send</span><span class="w"> </span><span class="err">message</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MSG_SEND"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"client_msg_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_456"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"chat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chat_123_456"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;encrypted_base64&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"media_url"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1700000000</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">//</span><span class="w"> </span><span class="err">Server</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">Client:</span><span class="w"> </span><span class="err">message</span><span class="w"> </span><span class="err">delivery</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MSG_RECEIVE"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"server_uuid"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"client_msg_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"chat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chat_123_456"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;encrypted_base64&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1700000001</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">//</span><span class="w"> </span><span class="err">Client</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">Server:</span><span class="w"> </span><span class="err">delivery</span><span class="w"> </span><span class="err">receipt</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MSG_ACK"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"server_uuid"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ack_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DELIVERED"</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="s2">"READ"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">//</span><span class="w"> </span><span class="err">Server</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">Sender:</span><span class="w"> </span><span class="err">receipt</span><span class="w"> </span><span class="err">notification</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RECEIPT"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"server_uuid"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"receipt_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DELIVERED"</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="s2">"READ"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_456"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1700000002</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="rest-apis">REST APIs</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /v1/media/upload-url
+  Body: { file_size, mime_type, chat_id }
+  Response: { upload_url (pre-signed S3), media_id }
+
+GET  /v1/chats/{chat_id}/messages?before=&lt;timestamp&gt;&amp;limit=50
+  Response: [ { message_id, sender_id, content, type, timestamp, status } ]
+
+POST /v1/groups
+  Body: { name, member_ids: [], icon_url }
+  Response: { group_id, created_at }
+
+PUT  /v1/groups/{group_id}/members
+  Body: { add: [user_id], remove: [user_id] }
+
+GET  /v1/users/{user_id}/presence
+  Response: { online: true|false, last_seen: timestamp }
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="7-deep-dive-key-design-decisions">7. Deep Dive: Key Design Decisions</h2>
+
+<h3 id="71-end-to-end-encryption-signal-protocol">7.1 End-to-End Encryption (Signal Protocol)</h3>
+<ul>
+  <li>Each device has an Identity Key, Signed PreKey, and One-Time PreKeys uploaded to server</li>
+  <li>Sender fetches recipient’s public keys → performs X3DH key agreement → derives AES-256 session key</li>
+  <li>Messages encrypted locally; server never sees plaintext</li>
+  <li>Key rotation via Double Ratchet algorithm for forward secrecy</li>
+</ul>
+
+<h3 id="72-message-queue-per-user-offline-delivery">7.2 Message Queue per User (Offline Delivery)</h3>
+<ul>
+  <li>Kafka topic per user causes too many topics (2B); instead:
+    <ul>
+      <li>Segment users into ~10K Kafka partitions</li>
+      <li>User offline messages written to Cassandra with status=PENDING</li>
+      <li>CoS drains pending messages on reconnect in order</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="73-ack-mechanism-at-least-once-delivery">7.3 ACK Mechanism (At-Least-Once Delivery)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sender ──send──► CoS-A ──store──► Cassandra ──OK──► ACK to Sender (tick 1)
+                                      │
+                              CoS-B (recipient) ──deliver──► Client B
+                                      │
+                             Client B ──ACK──► CoS-B ──► Cassandra (status=DELIVERED)
+                                      │
+                             CoS-B ──receipt──► CoS-A ──► Sender (tick 2)
+</code></pre></div></div>
+
+<h3 id="74-fanout-for-group-messages">7.4 Fanout for Group Messages</h3>
+<ul>
+  <li><strong>Small groups</strong> (&lt; 50): inline fanout — write N individual delivery records synchronously</li>
+  <li><strong>Large groups</strong> (50-256): async via Kafka <code class="language-plaintext highlighter-rouge">group-fanout</code> topic; workers process member batches</li>
+  <li>Avoid thundering herd: stagger notifications with small random delay (0-2s)</li>
+</ul>
+
+<h3 id="75-cassandra-schema-design">7.5 Cassandra Schema Design</h3>
+<ul>
+  <li>Partition by <code class="language-plaintext highlighter-rouge">chat_id</code> ensures messages for a conversation are co-located</li>
+  <li>TIMEUUID as clustering key gives natural time ordering without explicit sort column</li>
+  <li>Wide rows: one partition per chat (all messages) — may grow large → apply TTL aggressively</li>
+  <li>For 1:1: chat_id = “min(user_a, user_b)_max(user_a, user_b)” deterministic</li>
+</ul>
+
+<h3 id="76-presence-scalability">7.6 Presence Scalability</h3>
+<ul>
+  <li>Naive approach: broadcast every presence change → O(friends × users) = unsustainable</li>
+  <li><strong>Pull model</strong>: client fetches presence only for chats currently open (lazy load)</li>
+  <li><strong>Push model for active chats</strong>: subscribe to presence events only for currently viewed contacts</li>
+  <li>Redis pub/sub channel per user: <code class="language-plaintext highlighter-rouge">presence:{user_id}</code> → only subscribed CoS nodes receive</li>
+</ul>
+
+<hr />
+
+<h2 id="8-scalability--bottlenecks">8. Scalability &amp; Bottlenecks</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Scale Challenge</th>
+      <th>Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Connection Servers</td>
+      <td>500M concurrent WS</td>
+      <td>Horizontal scale; ~1000 nodes @ 500K each</td>
+    </tr>
+    <tr>
+      <td>Message routing</td>
+      <td>Lookup user→CoS</td>
+      <td>Redis Cluster; 100M key lookups/sec</td>
+    </tr>
+    <tr>
+      <td>Cassandra writes</td>
+      <td>3M msg/sec</td>
+      <td>Partitioning + multi-DC; token-aware routing</td>
+    </tr>
+    <tr>
+      <td>Group fanout</td>
+      <td>256 members × fanout</td>
+      <td>Async Kafka; parallel worker pools</td>
+    </tr>
+    <tr>
+      <td>Media upload</td>
+      <td>PB/day scale</td>
+      <td>Direct S3 upload; no proxying through app server</td>
+    </tr>
+    <tr>
+      <td>Presence updates</td>
+      <td>500M user changes</td>
+      <td>Coalesce updates; pull model for inactive chats</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="9-fault-tolerance--reliability">9. Fault Tolerance &amp; Reliability</h2>
+
+<ul>
+  <li><strong>Message durability</strong>: Cassandra RF=3 with LOCAL_QUORUM ensures no message lost even with node failure</li>
+  <li><strong>CoS crash recovery</strong>: Redis session expires; client reconnects to any CoS; drains offline queue</li>
+  <li><strong>Kafka retention</strong>: 7-day retention allows replay of unprocessed offline messages</li>
+  <li><strong>Idempotency</strong>: client_msg_id deduplicates re-sent messages (network retry)</li>
+  <li><strong>Circuit breakers</strong>: wrap Cassandra, Redis, push notification calls</li>
+  <li><strong>Multi-region</strong>: active-active with conflict-free replicated data types (CRDT) for presence</li>
+  <li><strong>Backpressure</strong>: CoS applies rate limiting per user (1000 msg/min) to prevent abuse flooding</li>
+</ul>
+
+<hr />
+
+<h2 id="10-trade-offs--alternatives">10. Trade-offs &amp; Alternatives</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Decision</th>
+      <th>Chosen</th>
+      <th>Alternative</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Transport</td>
+      <td>WebSocket</td>
+      <td>XMPP</td>
+      <td>WS simpler to load balance; XMPP rich protocol but overhead</td>
+    </tr>
+    <tr>
+      <td>Message store</td>
+      <td>Cassandra</td>
+      <td>MySQL sharded</td>
+      <td>Cassandra: time-series append, no hot partitions</td>
+    </tr>
+    <tr>
+      <td>E2EE</td>
+      <td>Signal Protocol</td>
+      <td>TLS only</td>
+      <td>Signal: true E2EE, server can’t read; TLS only stops network MITM</td>
+    </tr>
+    <tr>
+      <td>Group fanout</td>
+      <td>Async Kafka</td>
+      <td>Sync write</td>
+      <td>Async avoids blocking sender on 256-member fanout</td>
+    </tr>
+    <tr>
+      <td>Presence</td>
+      <td>Pull + selective push</td>
+      <td>Broadcast</td>
+      <td>Broadcast: O(n²); pull: on-demand + push only for active screens</td>
+    </tr>
+    <tr>
+      <td>Media</td>
+      <td>S3 direct upload</td>
+      <td>Via app server</td>
+      <td>Avoids bandwidth bottleneck on app servers for large files</td>
+    </tr>
+  </tbody>
+</table>
+
+    </div>
+
+    <nav aria-label="HLD navigation">
+      <a href="/interview_problems/hld/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to HLD Index
+      </a>
+    </nav>
+  </article>
+</div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

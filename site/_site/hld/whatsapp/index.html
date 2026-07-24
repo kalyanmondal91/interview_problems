@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="- **Full-text search**: Query across billions of documents using keywords, phrases, wildcards">
+<title>WhatsApp | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <a href="/interview_problems/design-patterns/" class="nav-link">
+        <span class="nav-icon">🎨</span> Design Patterns
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="hld-page">
+    <header class="hld-header">
+      <h1 class="hld-title">WhatsApp</h1>
+      
+      <p style="color: var(--text-secondary); font-size: 1.05em;">- **Full-text search**: Query across billions of documents using keywords, phrases, wildcards</p>
+      
+      
+    </header>
+
+    <div class="hld-content">
+      <h1 id="system-design-distributed-search-engine-elasticsearch">System Design: Distributed Search Engine (Elasticsearch)</h1>
+
+<h2 id="1-requirements">1. Requirements</h2>
+
+<h3 id="functional-requirements">Functional Requirements</h3>
+<ul>
+  <li><strong>Full-text search</strong>: Query across billions of documents using keywords, phrases, wildcards</li>
+  <li><strong>Faceted filtering</strong>: Filter results by structured fields (category, price range, date, tags)</li>
+  <li><strong>Relevance ranking</strong>: Score results by BM25/TF-IDF; custom boosting rules</li>
+  <li><strong>Near-real-time indexing</strong>: Documents searchable within 1 second of ingestion</li>
+  <li><strong>Aggregations</strong>: Count, avg, histogram, top-N per field</li>
+  <li><strong>Multi-index search</strong>: Search across multiple indices simultaneously</li>
+  <li><strong>Geo search</strong>: Find documents within radius of a lat/lon point</li>
+</ul>
+
+<h3 id="non-functional-requirements">Non-Functional Requirements</h3>
+<ul>
+  <li><strong>Data volume</strong>: 1 PB of raw data across all indices</li>
+  <li><strong>Query throughput</strong>: 100K QPS at p99 &lt; 200ms</li>
+  <li><strong>Indexing throughput</strong>: 500K documents/sec sustained</li>
+  <li><strong>Availability</strong>: 99.99% (active-active multi-AZ)</li>
+  <li><strong>NRT latency</strong>: Documents visible within 1 second of indexing</li>
+  <li><strong>Storage efficiency</strong>: Inverted index compression ~70% reduction vs raw text</li>
+</ul>
+
+<hr />
+
+<h2 id="2-capacity-estimation">2. Capacity Estimation</h2>
+
+<h3 id="data-scale">Data Scale</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Total data:          1 PB raw text
+Avg document size:   1 KB
+Total documents:     1 PB / 1 KB = 1 trillion documents
+
+Inverted index size: ~30% of raw data = 300 TB
+With replication(2x): 600 TB stored on nodes
+</code></pre></div></div>
+
+<h3 id="qps--throughput">QPS &amp; Throughput</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Search QPS:       100,000 req/sec
+Indexing rate:    500,000 docs/sec
+
+Per-shard search: assuming 200 shards → 500 QPS/shard (manageable)
+Per-shard index:  500K / 200 = 2,500 docs/sec (Lucene handles ~10K/sec/shard)
+</code></pre></div></div>
+
+<h3 id="node-sizing">Node Sizing</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data nodes:   600 TB / 2 TB per node = 300 data nodes
+              (with 50% disk headroom → 600 nodes)
+Master nodes: 3 dedicated (odd number for quorum)
+Coord nodes:  20 dedicated query coordinators
+Ingest nodes: 10 for pre-processing pipeline
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="3-high-level-architecture">3. High-Level Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────────────────┐
+│                           Clients / Applications                         │
+└──────────────────────────────┬──────────────────────────────────────────┘
+                               │  REST/HTTP or Java client
+                ┌──────────────▼──────────────────┐
+                │     Coordinating Nodes (×20)     │
+                │  (parse query, scatter-gather)   │
+                └──────────────┬──────────────────┘
+                               │
+          ┌────────────────────┼────────────────────┐
+          │                    │                    │
+┌─────────▼──────┐  ┌──────────▼──────┐  ┌─────────▼───────┐
+│  Shard P1 (M)  │  │  Shard P2 (M)   │  │  Shard P3 (M)   │  ... ×200
+│  Data Node     │  │  Data Node      │  │  Data Node      │
+│  Lucene Index  │  │  Lucene Index   │  │  Lucene Index   │
+└─────────┬──────┘  └──────────┬──────┘  └─────────┬───────┘
+          │                    │                    │
+┌─────────▼──────┐  ┌──────────▼──────┐  ┌─────────▼───────┐
+│  Shard R1 (R)  │  │  Shard R2 (R)   │  │  Shard R3 (R)   │  (replicas)
+│  Data Node     │  │  Data Node      │  │  Data Node      │
+└────────────────┘  └─────────────────┘  └─────────────────┘
+          │
+┌─────────▼──────────────────────────────────────────────────┐
+│                  Master Nodes (×3)                          │
+│    Cluster state, shard allocation, index management        │
+└─────────────────────────────────────────────────────────────┘
+          │
+┌─────────▼──────────────────────────────────────────────────┐
+│                  Ingest Pipeline                            │
+│    Kafka → Ingest Nodes → Bulk API → Data Nodes            │
+└─────────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="4-core-components">4. Core Components</h2>
+
+<h3 id="41-coordinating-nodes">4.1 Coordinating Nodes</h3>
+<ul>
+  <li>Receive search requests from clients (no data stored locally)</li>
+  <li>Parse and validate query DSL</li>
+  <li>Determine which shards to query (all shards for global search, or subset for filtered)</li>
+  <li><strong>Scatter</strong>: fan out sub-queries to relevant shard primaries or replicas</li>
+  <li><strong>Gather</strong>: collect top-N results from each shard, merge, re-rank globally</li>
+  <li>Return final ranked results to client</li>
+  <li>CPU-intensive: dedicated nodes with high-core CPUs</li>
+</ul>
+
+<h3 id="42-data-nodes-lucene-shards">4.2 Data Nodes (Lucene Shards)</h3>
+<ul>
+  <li>Each shard = one Lucene index on disk</li>
+  <li>Stores inverted index, document values (doc_values), stored fields</li>
+  <li>Handles local search: execute query against local Lucene index, return top-K hits with scores</li>
+  <li>Handles indexing: write to in-memory index buffer, periodically flush (refresh)</li>
+  <li><strong>Segment structure</strong>: immutable segments; periodic merging in background</li>
+</ul>
+
+<h3 id="43-master-nodes">4.3 Master Nodes</h3>
+<ul>
+  <li>Maintain cluster state: list of nodes, shard allocation, index metadata/mappings</li>
+  <li>Shard allocation algorithm: distribute shards evenly, avoid same-node primary+replica</li>
+  <li>Leader election via Raft (KRaft) or Bully algorithm</li>
+  <li>Never handle search/indexing (dedicated = no GC pauses affecting cluster state)</li>
+</ul>
+
+<h3 id="44-ingest-nodes">4.4 Ingest Nodes</h3>
+<ul>
+  <li>Pre-processing pipeline before documents hit data nodes</li>
+  <li>Pipelines: language detection, tokenization, NER extraction, geo-encoding IP → lat/lon</li>
+  <li>Transform, enrich, filter documents using processors</li>
+  <li>Decouple heavy pre-processing from indexing path</li>
+</ul>
+
+<h3 id="45-lucene-internals-per-shard">4.5 Lucene Internals (per Shard)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Document arrives → IndexWriter
+    → Analyzed by Analyzer (tokenize, lowercase, stem, remove stop words)
+    → Written to in-memory buffer (IndexBuffer, default 512MB JVM heap)
+    → Refresh (every 1 sec): in-memory → immutable Segment (searchable)
+    → Flush: segments committed to disk with fsync
+    → Merge: background thread merges small segments → fewer, larger segments
+         (reduces per-segment search overhead; merge factor = 10 by default)
+</code></pre></div></div>
+
+<h3 id="46-query-router">4.6 Query Router</h3>
+<ul>
+  <li>Routes to correct index based on request URL</li>
+  <li>Cross-index queries fan out to shards across multiple indices</li>
+  <li>Supports aliases (index alias → one or many indices, zero-downtime reindex)</li>
+</ul>
+
+<hr />
+
+<h2 id="5-data-models">5. Data Models</h2>
+
+<h3 id="index-mapping-schema">Index Mapping (Schema)</h3>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"mappings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"doc_id"</span><span class="p">:</span><span class="w">       </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keyword"</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"title"</span><span class="p">:</span><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="nl">"analyzer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"english"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"raw"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keyword"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"body"</span><span class="p">:</span><span class="w">         </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="nl">"analyzer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"english"</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"tags"</span><span class="p">:</span><span class="w">         </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keyword"</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"author_id"</span><span class="p">:</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keyword"</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"published_at"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"date"</span><span class="p">,</span><span class="w"> </span><span class="nl">"format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"strict_date_optional_time"</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"scaled_float"</span><span class="p">,</span><span class="w"> </span><span class="nl">"scaling_factor"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"location"</span><span class="p">:</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"geo_point"</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"embedding"</span><span class="p">:</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dense_vector"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dims"</span><span class="p">:</span><span class="w"> </span><span class="mi">768</span><span class="w"> </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"number_of_shards"</span><span class="p">:</span><span class="w">   </span><span class="mi">20</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"number_of_replicas"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"refresh_interval"</span><span class="p">:</span><span class="w">   </span><span class="s2">"1s"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="inverted-index-structure">Inverted Index Structure</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Term          → Posting List (doc_id: position_list)
+─────────────────────────────────────────────────────
+"distributed" → [doc1:(3,7), doc45:(1), doc892:(2,9,15)]
+"search"      → [doc1:(4), doc12:(1,3), doc45:(2), ...]
+"engine"      → [doc1:(5), doc45:(3), ...]
+
+doc_values (columnar, for sorting/aggregation):
+doc_id │ price │ published_at │ author_id
+───────┼───────┼──────────────┼──────────
+doc1   │ 29.99 │ 2025-01-10   │ user_123
+doc45  │ 9.99  │ 2025-01-08   │ user_456
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="6-api-design">6. API Design</h2>
+
+<h3 id="index-document">Index Document</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT /products/_doc/doc_123
+{
+  "doc_id": "doc_123",
+  "title":  "Wireless Headphones",
+  "body":   "Premium noise-canceling headphones with 40hr battery",
+  "tags":   ["electronics", "audio"],
+  "price":  149.99,
+  "published_at": "2025-01-10T12:00:00Z"
+}
+
+Response 201: { "_id": "doc_123", "result": "created", "_version": 1 }
+</code></pre></div></div>
+
+<h3 id="bulk-index">Bulk Index</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /_bulk
+{"index": {"_index": "products", "_id": "doc_124"}}
+{"title": "...", "price": 99.99}
+{"index": {"_index": "products", "_id": "doc_125"}}
+{"title": "...", "price": 49.99}
+
+Response: { "took": 12, "errors": false, "items": [...] }
+</code></pre></div></div>
+
+<h3 id="search">Search</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /products/_search
+{
+  "query": {
+    "bool": {
+      "must":   { "match": { "body": "noise canceling headphones" } },
+      "filter": [
+        { "range":  { "price": { "gte": 50, "lte": 200 } } },
+        { "terms":  { "tags":  ["electronics"] } }
+      ],
+      "should": { "match": { "title": "wireless" } }
+    }
+  },
+  "aggs": {
+    "price_histogram": {
+      "histogram": { "field": "price", "interval": 25 }
+    }
+  },
+  "sort": [{ "_score": "desc" }, { "price": "asc" }],
+  "from": 0,
+  "size": 20
+}
+</code></pre></div></div>
+
+<h3 id="scroll--pit-deep-pagination">Scroll / PIT (Deep Pagination)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Create Point-in-Time snapshot
+POST /products/_pit?keep_alive=1m
+→ { "id": "pit_token_xyz" }
+
+// Paginate using search_after
+POST /products/_search
+{
+  "pit": { "id": "pit_token_xyz", "keep_alive": "1m" },
+  "sort": [{ "_score": "desc" }, { "_id": "asc" }],
+  "search_after": [0.87, "doc_456"],
+  "size": 20
+}
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="7-deep-dive-key-design-decisions">7. Deep Dive: Key Design Decisions</h2>
+
+<h3 id="71-inverted-index--bm25-scoring">7.1 Inverted Index &amp; BM25 Scoring</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BM25 Score(q, d) = Σ IDF(t) × [tf(t,d) × (k1+1)] / [tf(t,d) + k1×(1 - b + b×|d|/avgdl)]
+
+IDF(t) = log(1 + (N - df(t) + 0.5) / (df(t) + 0.5))
+  N     = total documents
+  df(t) = documents containing term t
+
+Parameters: k1=1.2 (term frequency saturation), b=0.75 (field length normalization)
+</code></pre></div></div>
+
+<h3 id="72-segment-merge-strategy">7.2 Segment Merge Strategy</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>New doc write → tiny segment (e.g., 100 docs)
+Background merge (tiered policy):
+  - Merge 10 segments of similar size → 1 larger segment
+  - Target segment size: 5GB max
+  - Force merge on read-only indices (aliases): 1 segment/shard for optimal performance
+
+Write amplification: each byte written ~log(n) times during merges
+Read benefit: fewer segments → fewer file handles → faster search
+</code></pre></div></div>
+
+<h3 id="73-shard-sizing">7.3 Shard Sizing</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Rule of thumb: 10-50 GB per shard (Elasticsearch recommendation)
+Too small shards: overhead of shard management
+Too large shards: slow merges, expensive shard recovery
+
+Index: 1 TB data → 20-100 shards × 10-50 GB each
+Number of shards = max(primary_shards, ceil(data_size / target_shard_size))
+</code></pre></div></div>
+
+<h3 id="74-query-execution-scatter-gather">7.4 Query Execution: Scatter-Gather</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Client → Coordinating Node
+  ↓
+Phase 1 (Query): broadcast to all N shards
+  Each shard returns top-K doc IDs + scores (lightweight)
+  Coordinating node merges: global top-K via priority queue
+  ↓
+Phase 2 (Fetch): request full documents for global top-K from respective shards
+  Return full _source documents to client
+
+Deep pagination problem: from=10000&amp;size=10 → each shard returns 10,010 results
+Solution: Point-in-Time + search_after (cursor-based, O(1) memory)
+</code></pre></div></div>
+
+<h3 id="75-relevance-tuning">7.5 Relevance Tuning</h3>
+<ul>
+  <li><strong>Field boosting</strong>: <code class="language-plaintext highlighter-rouge">"title^3"</code> (title matches worth 3× body matches)</li>
+  <li><strong>Function score</strong>: decay functions (recency, geo proximity), popularity boost</li>
+  <li><strong>Learning-to-rank</strong>: ML model as rescoring stage (XGBoost on click data)</li>
+  <li><strong>Synonyms</strong>: synonym token filter at index or query time</li>
+</ul>
+
+<h3 id="76-near-real-time-indexing">7.6 Near-Real-Time Indexing</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Refresh interval (default 1s):
+  IndexBuffer → refresh → new Lucene Segment (RAM) → searchable
+  
+Explicit refresh: POST /index/_refresh (for immediate visibility)
+  
+Trade-off: refresh_interval="30s" during bulk indexing
+           → fewer segments → faster indexing throughput
+           → less visible during bulk load window
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="8-scalability--bottlenecks">8. Scalability &amp; Bottlenecks</h2>
+
+<h3 id="bottleneck-1-hot-shards">Bottleneck 1: Hot Shards</h3>
+<ul>
+  <li>A single shard receiving disproportionate writes (e.g., time-based index)</li>
+  <li><strong>Solution</strong>: Index per day/week; rollover alias; ILM (Index Lifecycle Management)</li>
+  <li>Hot-warm-cold architecture: hot (SSD) → warm (HDD) → cold (S3 snapshots)</li>
+</ul>
+
+<h3 id="bottleneck-2-jvm-heap-pressure">Bottleneck 2: JVM Heap Pressure</h3>
+<ul>
+  <li>Large heaps cause long GC pauses → cluster instability</li>
+  <li><strong>Solution</strong>: Heap ≤ 31GB (compressed OOPs); use OS page cache for Lucene I/O</li>
+  <li>Dedicated heap: 50% of RAM for JVM; 50% for OS file cache</li>
+</ul>
+
+<h3 id="bottleneck-3-deep-aggregations">Bottleneck 3: Deep Aggregations</h3>
+<ul>
+  <li>Cardinality aggregations on high-cardinality fields extremely memory-intensive</li>
+  <li><strong>Solution</strong>: HyperLogLog for approximate cardinality (HLL++ ≈1% error, O(1) memory)</li>
+  <li>Pre-compute aggregations for dashboards; store in materialized view</li>
+</ul>
+
+<h3 id="read-scaling">Read Scaling</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Add more replicas: each shard has N replicas → N×read throughput
+Coordinating nodes: scale independently → handle fan-out overhead
+Circuit breaker: Elasticsearch built-in memory circuit breaker
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="9-fault-tolerance--reliability">9. Fault Tolerance &amp; Reliability</h2>
+
+<h3 id="shard-recovery">Shard Recovery</h3>
+<ul>
+  <li><strong>Primary shard failure</strong>: promote replica → select new replica from remaining nodes</li>
+  <li><strong>Node failure</strong>: cluster reallocates shards within 60s (delayed_timeout config)</li>
+  <li><strong>Network partition</strong>: split-brain prevented by master quorum (N/2 + 1 master-eligible nodes)</li>
+</ul>
+
+<h3 id="data-durability">Data Durability</h3>
+<ul>
+  <li><strong>Translog</strong>: append-only write-ahead log; fsync every 5s or 512MB</li>
+  <li><strong>Snapshot</strong>: full index snapshot to S3 (incremental); restore in minutes</li>
+  <li><strong>Cross-cluster replication</strong>: async replication to DR cluster</li>
+</ul>
+
+<h3 id="monitoring">Monitoring</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Key metrics:
+  - indexing_rate (docs/sec)
+  - search_rate (req/sec), search_latency p99
+  - segment_count (high = need merge)
+  - JVM heap_used (&gt;85% → danger)
+  - unassigned_shards (&gt;0 → degraded)
+  - cluster_status: green/yellow/red
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="10-trade-offs--alternatives">10. Trade-offs &amp; Alternatives</h2>
+
+<h3 id="trade-off-1-nrt-vs-throughput">Trade-off 1: NRT vs Throughput</h3>
+<ul>
+  <li>Refresh every 1s → good NRT but overhead per refresh</li>
+  <li>Refresh every 30s → higher bulk throughput, stale reads</li>
+  <li><strong>Decision</strong>: 1s for user-facing search; 30s for background indexing jobs</li>
+</ul>
+
+<h3 id="trade-off-2-inverted-index-vs-column-store">Trade-off 2: Inverted Index vs Column Store</h3>
+<ul>
+  <li>Inverted index: excellent for full-text, poor for range scans on high-cardinality numeric fields</li>
+  <li>ClickHouse/Druid: better for time-series aggregations</li>
+  <li><strong>Decision</strong>: Use Elasticsearch for text search; ClickHouse for analytics aggregations</li>
+</ul>
+
+<h3 id="trade-off-3-schema-on-write-vs-dynamic-mapping">Trade-off 3: Schema-on-write vs Dynamic Mapping</h3>
+<ul>
+  <li>Dynamic mapping: flexible but can lead to mapping explosions (thousands of fields)</li>
+  <li>Strict mapping: requires schema definition upfront; prevents surprises</li>
+  <li><strong>Decision</strong>: Strict mapping in production; explicit field limits; dynamic=false or dynamic=strict</li>
+</ul>
+
+<h3 id="alternatives">Alternatives</h3>
+<ul>
+  <li><strong>Apache Solr</strong>: Similar Lucene-based, better for static datasets</li>
+  <li><strong>Typesense</strong>: Simpler, faster for exact search (no Lucene overhead)</li>
+  <li><strong>Meilisearch</strong>: Developer-friendly, typo-tolerant; less scalable</li>
+  <li><strong>pgvector + PostgreSQL</strong>: Vector similarity search integrated with RDBMS</li>
+</ul>
+
+    </div>
+
+    <nav aria-label="HLD navigation">
+      <a href="/interview_problems/hld/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to HLD Index
+      </a>
+    </nav>
+  </article>
+</div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="150+ coding problems, LLD & HLD system design solutions">
+<title>Group Anagrams | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <a href="/interview_problems/design-patterns/" class="nav-link">
+        <span class="nav-icon">🎨</span> Design Patterns
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="problem-page">
+    <header class="problem-header">
+      <h1 class="problem-title">Group Anagrams</h1>
+
+      <div class="problem-meta">
+        
+        <span class="badge badge-category">Hashing</span>
+        
+
+        
+          
+          <span class="badge badge-medium">
+            🟡
+            Medium
+          </span>
+        
+
+        
+      </div>
+
+      
+      <div class="problem-tags">
+        
+        <span class="badge badge-tag">hashing</span>
+        
+      </div>
+      
+
+      
+      <div class="complexity-table">
+        
+        <div class="complexity-card">
+          <div class="complexity-label">Time</div>
+          <div class="complexity-value">O(n * k log k) where k is the max string length</div>
+        </div>
+        
+        
+        <div class="complexity-card">
+          <div class="complexity-label">Space</div>
+          <div class="complexity-value">O(n * k)</div>
+        </div>
+        
+      </div>
+      
+    </header>
+
+    <div class="problem-content">
+      <h2 id="problem">Problem</h2>
+
+<p>Group Anagrams Given an array of strings strs, group the anagrams together. An anagram is a word formed by rearranging the letters of a different word, using all the original letters exactly once. The answer can be returned in any order.</p>
+
+<h2 id="approach">Approach</h2>
+
+<p>For each string, sort its characters to produce a canonical key. All anagrams of a word will produce the same sorted key. Use a HashMap where the sorted key maps to a list of original strings. After processing all strings, return the values of the map as the grouped result.</p>
+
+<h2 id="solution">Solution</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">org.interview.coding.hashing</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Problem: Group Anagrams
+ * Difficulty: Medium
+ *
+ * Description:
+ * Given an array of strings strs, group the anagrams together. An anagram is a word formed
+ * by rearranging the letters of a different word, using all the original letters exactly once.
+ * The answer can be returned in any order.
+ *
+ * Example:
+ *   Input: strs = ["eat","tea","tan","ate","nat","bat"]
+ *   Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+ *
+ * Constraints:
+ *   - 1 &lt;= strs.length &lt;= 10^4
+ *   - 0 &lt;= strs[i].length &lt;= 100
+ *   - strs[i] consists of lowercase English letters
+ *
+ * Approach:
+ *   For each string, sort its characters to produce a canonical key. All anagrams of a word
+ *   will produce the same sorted key. Use a HashMap where the sorted key maps to a list of
+ *   original strings. After processing all strings, return the values of the map as the
+ *   grouped result.
+ *
+ * Time Complexity: O(n * k log k) where k is the max string length
+ * Space Complexity: O(n * k)
+ *
+ * Test Cases:
+ *   1. Input: ["eat","tea","tan","ate","nat","bat"] → Output: 3 groups
+ *   2. Input: [""] → Output: [[""]]
+ *   3. Edge case: ["a"] → Output: [["a"]]
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GroupAnagrams</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">groupAnagrams</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">strs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">s</span> <span class="o">:</span> <span class="n">strs</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">char</span><span class="o">[]</span> <span class="n">chars</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
+            <span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">chars</span><span class="o">);</span>
+            <span class="nc">String</span> <span class="n">key</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">String</span><span class="o">(</span><span class="n">chars</span><span class="o">);</span>
+            <span class="n">map</span><span class="o">.</span><span class="na">computeIfAbsent</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;()).</span><span class="na">add</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">map</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">GroupAnagrams</span> <span class="n">sol</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GroupAnagrams</span><span class="o">();</span>
+        <span class="c1">// Test 1</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">sol</span><span class="o">.</span><span class="na">groupAnagrams</span><span class="o">(</span><span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span><span class="s">"eat"</span><span class="o">,</span><span class="s">"tea"</span><span class="o">,</span><span class="s">"tan"</span><span class="o">,</span><span class="s">"ate"</span><span class="o">,</span><span class="s">"nat"</span><span class="o">,</span><span class="s">"bat"</span><span class="o">}));</span>
+        <span class="c1">// Test 2</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">sol</span><span class="o">.</span><span class="na">groupAnagrams</span><span class="o">(</span><span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span><span class="s">""</span><span class="o">}));</span>    <span class="c1">// [[""]]</span>
+        <span class="c1">// Test 3 (edge case: single char)</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">sol</span><span class="o">.</span><span class="na">groupAnagrams</span><span class="o">(</span><span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span><span class="s">"a"</span><span class="o">}));</span>   <span class="c1">// [["a"]]</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="complexity">Complexity</h2>
+
+<ul>
+  <li><strong>Time:</strong> O(n * k log k) where k is the max string length</li>
+  <li><strong>Space:</strong> O(n * k)</li>
+</ul>
+
+    </div>
+
+    <nav class="problem-nav" aria-label="Problem navigation">
+      <a href="/interview_problems/coding/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to All Problems
+      </a>
+    </nav>
+  </article>
+</div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>
