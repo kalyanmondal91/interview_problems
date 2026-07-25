@@ -21,10 +21,6 @@ layout: default
       {{ content }}
     </div>
 
-    <nav aria-label="LLD navigation">
-      <a href="{{ '/lld/' | relative_url }}" class="nav-link" style="display:inline-flex;margin-top:2em;">
-        ← Back to LLD Index
-      </a>
-    </nav>
+    {% include prev-next.html collection="lld" back_url="/lld/" back_label="All LLD" %}
   </article>
 </div>

@@ -56,10 +56,6 @@ layout: default
       {{ content }}
     </div>
 
-    <nav class="problem-nav" aria-label="Problem navigation">
-      <a href="{{ '/coding/' | relative_url }}" class="nav-link" style="display:inline-flex;margin-top:2em;">
-        ← Back to All Problems
-      </a>
-    </nav>
+    {% include prev-next.html collection="coding" back_url="/coding/" back_label="All Problems" %}
   </article>
 </div>

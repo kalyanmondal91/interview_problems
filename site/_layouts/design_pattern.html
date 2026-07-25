@@ -46,11 +46,7 @@ layout: default
       {{ content }}
     </div>
 
-    <nav class="dp-nav" aria-label="Design pattern navigation">
-      <a href="{{ '/design-patterns/' | relative_url }}" class="nav-link" style="display:inline-flex;margin-top:2em;">
-        ← Back to Design Patterns
-      </a>
-    </nav>
+    {% include prev-next.html collection="design_patterns" back_url="/design-patterns/" back_label="All Patterns" %}
 
   </article>
 </div>
