@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="150+ coding problems, LLD & HLD system design solutions">
+<title>Mediator | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">🎨</span> Design Patterns
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/design-patterns/" class="nav-sub-link">📋 All Patterns</a>
+        <span class="nav-sub-label">🏗️ Creational</span>
+        <a href="/interview_problems/design-patterns/singleton/" class="nav-sub-link nav-sub-indent">Singleton</a>
+        <a href="/interview_problems/design-patterns/factory-method/" class="nav-sub-link nav-sub-indent">Factory Method</a>
+        <a href="/interview_problems/design-patterns/abstract-factory/" class="nav-sub-link nav-sub-indent">Abstract Factory</a>
+        <a href="/interview_problems/design-patterns/builder/" class="nav-sub-link nav-sub-indent">Builder</a>
+        <a href="/interview_problems/design-patterns/prototype/" class="nav-sub-link nav-sub-indent">Prototype</a>
+        <span class="nav-sub-label">🏛️ Structural</span>
+        <a href="/interview_problems/design-patterns/adapter/" class="nav-sub-link nav-sub-indent">Adapter</a>
+        <a href="/interview_problems/design-patterns/bridge/" class="nav-sub-link nav-sub-indent">Bridge</a>
+        <a href="/interview_problems/design-patterns/composite/" class="nav-sub-link nav-sub-indent">Composite</a>
+        <a href="/interview_problems/design-patterns/decorator/" class="nav-sub-link nav-sub-indent">Decorator</a>
+        <a href="/interview_problems/design-patterns/facade/" class="nav-sub-link nav-sub-indent">Facade</a>
+        <a href="/interview_problems/design-patterns/flyweight/" class="nav-sub-link nav-sub-indent">Flyweight</a>
+        <a href="/interview_problems/design-patterns/proxy/" class="nav-sub-link nav-sub-indent">Proxy</a>
+        <span class="nav-sub-label">🔄 Behavioral</span>
+        <a href="/interview_problems/design-patterns/chain-of-responsibility/" class="nav-sub-link nav-sub-indent">Chain of Responsibility</a>
+        <a href="/interview_problems/design-patterns/command/" class="nav-sub-link nav-sub-indent">Command</a>
+        <a href="/interview_problems/design-patterns/interpreter/" class="nav-sub-link nav-sub-indent">Interpreter</a>
+        <a href="/interview_problems/design-patterns/iterator/" class="nav-sub-link nav-sub-indent">Iterator</a>
+        <a href="/interview_problems/design-patterns/mediator/" class="nav-sub-link nav-sub-indent">Mediator</a>
+        <a href="/interview_problems/design-patterns/memento/" class="nav-sub-link nav-sub-indent">Memento</a>
+        <a href="/interview_problems/design-patterns/observer/" class="nav-sub-link nav-sub-indent">Observer</a>
+        <a href="/interview_problems/design-patterns/state/" class="nav-sub-link nav-sub-indent">State</a>
+        <a href="/interview_problems/design-patterns/strategy/" class="nav-sub-link nav-sub-indent">Strategy</a>
+        <a href="/interview_problems/design-patterns/template-method/" class="nav-sub-link nav-sub-indent">Template Method</a>
+        <a href="/interview_problems/design-patterns/visitor/" class="nav-sub-link nav-sub-indent">Visitor</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+    <span class="stat-pill"><strong>23</strong> Patterns</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="dp-page">
+
+    <header class="dp-header">
+      <div class="dp-breadcrumb">
+        <a href="/interview_problems/design-patterns/">Design Patterns</a>
+        <span class="dp-breadcrumb-sep">›</span>
+        <span class="badge badge-category">Behavioral</span>
+      </div>
+
+      <h1 class="dp-title">Mediator</h1>
+
+      
+
+      <div class="dp-meta-row">
+        
+        <span class="badge badge-category">Behavioral</span>
+        
+        
+          
+          <span class="badge badge-medium">
+            🟡
+            Medium
+          </span>
+        
+        
+          
+          <span class="badge badge-tag">behavioral</span>
+          
+          <span class="badge badge-tag">mediator</span>
+          
+        
+      </div>
+
+      
+      <blockquote class="dp-intent">
+        <strong>Intent:</strong> Define an object that encapsulates how a set of objects interact, promoting loose coupling.
+      </blockquote>
+      
+    </header>
+
+    <div class="dp-content">
+      <h2 id="intent">Intent</h2>
+
+<p>Define an object that encapsulates how a set of objects interact, promoting loose coupling.</p>
+
+<h2 id="problem-it-solves">Problem It Solves</h2>
+
+<p>See the full Javadoc header and inline comments in the source code below.</p>
+
+<h2 id="structure">Structure</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Participant</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Mediator</strong></td>
+      <td>Declares methods for colleagues to communicate</td>
+    </tr>
+    <tr>
+      <td><strong>ConcreteMediator</strong></td>
+      <td>Implements coordination logic; knows all colleagues</td>
+    </tr>
+    <tr>
+      <td><strong>Colleague</strong></td>
+      <td>Knows only the Mediator</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="pros">Pros</h2>
+
+<ul>
+  <li>Reduces coupling between components</li>
+  <li>Centralizes communication logic</li>
+  <li>Easier to change component interactions</li>
+</ul>
+
+<h2 id="cons">Cons</h2>
+
+<ul>
+  <li>Mediator can become a god object</li>
+  <li>Can be a single point of failure</li>
+</ul>
+
+<h2 id="real-world-examples">Real-World Examples</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Air traffic control</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Chat room</code></li>
+  <li><code class="language-plaintext highlighter-rouge">GUI dialog components</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Spring ApplicationContext event bus</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Kafka / RabbitMQ</code></li>
+</ul>
+
+<h2 id="full-java-implementation">Full Java Implementation</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">org.interview.design_patterns.behavioral.mediator</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="cm">/**
+ * ============================================================
+ * Design Pattern: Mediator (Behavioral)
+ * ============================================================
+ *
+ * INTENT:
+ *   Define an object that encapsulates how a set of objects interact.
+ *   Mediator promotes loose coupling by keeping objects from referring
+ *   to each other explicitly, letting you vary their interaction independently.
+ *
+ * PROBLEM IT SOLVES:
+ *   - Many objects communicate with many others → spaghetti dependencies.
+ *   - Adding a new object forces you to update all its collaborators.
+ *   - You want to centralize complex coordination logic.
+ *
+ * STRUCTURE:
+ *   - Mediator (interface): declares methods for colleagues to communicate
+ *   - ConcreteMediator: implements coordination logic; knows all colleagues
+ *   - Colleague: knows only the Mediator, not other colleagues
+ *
+ * DIFFERENCE FROM OBSERVER:
+ *   - Observer: one-to-many broadcast; subject doesn't know who is listening
+ *   - Mediator: many-to-many via a central hub; mediator orchestrates all interactions
+ *
+ * REAL-WORLD EXAMPLES:
+ *   - Air traffic control (pilots ↔ ATC ↔ pilots)
+ *   - Chat room (users ↔ chat server ↔ users)
+ *   - GUI: form components communicate through a dialog mediator
+ *   - Spring ApplicationContext event bus
+ *   - Message broker (Kafka, RabbitMQ)
+ *
+ * PROS:
+ *   + Reduces coupling between components
+ *   + Centralizes communication logic
+ *   + Easier to change component interactions
+ *
+ * CONS:
+ *   - Mediator can become a "God object" if it grows too complex
+ *
+ * SCENARIO:
+ *   Chat room: users send messages to the mediator (chat room),
+ *   which broadcasts them to other users.
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MediatorPattern</span> <span class="o">{</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Mediator Interface</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">interface</span> <span class="nc">ChatMediator</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">sendMessage</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">,</span> <span class="nc">User</span> <span class="n">sender</span><span class="o">);</span>
+        <span class="kt">void</span> <span class="nf">addUser</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Colleague: User</span>
+    <span class="c1">// Knows only the Mediator — never directly references other users</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+        <span class="kd">protected</span> <span class="kd">final</span> <span class="nc">ChatMediator</span> <span class="n">mediator</span><span class="o">;</span>
+        <span class="kd">protected</span> <span class="kd">final</span> <span class="nc">String</span>       <span class="n">name</span><span class="o">;</span>
+
+        <span class="nc">User</span><span class="o">(</span><span class="nc">ChatMediator</span> <span class="n">mediator</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">mediator</span> <span class="o">=</span> <span class="n">mediator</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span>     <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="cm">/** Send a message through the mediator */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"[%s] → Sending: %s%n"</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">message</span><span class="o">);</span>
+            <span class="n">mediator</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">message</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="cm">/** Receive a message (called by the mediator) */</span>
+        <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">receive</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">,</span> <span class="nc">String</span> <span class="n">fromUser</span><span class="o">);</span>
+
+        <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">name</span><span class="o">;</span> <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteColleague: BasicUser (receives all messages)</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">BasicUser</span> <span class="kd">extends</span> <span class="nc">User</span> <span class="o">{</span>
+        <span class="nc">BasicUser</span><span class="o">(</span><span class="nc">ChatMediator</span> <span class="n">mediator</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">super</span><span class="o">(</span><span class="n">mediator</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">receive</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">,</span> <span class="nc">String</span> <span class="n">fromUser</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [%s received from %s]: %s%n"</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">fromUser</span><span class="o">,</span> <span class="n">message</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteColleague: AdminUser (receives + can broadcast alerts)</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">AdminUser</span> <span class="kd">extends</span> <span class="nc">User</span> <span class="o">{</span>
+        <span class="nc">AdminUser</span><span class="o">(</span><span class="nc">ChatMediator</span> <span class="n">mediator</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">super</span><span class="o">(</span><span class="n">mediator</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">receive</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">,</span> <span class="nc">String</span> <span class="n">fromUser</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [ADMIN %s received from %s]: %s%n"</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">fromUser</span><span class="o">,</span> <span class="n">message</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="cm">/** Special method: broadcast a system alert to all users */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">broadcastAlert</span><span class="o">(</span><span class="nc">String</span> <span class="n">alert</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">String</span> <span class="n">alertMsg</span> <span class="o">=</span> <span class="s">"🚨 SYSTEM ALERT: "</span> <span class="o">+</span> <span class="n">alert</span><span class="o">;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"[%s (Admin)] Broadcasting: %s%n"</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">alertMsg</span><span class="o">);</span>
+            <span class="n">mediator</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">alertMsg</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteMediator: ChatRoom</span>
+    <span class="c1">// Central hub: knows all users; routes messages between them</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ChatRoom</span> <span class="kd">implements</span> <span class="nc">ChatMediator</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span>     <span class="n">name</span><span class="o">;</span>
+
+        <span class="nc">ChatRoom</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[ChatRoom] '"</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">"' created."</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addUser</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">users</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[ChatRoom] "</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" joined '"</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**
+         * Route message from sender to all OTHER users.
+         * This is the core mediation logic — centralized here, not in each User.
+         */</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sendMessage</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">,</span> <span class="nc">User</span> <span class="n">sender</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// Don't send the message back to the sender</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">sender</span><span class="o">.</span><span class="na">getName</span><span class="o">()))</span> <span class="o">{</span>
+                    <span class="n">user</span><span class="o">.</span><span class="na">receive</span><span class="o">(</span><span class="n">message</span><span class="o">,</span> <span class="n">sender</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// BONUS: Air Traffic Control Mediator</span>
+    <span class="c1">// Planes don't communicate with each other — only with ATC</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">interface</span> <span class="nc">ATCMediator</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">requestLanding</span><span class="o">(</span><span class="nc">String</span> <span class="n">aircraft</span><span class="o">,</span> <span class="nc">String</span> <span class="n">runway</span><span class="o">);</span>
+        <span class="kt">void</span> <span class="nf">reportPosition</span><span class="o">(</span><span class="nc">String</span> <span class="n">aircraft</span><span class="o">,</span> <span class="kt">int</span> <span class="n">altitude</span><span class="o">,</span> <span class="kt">int</span> <span class="n">heading</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">AirTrafficControl</span> <span class="kd">implements</span> <span class="nc">ATCMediator</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">occupiedRunways</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">HashSet</span><span class="o">&lt;&gt;();</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">requestLanding</span><span class="o">(</span><span class="nc">String</span> <span class="n">aircraft</span><span class="o">,</span> <span class="nc">String</span> <span class="n">runway</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">occupiedRunways</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">runway</span><span class="o">))</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [ATC → %s] Runway %s occupied. Hold pattern at 3000ft.%n"</span><span class="o">,</span>
+                    <span class="n">aircraft</span><span class="o">,</span> <span class="n">runway</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">occupiedRunways</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">runway</span><span class="o">);</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [ATC → %s] Cleared to land on runway %s. Wind 270@10kt.%n"</span><span class="o">,</span>
+                    <span class="n">aircraft</span><span class="o">,</span> <span class="n">runway</span><span class="o">);</span>
+                <span class="c1">// Simulate: runway freed after landing</span>
+                <span class="k">new</span> <span class="nf">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                    <span class="k">try</span> <span class="o">{</span> <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span> <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
+                    <span class="n">occupiedRunways</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">runway</span><span class="o">);</span>
+                    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [ATC] Runway %s now clear.%n"</span><span class="o">,</span> <span class="n">runway</span><span class="o">);</span>
+                <span class="o">}).</span><span class="na">start</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">reportPosition</span><span class="o">(</span><span class="nc">String</span> <span class="n">aircraft</span><span class="o">,</span> <span class="kt">int</span> <span class="n">altitude</span><span class="o">,</span> <span class="kt">int</span> <span class="n">heading</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [ATC] Traffic: %s at %,dft heading %d°%n"</span><span class="o">,</span>
+                <span class="n">aircraft</span><span class="o">,</span> <span class="n">altitude</span><span class="o">,</span> <span class="n">heading</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Demo</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"=== Chat Room Mediator ==="</span><span class="o">);</span>
+        <span class="nc">ChatRoom</span> <span class="n">room</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ChatRoom</span><span class="o">(</span><span class="s">"General"</span><span class="o">);</span>
+
+        <span class="nc">User</span> <span class="n">alice</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BasicUser</span><span class="o">(</span><span class="n">room</span><span class="o">,</span> <span class="s">"Alice"</span><span class="o">);</span>
+        <span class="nc">User</span> <span class="n">bob</span>   <span class="o">=</span> <span class="k">new</span> <span class="nc">BasicUser</span><span class="o">(</span><span class="n">room</span><span class="o">,</span> <span class="s">"Bob"</span><span class="o">);</span>
+        <span class="nc">User</span> <span class="n">carol</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BasicUser</span><span class="o">(</span><span class="n">room</span><span class="o">,</span> <span class="s">"Carol"</span><span class="o">);</span>
+        <span class="nc">AdminUser</span> <span class="n">admin</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AdminUser</span><span class="o">(</span><span class="n">room</span><span class="o">,</span> <span class="s">"Admin"</span><span class="o">);</span>
+
+        <span class="n">room</span><span class="o">.</span><span class="na">addUser</span><span class="o">(</span><span class="n">alice</span><span class="o">);</span>
+        <span class="n">room</span><span class="o">.</span><span class="na">addUser</span><span class="o">(</span><span class="n">bob</span><span class="o">);</span>
+        <span class="n">room</span><span class="o">.</span><span class="na">addUser</span><span class="o">(</span><span class="n">carol</span><span class="o">);</span>
+        <span class="n">room</span><span class="o">.</span><span class="na">addUser</span><span class="o">(</span><span class="n">admin</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+        <span class="n">alice</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">"Hey everyone!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+        <span class="n">bob</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">"Hi Alice!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+        <span class="n">admin</span><span class="o">.</span><span class="na">broadcastAlert</span><span class="o">(</span><span class="s">"Server maintenance in 30 minutes!"</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n=== Air Traffic Control Mediator ==="</span><span class="o">);</span>
+        <span class="nc">AirTrafficControl</span> <span class="n">atc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AirTrafficControl</span><span class="o">();</span>
+
+        <span class="c1">// Planes communicate ONLY with ATC, not with each other</span>
+        <span class="n">atc</span><span class="o">.</span><span class="na">reportPosition</span><span class="o">(</span><span class="s">"BA-123"</span><span class="o">,</span> <span class="mi">10_000</span><span class="o">,</span> <span class="mi">270</span><span class="o">);</span>
+        <span class="n">atc</span><span class="o">.</span><span class="na">reportPosition</span><span class="o">(</span><span class="s">"UA-456"</span><span class="o">,</span>  <span class="mi">5_000</span><span class="o">,</span> <span class="mi">180</span><span class="o">);</span>
+
+        <span class="n">atc</span><span class="o">.</span><span class="na">requestLanding</span><span class="o">(</span><span class="s">"BA-123"</span><span class="o">,</span> <span class="s">"27L"</span><span class="o">);</span>   <span class="c1">// granted</span>
+        <span class="n">atc</span><span class="o">.</span><span class="na">requestLanding</span><span class="o">(</span><span class="s">"UA-456"</span><span class="o">,</span> <span class="s">"27L"</span><span class="o">);</span>   <span class="c1">// held (runway busy)</span>
+        <span class="n">atc</span><span class="o">.</span><span class="na">requestLanding</span><span class="o">(</span><span class="s">"UA-456"</span><span class="o">,</span> <span class="s">"09R"</span><span class="o">);</span>   <span class="c1">// different runway — granted</span>
+
+        <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span> <span class="c1">// wait for runway to free</span>
+        <span class="n">atc</span><span class="o">.</span><span class="na">requestLanding</span><span class="o">(</span><span class="s">"QA-789"</span><span class="o">,</span> <span class="s">"27L"</span><span class="o">);</span>   <span class="c1">// now free again</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+    </div>
+
+    <nav class="dp-nav" aria-label="Design pattern navigation">
+      <a href="/interview_problems/design-patterns/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to Design Patterns
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<style>
+.dp-page { max-width: 900px; }
+.dp-breadcrumb { font-size: 0.85rem; color: var(--text-muted, #666); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
+.dp-breadcrumb a { color: var(--accent, #0066cc); text-decoration: none; }
+.dp-breadcrumb-sep { opacity: 0.5; }
+.dp-title { font-size: 2rem; font-weight: 700; margin: 0.25rem 0 0.75rem; }
+.dp-aka { font-size: 0.9rem; color: var(--text-muted, #666); margin: 0 0 0.75rem; }
+.dp-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+.dp-intent { border-left: 4px solid var(--accent, #0066cc); margin: 1rem 0 0; padding: 0.75rem 1rem; background: var(--surface-2, #f5f7fa); border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+.dp-content h2 { font-size: 1.3rem; font-weight: 600; margin: 2rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border, #e2e8f0); }
+.dp-content h3 { font-size: 1.05rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+.dp-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.dp-content th, .dp-content td { padding: 8px 12px; border: 1px solid var(--border, #e2e8f0); text-align: left; }
+.dp-content th { background: var(--surface-2, #f5f7fa); font-weight: 600; }
+.dp-content ul { padding-left: 1.5rem; }
+.dp-content li { margin-bottom: 0.3rem; }
+</style>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

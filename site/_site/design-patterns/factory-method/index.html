@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="150+ coding problems, LLD & HLD system design solutions">
+<title>Factory Method | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">🎨</span> Design Patterns
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/design-patterns/" class="nav-sub-link">📋 All Patterns</a>
+        <span class="nav-sub-label">🏗️ Creational</span>
+        <a href="/interview_problems/design-patterns/singleton/" class="nav-sub-link nav-sub-indent">Singleton</a>
+        <a href="/interview_problems/design-patterns/factory-method/" class="nav-sub-link nav-sub-indent">Factory Method</a>
+        <a href="/interview_problems/design-patterns/abstract-factory/" class="nav-sub-link nav-sub-indent">Abstract Factory</a>
+        <a href="/interview_problems/design-patterns/builder/" class="nav-sub-link nav-sub-indent">Builder</a>
+        <a href="/interview_problems/design-patterns/prototype/" class="nav-sub-link nav-sub-indent">Prototype</a>
+        <span class="nav-sub-label">🏛️ Structural</span>
+        <a href="/interview_problems/design-patterns/adapter/" class="nav-sub-link nav-sub-indent">Adapter</a>
+        <a href="/interview_problems/design-patterns/bridge/" class="nav-sub-link nav-sub-indent">Bridge</a>
+        <a href="/interview_problems/design-patterns/composite/" class="nav-sub-link nav-sub-indent">Composite</a>
+        <a href="/interview_problems/design-patterns/decorator/" class="nav-sub-link nav-sub-indent">Decorator</a>
+        <a href="/interview_problems/design-patterns/facade/" class="nav-sub-link nav-sub-indent">Facade</a>
+        <a href="/interview_problems/design-patterns/flyweight/" class="nav-sub-link nav-sub-indent">Flyweight</a>
+        <a href="/interview_problems/design-patterns/proxy/" class="nav-sub-link nav-sub-indent">Proxy</a>
+        <span class="nav-sub-label">🔄 Behavioral</span>
+        <a href="/interview_problems/design-patterns/chain-of-responsibility/" class="nav-sub-link nav-sub-indent">Chain of Responsibility</a>
+        <a href="/interview_problems/design-patterns/command/" class="nav-sub-link nav-sub-indent">Command</a>
+        <a href="/interview_problems/design-patterns/interpreter/" class="nav-sub-link nav-sub-indent">Interpreter</a>
+        <a href="/interview_problems/design-patterns/iterator/" class="nav-sub-link nav-sub-indent">Iterator</a>
+        <a href="/interview_problems/design-patterns/mediator/" class="nav-sub-link nav-sub-indent">Mediator</a>
+        <a href="/interview_problems/design-patterns/memento/" class="nav-sub-link nav-sub-indent">Memento</a>
+        <a href="/interview_problems/design-patterns/observer/" class="nav-sub-link nav-sub-indent">Observer</a>
+        <a href="/interview_problems/design-patterns/state/" class="nav-sub-link nav-sub-indent">State</a>
+        <a href="/interview_problems/design-patterns/strategy/" class="nav-sub-link nav-sub-indent">Strategy</a>
+        <a href="/interview_problems/design-patterns/template-method/" class="nav-sub-link nav-sub-indent">Template Method</a>
+        <a href="/interview_problems/design-patterns/visitor/" class="nav-sub-link nav-sub-indent">Visitor</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+    <span class="stat-pill"><strong>23</strong> Patterns</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="dp-page">
+
+    <header class="dp-header">
+      <div class="dp-breadcrumb">
+        <a href="/interview_problems/design-patterns/">Design Patterns</a>
+        <span class="dp-breadcrumb-sep">›</span>
+        <span class="badge badge-category">Creational</span>
+      </div>
+
+      <h1 class="dp-title">Factory Method</h1>
+
+      
+      <p class="dp-aka">Also known as: <em>Virtual Constructor</em></p>
+      
+
+      <div class="dp-meta-row">
+        
+        <span class="badge badge-category">Creational</span>
+        
+        
+          
+          <span class="badge badge-medium">
+            🟡
+            Medium
+          </span>
+        
+        
+          
+          <span class="badge badge-tag">creational</span>
+          
+          <span class="badge badge-tag">factory</span>
+          
+        
+      </div>
+
+      
+      <blockquote class="dp-intent">
+        <strong>Intent:</strong> Define an interface for creating an object, but let subclasses decide which class to instantiate.
+      </blockquote>
+      
+    </header>
+
+    <div class="dp-content">
+      <h2 id="intent">Intent</h2>
+
+<p>Define an interface for creating an object, but let subclasses decide which class to instantiate.</p>
+
+<h2 id="problem-it-solves">Problem It Solves</h2>
+
+<p>See the full Javadoc header and inline comments in the source code below.</p>
+
+<h2 id="structure">Structure</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Participant</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Product (interface)</strong></td>
+      <td>Defines objects the factory creates</td>
+    </tr>
+    <tr>
+      <td><strong>ConcreteProduct</strong></td>
+      <td>Implements Product</td>
+    </tr>
+    <tr>
+      <td><strong>Creator (abstract)</strong></td>
+      <td>Declares the factory method</td>
+    </tr>
+    <tr>
+      <td><strong>ConcreteCreator</strong></td>
+      <td>Overrides factory method</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="pros">Pros</h2>
+
+<ul>
+  <li>Avoids tight coupling between creator and product</li>
+  <li>Single Responsibility</li>
+  <li>Open/Closed: add new products without changing existing code</li>
+</ul>
+
+<h2 id="cons">Cons</h2>
+
+<ul>
+  <li>Code may become complex due to subclassing</li>
+  <li>Requires a separate class per product</li>
+</ul>
+
+<h2 id="real-world-examples">Real-World Examples</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Calendar.getInstance()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DocumentBuilderFactory.newInstance()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">SLF4J LoggerFactory</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Spring BeanFactory</code></li>
+</ul>
+
+<h2 id="variants">Variants</h2>
+
+<ul>
+  <li>Simple Factory (static helper, not GoF)</li>
+  <li>Parameterized Factory Method</li>
+</ul>
+
+<h2 id="full-java-implementation">Full Java Implementation</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">org.interview.design_patterns.creational.factory_method</span><span class="o">;</span>
+
+<span class="cm">/**
+ * ============================================================
+ * Design Pattern: Factory Method (Creational)
+ * ============================================================
+ *
+ * INTENT:
+ *   Define an interface for creating an object, but let subclasses
+ *   decide which class to instantiate. Factory Method lets a class
+ *   defer instantiation to subclasses.
+ *
+ * PROBLEM IT SOLVES:
+ *   When a framework/library needs to create objects but doesn't know
+ *   exactly what subclass to instantiate — it delegates that decision
+ *   to the client subclass.
+ *
+ * STRUCTURE:
+ *   - Product (interface/abstract): defines the interface of objects the factory creates
+ *   - ConcreteProduct: implements the Product interface
+ *   - Creator (abstract class): declares the factory method; may also define a default implementation
+ *   - ConcreteCreator: overrides the factory method to return a ConcreteProduct
+ *
+ * REAL-WORLD EXAMPLES:
+ *   - java.util.Calendar#getInstance()
+ *   - javax.xml.parsers.DocumentBuilderFactory#newInstance()
+ *   - Loggers (SLF4J LoggerFactory)
+ *   - Spring BeanFactory
+ *
+ * PROS:
+ *   + Avoids tight coupling between creator and product
+ *   + Single Responsibility: product creation in one place
+ *   + Open/Closed: add new products without changing existing code
+ *
+ * CONS:
+ *   - Code may become complex due to subclassing
+ *
+ * Time Complexity:  O(1) per creation
+ * Space Complexity: O(1)
+ *
+ * SCENARIO:
+ *   A notification system that sends notifications via different channels
+ *   (Email, SMS, Push). Each channel is a product; the factory decides
+ *   which one to create.
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FactoryMethodPattern</span> <span class="o">{</span>
+
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="c1">// Product Interface</span>
+    <span class="c1">// All concrete products must implement this contract.</span>
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="kd">interface</span> <span class="nc">Notification</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="c1">// Concrete Products</span>
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">EmailNotification</span> <span class="kd">implements</span> <span class="nc">Notification</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+
+        <span class="nc">EmailNotification</span><span class="o">(</span><span class="nc">String</span> <span class="n">email</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// In production: call SMTP/SES/Sendgrid API</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[Email → "</span> <span class="o">+</span> <span class="n">email</span> <span class="o">+</span> <span class="s">"] "</span> <span class="o">+</span> <span class="n">message</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SmsNotification</span> <span class="kd">implements</span> <span class="nc">Notification</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">phoneNumber</span><span class="o">;</span>
+
+        <span class="nc">SmsNotification</span><span class="o">(</span><span class="nc">String</span> <span class="n">phoneNumber</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">phoneNumber</span> <span class="o">=</span> <span class="n">phoneNumber</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// In production: call Twilio/SNS API</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[SMS → "</span> <span class="o">+</span> <span class="n">phoneNumber</span> <span class="o">+</span> <span class="s">"] "</span> <span class="o">+</span> <span class="n">message</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">PushNotification</span> <span class="kd">implements</span> <span class="nc">Notification</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">deviceToken</span><span class="o">;</span>
+
+        <span class="nc">PushNotification</span><span class="o">(</span><span class="nc">String</span> <span class="n">deviceToken</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">deviceToken</span> <span class="o">=</span> <span class="n">deviceToken</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// In production: call FCM/APNs API</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[Push → "</span> <span class="o">+</span> <span class="n">deviceToken</span> <span class="o">+</span> <span class="s">"] "</span> <span class="o">+</span> <span class="n">message</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="c1">// Creator (Abstract)</span>
+    <span class="c1">// Declares the factory method. The 'notifyUser' method uses the</span>
+    <span class="c1">// product — it doesn't know which concrete product will be used.</span>
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="kd">static</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">NotificationCreator</span> <span class="o">{</span>
+        <span class="c1">// THE factory method — subclasses override this</span>
+        <span class="kd">public</span> <span class="kd">abstract</span> <span class="nc">Notification</span> <span class="nf">createNotification</span><span class="o">(</span><span class="nc">String</span> <span class="n">target</span><span class="o">);</span>
+
+        <span class="c1">// Template method: uses the product created by factory method</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">notifyUser</span><span class="o">(</span><span class="nc">String</span> <span class="n">target</span><span class="o">,</span> <span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Notification</span> <span class="n">n</span> <span class="o">=</span> <span class="n">createNotification</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>
+            <span class="n">n</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="c1">// Concrete Creators</span>
+    <span class="c1">// Each subclass decides which product class to instantiate.</span>
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">EmailNotificationCreator</span> <span class="kd">extends</span> <span class="nc">NotificationCreator</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Notification</span> <span class="nf">createNotification</span><span class="o">(</span><span class="nc">String</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">EmailNotification</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>  <span class="c1">// target = email address</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SmsNotificationCreator</span> <span class="kd">extends</span> <span class="nc">NotificationCreator</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Notification</span> <span class="nf">createNotification</span><span class="o">(</span><span class="nc">String</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">SmsNotification</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>    <span class="c1">// target = phone number</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">PushNotificationCreator</span> <span class="kd">extends</span> <span class="nc">NotificationCreator</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Notification</span> <span class="nf">createNotification</span><span class="o">(</span><span class="nc">String</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">PushNotification</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>   <span class="c1">// target = device token</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="c1">// Simple Factory Helper (bonus — NOT GoF, but commonly used)</span>
+    <span class="c1">// Centralizes creation logic with a static method.</span>
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">NotificationFactory</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Notification</span> <span class="nf">create</span><span class="o">(</span><span class="nc">String</span> <span class="n">type</span><span class="o">,</span> <span class="nc">String</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">switch</span> <span class="o">(</span><span class="n">type</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">case</span> <span class="s">"email"</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">EmailNotification</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>
+                <span class="k">case</span> <span class="s">"sms"</span>   <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">SmsNotification</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>
+                <span class="k">case</span> <span class="s">"push"</span>  <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">PushNotification</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>
+                <span class="k">default</span>      <span class="o">-&gt;</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="s">"Unknown type: "</span> <span class="o">+</span> <span class="n">type</span><span class="o">);</span>
+            <span class="o">};</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="c1">// Demo</span>
+    <span class="c1">// ----------------------------------------------------------------</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// GoF Factory Method: client works with creator abstraction</span>
+        <span class="nc">NotificationCreator</span> <span class="n">emailCreator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EmailNotificationCreator</span><span class="o">();</span>
+        <span class="n">emailCreator</span><span class="o">.</span><span class="na">notifyUser</span><span class="o">(</span><span class="s">"user@example.com"</span><span class="o">,</span> <span class="s">"Your order has shipped!"</span><span class="o">);</span>
+
+        <span class="nc">NotificationCreator</span> <span class="n">smsCreator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SmsNotificationCreator</span><span class="o">();</span>
+        <span class="n">smsCreator</span><span class="o">.</span><span class="na">notifyUser</span><span class="o">(</span><span class="s">"+14155552671"</span><span class="o">,</span> <span class="s">"Your OTP is 482910"</span><span class="o">);</span>
+
+        <span class="nc">NotificationCreator</span> <span class="n">pushCreator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PushNotificationCreator</span><span class="o">();</span>
+        <span class="n">pushCreator</span><span class="o">.</span><span class="na">notifyUser</span><span class="o">(</span><span class="s">"device-token-xyz"</span><span class="o">,</span> <span class="s">"You have a new message"</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"--- Simple Factory ---"</span><span class="o">);</span>
+        <span class="c1">// Simple Factory: single static method dispatches on type string</span>
+        <span class="nc">Notification</span> <span class="n">n</span> <span class="o">=</span> <span class="nc">NotificationFactory</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="s">"email"</span><span class="o">,</span> <span class="s">"admin@co.com"</span><span class="o">);</span>
+        <span class="n">n</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">"Server is down!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+    </div>
+
+    <nav class="dp-nav" aria-label="Design pattern navigation">
+      <a href="/interview_problems/design-patterns/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to Design Patterns
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<style>
+.dp-page { max-width: 900px; }
+.dp-breadcrumb { font-size: 0.85rem; color: var(--text-muted, #666); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
+.dp-breadcrumb a { color: var(--accent, #0066cc); text-decoration: none; }
+.dp-breadcrumb-sep { opacity: 0.5; }
+.dp-title { font-size: 2rem; font-weight: 700; margin: 0.25rem 0 0.75rem; }
+.dp-aka { font-size: 0.9rem; color: var(--text-muted, #666); margin: 0 0 0.75rem; }
+.dp-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+.dp-intent { border-left: 4px solid var(--accent, #0066cc); margin: 1rem 0 0; padding: 0.75rem 1rem; background: var(--surface-2, #f5f7fa); border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+.dp-content h2 { font-size: 1.3rem; font-weight: 600; margin: 2rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border, #e2e8f0); }
+.dp-content h3 { font-size: 1.05rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+.dp-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.dp-content th, .dp-content td { padding: 8px 12px; border: 1px solid var(--border, #e2e8f0); text-align: left; }
+.dp-content th { background: var(--surface-2, #f5f7fa); font-weight: 600; }
+.dp-content ul { padding-left: 1.5rem; }
+.dp-content li { margin-bottom: 0.3rem; }
+</style>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

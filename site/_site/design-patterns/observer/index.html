@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="150+ coding problems, LLD & HLD system design solutions">
+<title>Observer | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">🎨</span> Design Patterns
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/design-patterns/" class="nav-sub-link">📋 All Patterns</a>
+        <span class="nav-sub-label">🏗️ Creational</span>
+        <a href="/interview_problems/design-patterns/singleton/" class="nav-sub-link nav-sub-indent">Singleton</a>
+        <a href="/interview_problems/design-patterns/factory-method/" class="nav-sub-link nav-sub-indent">Factory Method</a>
+        <a href="/interview_problems/design-patterns/abstract-factory/" class="nav-sub-link nav-sub-indent">Abstract Factory</a>
+        <a href="/interview_problems/design-patterns/builder/" class="nav-sub-link nav-sub-indent">Builder</a>
+        <a href="/interview_problems/design-patterns/prototype/" class="nav-sub-link nav-sub-indent">Prototype</a>
+        <span class="nav-sub-label">🏛️ Structural</span>
+        <a href="/interview_problems/design-patterns/adapter/" class="nav-sub-link nav-sub-indent">Adapter</a>
+        <a href="/interview_problems/design-patterns/bridge/" class="nav-sub-link nav-sub-indent">Bridge</a>
+        <a href="/interview_problems/design-patterns/composite/" class="nav-sub-link nav-sub-indent">Composite</a>
+        <a href="/interview_problems/design-patterns/decorator/" class="nav-sub-link nav-sub-indent">Decorator</a>
+        <a href="/interview_problems/design-patterns/facade/" class="nav-sub-link nav-sub-indent">Facade</a>
+        <a href="/interview_problems/design-patterns/flyweight/" class="nav-sub-link nav-sub-indent">Flyweight</a>
+        <a href="/interview_problems/design-patterns/proxy/" class="nav-sub-link nav-sub-indent">Proxy</a>
+        <span class="nav-sub-label">🔄 Behavioral</span>
+        <a href="/interview_problems/design-patterns/chain-of-responsibility/" class="nav-sub-link nav-sub-indent">Chain of Responsibility</a>
+        <a href="/interview_problems/design-patterns/command/" class="nav-sub-link nav-sub-indent">Command</a>
+        <a href="/interview_problems/design-patterns/interpreter/" class="nav-sub-link nav-sub-indent">Interpreter</a>
+        <a href="/interview_problems/design-patterns/iterator/" class="nav-sub-link nav-sub-indent">Iterator</a>
+        <a href="/interview_problems/design-patterns/mediator/" class="nav-sub-link nav-sub-indent">Mediator</a>
+        <a href="/interview_problems/design-patterns/memento/" class="nav-sub-link nav-sub-indent">Memento</a>
+        <a href="/interview_problems/design-patterns/observer/" class="nav-sub-link nav-sub-indent">Observer</a>
+        <a href="/interview_problems/design-patterns/state/" class="nav-sub-link nav-sub-indent">State</a>
+        <a href="/interview_problems/design-patterns/strategy/" class="nav-sub-link nav-sub-indent">Strategy</a>
+        <a href="/interview_problems/design-patterns/template-method/" class="nav-sub-link nav-sub-indent">Template Method</a>
+        <a href="/interview_problems/design-patterns/visitor/" class="nav-sub-link nav-sub-indent">Visitor</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+    <span class="stat-pill"><strong>23</strong> Patterns</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="dp-page">
+
+    <header class="dp-header">
+      <div class="dp-breadcrumb">
+        <a href="/interview_problems/design-patterns/">Design Patterns</a>
+        <span class="dp-breadcrumb-sep">›</span>
+        <span class="badge badge-category">Behavioral</span>
+      </div>
+
+      <h1 class="dp-title">Observer</h1>
+
+      
+      <p class="dp-aka">Also known as: <em>Publish-Subscribe</em></p>
+      
+
+      <div class="dp-meta-row">
+        
+        <span class="badge badge-category">Behavioral</span>
+        
+        
+          
+          <span class="badge badge-medium">
+            🟡
+            Medium
+          </span>
+        
+        
+          
+          <span class="badge badge-tag">behavioral</span>
+          
+          <span class="badge badge-tag">observer</span>
+          
+          <span class="badge badge-tag">events</span>
+          
+        
+      </div>
+
+      
+      <blockquote class="dp-intent">
+        <strong>Intent:</strong> Define a one-to-many dependency so that when one object changes state, all dependents are notified and updated automatically.
+      </blockquote>
+      
+    </header>
+
+    <div class="dp-content">
+      <h2 id="intent">Intent</h2>
+
+<p>Define a one-to-many dependency so that when one object changes state, all dependents are notified and updated automatically.</p>
+
+<h2 id="problem-it-solves">Problem It Solves</h2>
+
+<p>See the full Javadoc header and inline comments in the source code below.</p>
+
+<h2 id="structure">Structure</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Participant</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Subject (Observable)</strong></td>
+      <td>Maintains list of observers; notifies on state change</td>
+    </tr>
+    <tr>
+      <td><strong>Observer</strong></td>
+      <td>Declares the update/notification method</td>
+    </tr>
+    <tr>
+      <td><strong>ConcreteSubject</strong></td>
+      <td>Stores state; triggers notification on change</td>
+    </tr>
+    <tr>
+      <td><strong>ConcreteObserver</strong></td>
+      <td>Implements update; reacts to subject state change</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="pros">Pros</h2>
+
+<ul>
+  <li>Open/Closed: add observers without changing subject</li>
+  <li>Loose coupling</li>
+  <li>Supports broadcast communication</li>
+</ul>
+
+<h2 id="cons">Cons</h2>
+
+<ul>
+  <li>Unexpected updates and ordering issues</li>
+  <li>Memory leaks if observers are not unregistered</li>
+  <li>Cascade of updates can be hard to debug</li>
+</ul>
+
+<h2 id="real-world-examples">Real-World Examples</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">java.util.EventListener (Swing)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Spring ApplicationEvent</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Kafka/RabbitMQ topic subscriptions</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Stock market price feeds</code></li>
+</ul>
+
+<h2 id="variants">Variants</h2>
+
+<ul>
+  <li>Push model</li>
+  <li>Pull model</li>
+  <li>Event bus / message bus</li>
+</ul>
+
+<h2 id="full-java-implementation">Full Java Implementation</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">org.interview.design_patterns.behavioral.observer</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="cm">/**
+ * ============================================================
+ * Design Pattern: Observer (Behavioral)
+ * ============================================================
+ *
+ * INTENT:
+ *   Define a one-to-many dependency between objects so that when
+ *   one object changes state, all its dependents are notified
+ *   and updated automatically.
+ *
+ * ALSO KNOWN AS: Publish-Subscribe, Event Listener
+ *
+ * PROBLEM IT SOLVES:
+ *   - Object A needs to notify multiple objects B, C, D when it changes,
+ *     without knowing who they are or how many there are.
+ *   - You want loose coupling between the notifier and its dependents.
+ *
+ * STRUCTURE:
+ *   - Subject (Observable): maintains list of observers; notifies on state change
+ *   - Observer: defines the update interface
+ *   - ConcreteSubject: stores state; triggers notification on change
+ *   - ConcreteObserver: implements update; reacts to subject's state change
+ *
+ * REAL-WORLD EXAMPLES:
+ *   - java.util.EventListener (Swing)
+ *   - java.util.Observer (deprecated in Java 9, but classic example)
+ *   - Spring ApplicationEvent / ApplicationListener
+ *   - Kafka/RabbitMQ topic subscriptions
+ *   - Stock market price feeds
+ *   - GUI: model updates → multiple view components refresh
+ *
+ * PROS:
+ *   + Open/Closed: add observers without changing subject
+ *   + Loose coupling: subject doesn't know observer types
+ *   + Supports broadcast communication
+ *
+ * CONS:
+ *   - Unexpected updates and ordering issues
+ *   - Memory leaks if observers are not unregistered (lapsed listener problem)
+ *   - Cascade of updates can be hard to debug
+ *
+ * SCENARIO:
+ *   Stock market: StockMarket (subject) has many price subscribers.
+ *   When Apple's price changes, Dashboard, MobileApp, and EmailAlert
+ *   are all notified automatically.
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ObserverPattern</span> <span class="o">{</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Observer Interface</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">interface</span> <span class="nc">StockObserver</span> <span class="o">{</span>
+        <span class="cm">/**
+         * Called by the subject when stock prices change.
+         * @param stockSymbol e.g., "AAPL"
+         * @param newPrice    new stock price
+         */</span>
+        <span class="kt">void</span> <span class="nf">onPriceChange</span><span class="o">(</span><span class="nc">String</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="kt">double</span> <span class="n">newPrice</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Subject Interface</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">interface</span> <span class="nc">StockMarketSubject</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="nc">StockObserver</span> <span class="n">observer</span><span class="o">);</span>
+        <span class="kt">void</span> <span class="nf">unsubscribe</span><span class="o">(</span><span class="nc">StockObserver</span> <span class="n">observer</span><span class="o">);</span>
+        <span class="kt">void</span> <span class="nf">notifyObservers</span><span class="o">(</span><span class="nc">String</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="kt">double</span> <span class="n">newPrice</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteSubject: StockMarket</span>
+    <span class="c1">// Maintains price state; notifies all observers on changes</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">StockMarket</span> <span class="kd">implements</span> <span class="nc">StockMarketSubject</span> <span class="o">{</span>
+        <span class="c1">// List of registered observers (loose coupling: we don't know their types)</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">StockObserver</span><span class="o">&gt;</span> <span class="n">observers</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="nc">StockObserver</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">observers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">observer</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[Market] New subscriber: "</span> <span class="o">+</span> <span class="n">observer</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getSimpleName</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">unsubscribe</span><span class="o">(</span><span class="nc">StockObserver</span> <span class="n">observer</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">observers</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">observer</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[Market] Unsubscribed: "</span> <span class="o">+</span> <span class="n">observer</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getSimpleName</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**
+         * Called when a stock price changes.
+         * Fans out to ALL registered observers.
+         */</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">notifyObservers</span><span class="o">(</span><span class="nc">String</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="kt">double</span> <span class="n">newPrice</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"%n[Market] %s price changed to $%.2f — notifying %d observers%n"</span><span class="o">,</span>
+                <span class="n">stockSymbol</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">,</span> <span class="n">observers</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">StockObserver</span> <span class="n">observer</span> <span class="o">:</span> <span class="n">observers</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">observer</span><span class="o">.</span><span class="na">onPriceChange</span><span class="o">(</span><span class="n">stockSymbol</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">);</span> <span class="c1">// each observer reacts differently</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="cm">/** Called by trading engine when price updates come in */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">priceUpdated</span><span class="o">(</span><span class="nc">String</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="kt">double</span> <span class="n">newPrice</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">notifyObservers</span><span class="o">(</span><span class="n">stockSymbol</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteObserver 1: Dashboard UI</span>
+    <span class="c1">// Displays current prices in a web dashboard</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">DashboardObserver</span> <span class="kd">implements</span> <span class="nc">StockObserver</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPriceChange</span><span class="o">(</span><span class="nc">String</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="kt">double</span> <span class="n">newPrice</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Dashboard] Refreshing chart for %s → $%.2f%n"</span><span class="o">,</span>
+                <span class="n">stockSymbol</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteObserver 2: Mobile App Notification</span>
+    <span class="c1">// Sends push notification to mobile users</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">MobileAppObserver</span> <span class="kd">implements</span> <span class="nc">StockObserver</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">alertThreshold</span><span class="o">;</span>
+
+        <span class="nc">MobileAppObserver</span><span class="o">(</span><span class="kt">double</span> <span class="n">alertThreshold</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">alertThreshold</span> <span class="o">=</span> <span class="n">alertThreshold</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPriceChange</span><span class="o">(</span><span class="nc">String</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="kt">double</span> <span class="n">newPrice</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">newPrice</span> <span class="o">&gt;=</span> <span class="n">alertThreshold</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [MobileApp] 🔔 Push: %s hit $%.2f (threshold: $%.2f)!%n"</span><span class="o">,</span>
+                    <span class="n">stockSymbol</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">,</span> <span class="n">alertThreshold</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [MobileApp] %s at $%.2f — below alert threshold%n"</span><span class="o">,</span>
+                    <span class="n">stockSymbol</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteObserver 3: Email Alert</span>
+    <span class="c1">// Sends email when price crosses certain threshold</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">EmailAlertObserver</span> <span class="kd">implements</span> <span class="nc">StockObserver</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">double</span> <span class="n">lastKnownPrice</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+        <span class="nc">EmailAlertObserver</span><span class="o">(</span><span class="nc">String</span> <span class="n">email</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPriceChange</span><span class="o">(</span><span class="nc">String</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="kt">double</span> <span class="n">newPrice</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">lastKnownPrice</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kt">double</span> <span class="n">change</span> <span class="o">=</span> <span class="o">((</span><span class="n">newPrice</span> <span class="o">-</span> <span class="n">lastKnownPrice</span><span class="o">)</span> <span class="o">/</span> <span class="n">lastKnownPrice</span><span class="o">)</span> <span class="o">*</span> <span class="mi">100</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">change</span><span class="o">)</span> <span class="o">&gt;</span> <span class="mf">2.0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// alert on &gt;2% change</span>
+                    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Email → %s] %s changed by %.1f%% (from $%.2f to $%.2f)%n"</span><span class="o">,</span>
+                        <span class="n">email</span><span class="o">,</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="n">change</span><span class="o">,</span> <span class="n">lastKnownPrice</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">lastKnownPrice</span> <span class="o">=</span> <span class="n">newPrice</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteObserver 4: Trading Bot</span>
+    <span class="c1">// Automatically places orders based on price movements</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TradingBotObserver</span> <span class="kd">implements</span> <span class="nc">StockObserver</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">buyBelow</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">sellAbove</span><span class="o">;</span>
+
+        <span class="nc">TradingBotObserver</span><span class="o">(</span><span class="kt">double</span> <span class="n">buyBelow</span><span class="o">,</span> <span class="kt">double</span> <span class="n">sellAbove</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">buyBelow</span>  <span class="o">=</span> <span class="n">buyBelow</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">sellAbove</span> <span class="o">=</span> <span class="n">sellAbove</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPriceChange</span><span class="o">(</span><span class="nc">String</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="kt">double</span> <span class="n">newPrice</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">newPrice</span> <span class="o">&lt;</span> <span class="n">buyBelow</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [TradingBot] 🟢 BUY ORDER: %s @ $%.2f (below $%.2f)%n"</span><span class="o">,</span>
+                    <span class="n">stockSymbol</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">,</span> <span class="n">buyBelow</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">newPrice</span> <span class="o">&gt;</span> <span class="n">sellAbove</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [TradingBot] 🔴 SELL ORDER: %s @ $%.2f (above $%.2f)%n"</span><span class="o">,</span>
+                    <span class="n">stockSymbol</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">,</span> <span class="n">sellAbove</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [TradingBot] %s @ $%.2f — HOLD%n"</span><span class="o">,</span> <span class="n">stockSymbol</span><span class="o">,</span> <span class="n">newPrice</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Demo</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">StockMarket</span> <span class="n">market</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StockMarket</span><span class="o">();</span>
+
+        <span class="c1">// Register observers</span>
+        <span class="nc">StockObserver</span> <span class="n">dashboard</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DashboardObserver</span><span class="o">();</span>
+        <span class="nc">StockObserver</span> <span class="n">mobile</span>    <span class="o">=</span> <span class="k">new</span> <span class="nc">MobileAppObserver</span><span class="o">(</span><span class="mf">185.0</span><span class="o">);</span>    <span class="c1">// alert above $185</span>
+        <span class="nc">StockObserver</span> <span class="n">email</span>     <span class="o">=</span> <span class="k">new</span> <span class="nc">EmailAlertObserver</span><span class="o">(</span><span class="s">"investor@example.com"</span><span class="o">);</span>
+        <span class="nc">StockObserver</span> <span class="n">bot</span>       <span class="o">=</span> <span class="k">new</span> <span class="nc">TradingBotObserver</span><span class="o">(</span><span class="mf">175.0</span><span class="o">,</span> <span class="mf">190.0</span><span class="o">);</span> <span class="c1">// buy &lt;$175, sell &gt;$190</span>
+
+        <span class="n">market</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">dashboard</span><span class="o">);</span>
+        <span class="n">market</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">mobile</span><span class="o">);</span>
+        <span class="n">market</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">email</span><span class="o">);</span>
+        <span class="n">market</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">bot</span><span class="o">);</span>
+
+        <span class="c1">// Simulate price changes — all observers auto-notified</span>
+        <span class="n">market</span><span class="o">.</span><span class="na">priceUpdated</span><span class="o">(</span><span class="s">"AAPL"</span><span class="o">,</span> <span class="mf">178.50</span><span class="o">);</span>
+        <span class="n">market</span><span class="o">.</span><span class="na">priceUpdated</span><span class="o">(</span><span class="s">"AAPL"</span><span class="o">,</span> <span class="mf">182.00</span><span class="o">);</span>
+        <span class="n">market</span><span class="o">.</span><span class="na">priceUpdated</span><span class="o">(</span><span class="s">"AAPL"</span><span class="o">,</span> <span class="mf">186.30</span><span class="o">);</span> <span class="c1">// crosses mobile alert threshold</span>
+        <span class="n">market</span><span class="o">.</span><span class="na">priceUpdated</span><span class="o">(</span><span class="s">"AAPL"</span><span class="o">,</span> <span class="mf">191.00</span><span class="o">);</span> <span class="c1">// bot should sell</span>
+
+        <span class="c1">// Unsubscribe the dashboard</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n--- Unsubscribing Dashboard ---"</span><span class="o">);</span>
+        <span class="n">market</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="n">dashboard</span><span class="o">);</span>
+        <span class="n">market</span><span class="o">.</span><span class="na">priceUpdated</span><span class="o">(</span><span class="s">"AAPL"</span><span class="o">,</span> <span class="mf">174.50</span><span class="o">);</span> <span class="c1">// bot should buy; dashboard no longer notified</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+    </div>
+
+    <nav class="dp-nav" aria-label="Design pattern navigation">
+      <a href="/interview_problems/design-patterns/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to Design Patterns
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<style>
+.dp-page { max-width: 900px; }
+.dp-breadcrumb { font-size: 0.85rem; color: var(--text-muted, #666); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
+.dp-breadcrumb a { color: var(--accent, #0066cc); text-decoration: none; }
+.dp-breadcrumb-sep { opacity: 0.5; }
+.dp-title { font-size: 2rem; font-weight: 700; margin: 0.25rem 0 0.75rem; }
+.dp-aka { font-size: 0.9rem; color: var(--text-muted, #666); margin: 0 0 0.75rem; }
+.dp-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+.dp-intent { border-left: 4px solid var(--accent, #0066cc); margin: 1rem 0 0; padding: 0.75rem 1rem; background: var(--surface-2, #f5f7fa); border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+.dp-content h2 { font-size: 1.3rem; font-weight: 600; margin: 2rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border, #e2e8f0); }
+.dp-content h3 { font-size: 1.05rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+.dp-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.dp-content th, .dp-content td { padding: 8px 12px; border: 1px solid var(--border, #e2e8f0); text-align: left; }
+.dp-content th { background: var(--surface-2, #f5f7fa); font-weight: 600; }
+.dp-content ul { padding-left: 1.5rem; }
+.dp-content li { margin-bottom: 0.3rem; }
+</style>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

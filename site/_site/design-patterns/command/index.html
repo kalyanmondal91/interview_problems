@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="150+ coding problems, LLD & HLD system design solutions">
+<title>Command | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">🎨</span> Design Patterns
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/design-patterns/" class="nav-sub-link">📋 All Patterns</a>
+        <span class="nav-sub-label">🏗️ Creational</span>
+        <a href="/interview_problems/design-patterns/singleton/" class="nav-sub-link nav-sub-indent">Singleton</a>
+        <a href="/interview_problems/design-patterns/factory-method/" class="nav-sub-link nav-sub-indent">Factory Method</a>
+        <a href="/interview_problems/design-patterns/abstract-factory/" class="nav-sub-link nav-sub-indent">Abstract Factory</a>
+        <a href="/interview_problems/design-patterns/builder/" class="nav-sub-link nav-sub-indent">Builder</a>
+        <a href="/interview_problems/design-patterns/prototype/" class="nav-sub-link nav-sub-indent">Prototype</a>
+        <span class="nav-sub-label">🏛️ Structural</span>
+        <a href="/interview_problems/design-patterns/adapter/" class="nav-sub-link nav-sub-indent">Adapter</a>
+        <a href="/interview_problems/design-patterns/bridge/" class="nav-sub-link nav-sub-indent">Bridge</a>
+        <a href="/interview_problems/design-patterns/composite/" class="nav-sub-link nav-sub-indent">Composite</a>
+        <a href="/interview_problems/design-patterns/decorator/" class="nav-sub-link nav-sub-indent">Decorator</a>
+        <a href="/interview_problems/design-patterns/facade/" class="nav-sub-link nav-sub-indent">Facade</a>
+        <a href="/interview_problems/design-patterns/flyweight/" class="nav-sub-link nav-sub-indent">Flyweight</a>
+        <a href="/interview_problems/design-patterns/proxy/" class="nav-sub-link nav-sub-indent">Proxy</a>
+        <span class="nav-sub-label">🔄 Behavioral</span>
+        <a href="/interview_problems/design-patterns/chain-of-responsibility/" class="nav-sub-link nav-sub-indent">Chain of Responsibility</a>
+        <a href="/interview_problems/design-patterns/command/" class="nav-sub-link nav-sub-indent">Command</a>
+        <a href="/interview_problems/design-patterns/interpreter/" class="nav-sub-link nav-sub-indent">Interpreter</a>
+        <a href="/interview_problems/design-patterns/iterator/" class="nav-sub-link nav-sub-indent">Iterator</a>
+        <a href="/interview_problems/design-patterns/mediator/" class="nav-sub-link nav-sub-indent">Mediator</a>
+        <a href="/interview_problems/design-patterns/memento/" class="nav-sub-link nav-sub-indent">Memento</a>
+        <a href="/interview_problems/design-patterns/observer/" class="nav-sub-link nav-sub-indent">Observer</a>
+        <a href="/interview_problems/design-patterns/state/" class="nav-sub-link nav-sub-indent">State</a>
+        <a href="/interview_problems/design-patterns/strategy/" class="nav-sub-link nav-sub-indent">Strategy</a>
+        <a href="/interview_problems/design-patterns/template-method/" class="nav-sub-link nav-sub-indent">Template Method</a>
+        <a href="/interview_problems/design-patterns/visitor/" class="nav-sub-link nav-sub-indent">Visitor</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+    <span class="stat-pill"><strong>23</strong> Patterns</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="dp-page">
+
+    <header class="dp-header">
+      <div class="dp-breadcrumb">
+        <a href="/interview_problems/design-patterns/">Design Patterns</a>
+        <span class="dp-breadcrumb-sep">›</span>
+        <span class="badge badge-category">Behavioral</span>
+      </div>
+
+      <h1 class="dp-title">Command</h1>
+
+      
+      <p class="dp-aka">Also known as: <em>Action, Transaction</em></p>
+      
+
+      <div class="dp-meta-row">
+        
+        <span class="badge badge-category">Behavioral</span>
+        
+        
+          
+          <span class="badge badge-medium">
+            🟡
+            Medium
+          </span>
+        
+        
+          
+          <span class="badge badge-tag">behavioral</span>
+          
+          <span class="badge badge-tag">command</span>
+          
+          <span class="badge badge-tag">undo</span>
+          
+        
+      </div>
+
+      
+      <blockquote class="dp-intent">
+        <strong>Intent:</strong> Encapsulate a request as an object, letting you parameterize clients with different requests, queue or log requests, and support undoable operations.
+      </blockquote>
+      
+    </header>
+
+    <div class="dp-content">
+      <h2 id="intent">Intent</h2>
+
+<p>Encapsulate a request as an object, letting you parameterize clients with different requests, queue or log requests, and support undoable operations.</p>
+
+<h2 id="problem-it-solves">Problem It Solves</h2>
+
+<p>See the full Javadoc header and inline comments in the source code below.</p>
+
+<h2 id="structure">Structure</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Participant</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Command</strong></td>
+      <td>Declares execute() and undo()</td>
+    </tr>
+    <tr>
+      <td><strong>ConcreteCommand</strong></td>
+      <td>Implements a specific action on a Receiver</td>
+    </tr>
+    <tr>
+      <td><strong>Receiver</strong></td>
+      <td>The object that performs the actual work</td>
+    </tr>
+    <tr>
+      <td><strong>Invoker</strong></td>
+      <td>Holds and triggers commands; maintains history</td>
+    </tr>
+    <tr>
+      <td><strong>Client</strong></td>
+      <td>Creates ConcreteCommand objects</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="pros">Pros</h2>
+
+<ul>
+  <li>Decouples sender from receiver</li>
+  <li>Commands can be queued, logged, replayed, undone</li>
+  <li>Supports composite commands (macros)</li>
+  <li>Open/Closed</li>
+</ul>
+
+<h2 id="cons">Cons</h2>
+
+<ul>
+  <li>Code can explode with many small command classes</li>
+  <li>Undo can be complex (state needs to be stored)</li>
+</ul>
+
+<h2 id="real-world-examples">Real-World Examples</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Text editor undo/redo stack</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Transaction rollback in databases</code></li>
+  <li><code class="language-plaintext highlighter-rouge">GUI buttons/menus</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Job queues and message brokers</code></li>
+</ul>
+
+<h2 id="variants">Variants</h2>
+
+<ul>
+  <li>Simple Command</li>
+  <li>Composite Command (Macro)</li>
+  <li>Queued Command</li>
+  <li>Transactional Command</li>
+</ul>
+
+<h2 id="full-java-implementation">Full Java Implementation</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">org.interview.design_patterns.behavioral.command</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayDeque</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Deque</span><span class="o">;</span>
+
+<span class="cm">/**
+ * ============================================================
+ * Design Pattern: Command (Behavioral)
+ * ============================================================
+ *
+ * INTENT:
+ *   Encapsulate a request as an object, thereby letting you
+ *   parameterize clients with different requests, queue or log
+ *   requests, and support undoable operations.
+ *
+ * ALSO KNOWN AS: Action, Transaction
+ *
+ * PROBLEM IT SOLVES:
+ *   - You need to decouple the sender of a request from its receiver.
+ *   - You need to support undo/redo, queuing, logging, or macro-recording.
+ *   - You want to schedule requests for later execution.
+ *
+ * STRUCTURE:
+ *   - Command (interface): declares execute() and undo()
+ *   - ConcreteCommand: implements a specific action on a Receiver
+ *   - Receiver: the object that performs the actual work
+ *   - Invoker: holds and triggers commands; maintains command history
+ *   - Client: creates ConcreteCommand objects and sets their receivers
+ *
+ * REAL-WORLD EXAMPLES:
+ *   - Text editor undo/redo stack
+ *   - Transaction rollback in databases
+ *   - GUI buttons/menus (each maps to a Command)
+ *   - Job queues and message brokers
+ *   - Macro recording in office suites
+ *
+ * PROS:
+ *   + Decouples sender from receiver
+ *   + Commands can be queued, logged, replayed, undone
+ *   + Supports composite commands (macros)
+ *   + Open/Closed: add new commands without changing invoker
+ *
+ * CONS:
+ *   - Code can explode with many small command classes
+ *   - Undo can be complex (state needs to be stored)
+ *
+ * SCENARIO:
+ *   Text editor with undo/redo: each keystroke is a Command object.
+ *   The history stack enables multi-level undo.
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommandPattern</span> <span class="o">{</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Command Interface</span>
+    <span class="c1">// Both execute() and undo() are required for undo/redo support</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">interface</span> <span class="nc">Command</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">execute</span><span class="o">();</span>
+        <span class="kt">void</span> <span class="nf">undo</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Receiver: TextEditor</span>
+    <span class="c1">// Contains the actual text manipulation logic (the "real work")</span>
+    <span class="c1">// Commands delegate to methods of this class.</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TextEditor</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">StringBuilder</span> <span class="n">text</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertText</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">text</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">pos</span><span class="o">,</span> <span class="n">s</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteText</span><span class="o">(</span><span class="kt">int</span> <span class="n">pos</span><span class="o">,</span> <span class="kt">int</span> <span class="n">length</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">text</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">pos</span><span class="o">,</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">length</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getText</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span> <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">length</span><span class="o">()</span>    <span class="o">{</span> <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteCommand 1: InsertCommand</span>
+    <span class="c1">// Encapsulates a text insertion; knows how to undo it (delete)</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">InsertCommand</span> <span class="kd">implements</span> <span class="nc">Command</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">TextEditor</span> <span class="n">editor</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span>     <span class="n">insertedText</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span>        <span class="n">position</span><span class="o">;</span>
+
+        <span class="nc">InsertCommand</span><span class="o">(</span><span class="nc">TextEditor</span> <span class="n">editor</span><span class="o">,</span> <span class="nc">String</span> <span class="n">insertedText</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">editor</span>       <span class="o">=</span> <span class="n">editor</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">insertedText</span> <span class="o">=</span> <span class="n">insertedText</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">position</span>     <span class="o">=</span> <span class="n">position</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">editor</span><span class="o">.</span><span class="na">insertText</span><span class="o">(</span><span class="n">insertedText</span><span class="o">,</span> <span class="n">position</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Insert] '%s' at pos %d → %s%n"</span><span class="o">,</span>
+                <span class="n">insertedText</span><span class="o">,</span> <span class="n">position</span><span class="o">,</span> <span class="n">editor</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">undo</span><span class="o">()</span> <span class="o">{</span>
+            <span class="c1">// Undo insert = delete the same text we inserted</span>
+            <span class="n">editor</span><span class="o">.</span><span class="na">deleteText</span><span class="o">(</span><span class="n">position</span><span class="o">,</span> <span class="n">insertedText</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Undo Insert] Removed '%s' → %s%n"</span><span class="o">,</span>
+                <span class="n">insertedText</span><span class="o">,</span> <span class="n">editor</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteCommand 2: DeleteCommand</span>
+    <span class="c1">// Encapsulates deletion; stores deleted text to undo</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">DeleteCommand</span> <span class="kd">implements</span> <span class="nc">Command</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">TextEditor</span> <span class="n">editor</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span>        <span class="n">position</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span>        <span class="n">length</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">String</span>           <span class="n">deletedText</span><span class="o">;</span> <span class="c1">// saved for undo</span>
+
+        <span class="nc">DeleteCommand</span><span class="o">(</span><span class="nc">TextEditor</span> <span class="n">editor</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="kt">int</span> <span class="n">length</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">editor</span>   <span class="o">=</span> <span class="n">editor</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">=</span> <span class="n">position</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">length</span>   <span class="o">=</span> <span class="n">length</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
+            <span class="c1">// Save what we're about to delete so we can restore it on undo</span>
+            <span class="n">deletedText</span> <span class="o">=</span> <span class="n">editor</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">substring</span><span class="o">(</span><span class="n">position</span><span class="o">,</span> <span class="n">position</span> <span class="o">+</span> <span class="n">length</span><span class="o">);</span>
+            <span class="n">editor</span><span class="o">.</span><span class="na">deleteText</span><span class="o">(</span><span class="n">position</span><span class="o">,</span> <span class="n">length</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Delete] Removed '%s' at pos %d → %s%n"</span><span class="o">,</span>
+                <span class="n">deletedText</span><span class="o">,</span> <span class="n">position</span><span class="o">,</span> <span class="n">editor</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">undo</span><span class="o">()</span> <span class="o">{</span>
+            <span class="c1">// Undo delete = re-insert the saved text</span>
+            <span class="n">editor</span><span class="o">.</span><span class="na">insertText</span><span class="o">(</span><span class="n">deletedText</span><span class="o">,</span> <span class="n">position</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Undo Delete] Restored '%s' → %s%n"</span><span class="o">,</span>
+                <span class="n">deletedText</span><span class="o">,</span> <span class="n">editor</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteCommand 3: MacroCommand (Composite Command)</span>
+    <span class="c1">// A sequence of commands executed as one atomic unit</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">MacroCommand</span> <span class="kd">implements</span> <span class="nc">Command</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">List</span><span class="o">&lt;</span><span class="nc">Command</span><span class="o">&gt;</span> <span class="n">commands</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCommand</span><span class="o">(</span><span class="nc">Command</span> <span class="n">cmd</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">commands</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">cmd</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"  [Macro] Executing "</span> <span class="o">+</span> <span class="n">commands</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">+</span> <span class="s">" commands:"</span><span class="o">);</span>
+            <span class="n">commands</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nl">Command:</span><span class="o">:</span><span class="n">execute</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">undo</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"  [Macro] Undoing "</span> <span class="o">+</span> <span class="n">commands</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">+</span> <span class="s">" commands (reverse order):"</span><span class="o">);</span>
+            <span class="c1">// Undo in REVERSE order (LIFO)</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">commands</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+                <span class="n">commands</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">undo</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Invoker: EditorController</span>
+    <span class="c1">// Executes commands and maintains undo/redo history stacks</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">EditorController</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Deque</span><span class="o">&lt;</span><span class="nc">Command</span><span class="o">&gt;</span> <span class="n">undoStack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayDeque</span><span class="o">&lt;&gt;();</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Deque</span><span class="o">&lt;</span><span class="nc">Command</span><span class="o">&gt;</span> <span class="n">redoStack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayDeque</span><span class="o">&lt;&gt;();</span>
+
+        <span class="cm">/**
+         * Execute a command and push it onto the undo stack.
+         * Any redo history is invalidated (new action branching).
+         */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="nc">Command</span> <span class="n">command</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">command</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+            <span class="n">undoStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">command</span><span class="o">);</span>
+            <span class="n">redoStack</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span> <span class="c1">// new action invalidates redo history</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**
+         * Undo the last executed command.
+         * Moves it to the redo stack for potential redo.
+         */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">undo</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">undoStack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"  [Controller] Nothing to undo."</span><span class="o">);</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="nc">Command</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">undoStack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span>
+            <span class="n">redoStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">cmd</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**
+         * Redo the last undone command.
+         * Moves it back to the undo stack.
+         */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">redo</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">redoStack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"  [Controller] Nothing to redo."</span><span class="o">);</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="nc">Command</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">redoStack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+            <span class="n">undoStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">cmd</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Demo</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">TextEditor</span>     <span class="n">editor</span>     <span class="o">=</span> <span class="k">new</span> <span class="nc">TextEditor</span><span class="o">();</span>
+        <span class="nc">EditorController</span> <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EditorController</span><span class="o">();</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"=== Text Editor with Undo/Redo ==="</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Initial text: \" + editor.getText() + \""</span><span class="o">);</span>
+
+        <span class="c1">// Execute commands</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="nc">InsertCommand</span><span class="o">(</span><span class="n">editor</span><span class="o">,</span> <span class="s">"Hello"</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="nc">InsertCommand</span><span class="o">(</span><span class="n">editor</span><span class="o">,</span> <span class="s">" World"</span><span class="o">,</span> <span class="mi">5</span><span class="o">));</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="nc">InsertCommand</span><span class="o">(</span><span class="n">editor</span><span class="o">,</span> <span class="s">"!"</span><span class="o">,</span> <span class="mi">11</span><span class="o">));</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="nc">DeleteCommand</span><span class="o">(</span><span class="n">editor</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">));</span> <span class="c1">// delete "Hello"</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n--- Undo x3 ---"</span><span class="o">);</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span> <span class="c1">// undo delete</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span> <span class="c1">// undo "!"</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span> <span class="c1">// undo " World"</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n--- Redo x2 ---"</span><span class="o">);</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">redo</span><span class="o">();</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">redo</span><span class="o">();</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n=== Macro Command (atomic batch) ==="</span><span class="o">);</span>
+        <span class="nc">MacroCommand</span> <span class="n">macro</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MacroCommand</span><span class="o">();</span>
+        <span class="n">macro</span><span class="o">.</span><span class="na">addCommand</span><span class="o">(</span><span class="k">new</span> <span class="nc">InsertCommand</span><span class="o">(</span><span class="n">editor</span><span class="o">,</span> <span class="s">" Beautiful"</span><span class="o">,</span> <span class="mi">5</span><span class="o">));</span>
+        <span class="n">macro</span><span class="o">.</span><span class="na">addCommand</span><span class="o">(</span><span class="k">new</span> <span class="nc">InsertCommand</span><span class="o">(</span><span class="n">editor</span><span class="o">,</span> <span class="s">" Day"</span><span class="o">,</span> <span class="n">editor</span><span class="o">.</span><span class="na">length</span><span class="o">()));</span>
+
+        <span class="n">controller</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">macro</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"After macro: \" + editor.getText() + \""</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n--- Undo macro (undoes all steps) ---"</span><span class="o">);</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"After undo:  \" + editor.getText() + \""</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+    </div>
+
+    <nav class="dp-nav" aria-label="Design pattern navigation">
+      <a href="/interview_problems/design-patterns/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to Design Patterns
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<style>
+.dp-page { max-width: 900px; }
+.dp-breadcrumb { font-size: 0.85rem; color: var(--text-muted, #666); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
+.dp-breadcrumb a { color: var(--accent, #0066cc); text-decoration: none; }
+.dp-breadcrumb-sep { opacity: 0.5; }
+.dp-title { font-size: 2rem; font-weight: 700; margin: 0.25rem 0 0.75rem; }
+.dp-aka { font-size: 0.9rem; color: var(--text-muted, #666); margin: 0 0 0.75rem; }
+.dp-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+.dp-intent { border-left: 4px solid var(--accent, #0066cc); margin: 1rem 0 0; padding: 0.75rem 1rem; background: var(--surface-2, #f5f7fa); border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+.dp-content h2 { font-size: 1.3rem; font-weight: 600; margin: 2rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border, #e2e8f0); }
+.dp-content h3 { font-size: 1.05rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+.dp-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.dp-content th, .dp-content td { padding: 8px 12px; border: 1px solid var(--border, #e2e8f0); text-align: left; }
+.dp-content th { background: var(--surface-2, #f5f7fa); font-weight: 600; }
+.dp-content ul { padding-left: 1.5rem; }
+.dp-content li { margin-bottom: 0.3rem; }
+</style>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

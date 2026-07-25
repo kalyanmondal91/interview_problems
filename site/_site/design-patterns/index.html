@@ -81,9 +81,39 @@
       <a href="/interview_problems/hld/" class="nav-link">
         <span class="nav-icon">🌐</span> High-Level Design
       </a>
-      <a href="/interview_problems/design-patterns/" class="nav-link">
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
         <span class="nav-icon">🎨</span> Design Patterns
-      </a>
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/design-patterns/" class="nav-sub-link">📋 All Patterns</a>
+        <span class="nav-sub-label">🏗️ Creational</span>
+        <a href="/interview_problems/design-patterns/singleton/" class="nav-sub-link nav-sub-indent">Singleton</a>
+        <a href="/interview_problems/design-patterns/factory-method/" class="nav-sub-link nav-sub-indent">Factory Method</a>
+        <a href="/interview_problems/design-patterns/abstract-factory/" class="nav-sub-link nav-sub-indent">Abstract Factory</a>
+        <a href="/interview_problems/design-patterns/builder/" class="nav-sub-link nav-sub-indent">Builder</a>
+        <a href="/interview_problems/design-patterns/prototype/" class="nav-sub-link nav-sub-indent">Prototype</a>
+        <span class="nav-sub-label">🏛️ Structural</span>
+        <a href="/interview_problems/design-patterns/adapter/" class="nav-sub-link nav-sub-indent">Adapter</a>
+        <a href="/interview_problems/design-patterns/bridge/" class="nav-sub-link nav-sub-indent">Bridge</a>
+        <a href="/interview_problems/design-patterns/composite/" class="nav-sub-link nav-sub-indent">Composite</a>
+        <a href="/interview_problems/design-patterns/decorator/" class="nav-sub-link nav-sub-indent">Decorator</a>
+        <a href="/interview_problems/design-patterns/facade/" class="nav-sub-link nav-sub-indent">Facade</a>
+        <a href="/interview_problems/design-patterns/flyweight/" class="nav-sub-link nav-sub-indent">Flyweight</a>
+        <a href="/interview_problems/design-patterns/proxy/" class="nav-sub-link nav-sub-indent">Proxy</a>
+        <span class="nav-sub-label">🔄 Behavioral</span>
+        <a href="/interview_problems/design-patterns/chain-of-responsibility/" class="nav-sub-link nav-sub-indent">Chain of Responsibility</a>
+        <a href="/interview_problems/design-patterns/command/" class="nav-sub-link nav-sub-indent">Command</a>
+        <a href="/interview_problems/design-patterns/interpreter/" class="nav-sub-link nav-sub-indent">Interpreter</a>
+        <a href="/interview_problems/design-patterns/iterator/" class="nav-sub-link nav-sub-indent">Iterator</a>
+        <a href="/interview_problems/design-patterns/mediator/" class="nav-sub-link nav-sub-indent">Mediator</a>
+        <a href="/interview_problems/design-patterns/memento/" class="nav-sub-link nav-sub-indent">Memento</a>
+        <a href="/interview_problems/design-patterns/observer/" class="nav-sub-link nav-sub-indent">Observer</a>
+        <a href="/interview_problems/design-patterns/state/" class="nav-sub-link nav-sub-indent">State</a>
+        <a href="/interview_problems/design-patterns/strategy/" class="nav-sub-link nav-sub-indent">Strategy</a>
+        <a href="/interview_problems/design-patterns/template-method/" class="nav-sub-link nav-sub-indent">Template Method</a>
+        <a href="/interview_problems/design-patterns/visitor/" class="nav-sub-link nav-sub-indent">Visitor</a>
+      </div>
     </div>
   </div>
 
@@ -91,6 +121,7 @@
     <span class="stat-pill"><strong>150</strong> Problems</span>
     <span class="stat-pill"><strong>20</strong> LLD</span>
     <span class="stat-pill"><strong>7</strong> HLD</span>
+    <span class="stat-pill"><strong>23</strong> Patterns</span>
   </div>
 </nav>
 
@@ -113,33 +144,284 @@
       </header>
 
       <main>
-        <h1 id="design-patterns">Design Patterns</h1>
+        <h1 id="-design-patterns">🎨 Design Patterns</h1>
 
-<p>Common patterns: Singleton, Factory, Builder, Observer, Strategy, State, Decorator, Command.</p>
+<p>All 23 GoF patterns — fully implemented in Java with inline explanations and runnable demos.</p>
+
+<p><strong>5 Creational  ·  7 Structural  ·  11 Behavioral</strong></p>
+
+<hr />
+
+<h2 id="️-creational-patterns">🏗️ Creational Patterns</h2>
+
+<p><em>Deal with object creation mechanisms, aiming to create objects in a manner suitable to the situation.</em></p>
 
 <table>
   <thead>
     <tr>
       <th>Pattern</th>
-      <th>Where Used</th>
+      <th style="text-align: center">Difficulty</th>
+      <th>Intent</th>
     </tr>
   </thead>
   <tbody>
     <tr>
+      <td><a href="/interview_problems/design-patterns/singleton/">Singleton</a></td>
+      <td style="text-align: center">🟢 Easy</td>
+      <td>Ensure a class has only ONE instance and provide a global access point to it</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/factory-method/">Factory Method</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Define an interface for creating an object, but let subclasses decide which class to instantiate</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/abstract-factory/">Abstract Factory</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Provide an interface for creating families of related objects without specifying concrete classes</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/builder/">Builder</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Separate the construction of a complex object from its representation</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/prototype/">Prototype</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Create new objects by copying a prototypical instance</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="️-structural-patterns">🏛️ Structural Patterns</h2>
+
+<p><em>Deal with object composition, creating relationships between objects to form larger structures.</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th style="text-align: center">Difficulty</th>
+      <th>Intent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/adapter/">Adapter</a></td>
+      <td style="text-align: center">🟢 Easy</td>
+      <td>Convert the interface of a class into another interface clients expect</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/bridge/">Bridge</a></td>
+      <td style="text-align: center">🔴 Hard</td>
+      <td>Decouple an abstraction from its implementation so both can vary independently</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/composite/">Composite</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Compose objects into tree structures to represent part-whole hierarchies</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/decorator/">Decorator</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Attach additional responsibilities to an object dynamically</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/facade/">Facade</a></td>
+      <td style="text-align: center">🟢 Easy</td>
+      <td>Provide a simplified, unified interface to a complex subsystem</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/flyweight/">Flyweight</a></td>
+      <td style="text-align: center">🔴 Hard</td>
+      <td>Use sharing to support large numbers of fine-grained objects efficiently</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/proxy/">Proxy</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Provide a surrogate or placeholder for another object to control access to it</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-behavioral-patterns">🔄 Behavioral Patterns</h2>
+
+<p><em>Deal with communication and responsibility between objects.</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th style="text-align: center">Difficulty</th>
+      <th>Intent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/chain-of-responsibility/">Chain of Responsibility</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Give more than one object a chance to handle a request</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/command/">Command</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Encapsulate a request as an object; support undo/redo and queuing</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/interpreter/">Interpreter</a></td>
+      <td style="text-align: center">🔴 Hard</td>
+      <td>Define a grammar for a language and an interpreter for it</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/iterator/">Iterator</a></td>
+      <td style="text-align: center">🟢 Easy</td>
+      <td>Sequentially access elements of a collection without exposing its representation</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/mediator/">Mediator</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Define an object that encapsulates how a set of objects interact</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/memento/">Memento</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Capture and externalize an object’s internal state without violating encapsulation</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/observer/">Observer</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Define a one-to-many dependency so dependents are notified of state changes</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/state/">State</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Allow an object to alter its behavior when its internal state changes</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/strategy/">Strategy</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Define a family of algorithms, encapsulate each one, and make them interchangeable</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/template-method/">Template Method</a></td>
+      <td style="text-align: center">🟡 Medium</td>
+      <td>Define the skeleton of an algorithm in a base class, deferring some steps to subclasses</td>
+    </tr>
+    <tr>
+      <td><a href="/interview_problems/design-patterns/visitor/">Visitor</a></td>
+      <td style="text-align: center">🔴 Hard</td>
+      <td>Represent an operation to be performed on object structure elements</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="quick-reference--when-to-use-which-pattern">Quick Reference — When to Use Which Pattern</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Problem</th>
+      <th>Pattern</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Need exactly one instance</td>
       <td>Singleton</td>
-      <td>ThreadPool, DistributedUniqueIDGenerator</td>
     </tr>
     <tr>
-      <td>Strategy</td>
-      <td>RateLimiter</td>
+      <td>Creating objects but don’t know which subclass</td>
+      <td>Factory Method</td>
     </tr>
     <tr>
-      <td>State</td>
-      <td>VendingMachine</td>
+      <td>Creating families of related objects</td>
+      <td>Abstract Factory</td>
     </tr>
     <tr>
+      <td>Building complex objects step-by-step</td>
+      <td>Builder</td>
+    </tr>
+    <tr>
+      <td>Copying expensive objects</td>
+      <td>Prototype</td>
+    </tr>
+    <tr>
+      <td>Making incompatible interfaces work together</td>
+      <td>Adapter</td>
+    </tr>
+    <tr>
+      <td>Abstraction and implementation vary independently</td>
+      <td>Bridge</td>
+    </tr>
+    <tr>
+      <td>Treating individual objects and groups uniformly</td>
+      <td>Composite</td>
+    </tr>
+    <tr>
+      <td>Adding behavior without subclassing</td>
+      <td>Decorator</td>
+    </tr>
+    <tr>
+      <td>Simplifying a complex subsystem</td>
+      <td>Facade</td>
+    </tr>
+    <tr>
+      <td>Millions of similar fine-grained objects</td>
+      <td>Flyweight</td>
+    </tr>
+    <tr>
+      <td>Controlling access to an object</td>
+      <td>Proxy</td>
+    </tr>
+    <tr>
+      <td>Multiple objects can handle a request</td>
+      <td>Chain of Responsibility</td>
+    </tr>
+    <tr>
+      <td>Parameterize / queue / undo requests</td>
+      <td>Command</td>
+    </tr>
+    <tr>
+      <td>Interpreting sentences in a language</td>
+      <td>Interpreter</td>
+    </tr>
+    <tr>
+      <td>Traversing a collection without exposing internals</td>
+      <td>Iterator</td>
+    </tr>
+    <tr>
+      <td>Reducing direct communication between objects</td>
+      <td>Mediator</td>
+    </tr>
+    <tr>
+      <td>Saving and restoring object state</td>
+      <td>Memento</td>
+    </tr>
+    <tr>
+      <td>Notifying multiple objects of state changes</td>
       <td>Observer</td>
-      <td>NotificationSystem</td>
+    </tr>
+    <tr>
+      <td>Object behavior changes with its state</td>
+      <td>State</td>
+    </tr>
+    <tr>
+      <td>Interchangeable algorithms at runtime</td>
+      <td>Strategy</td>
+    </tr>
+    <tr>
+      <td>Skeleton algorithm with variable steps</td>
+      <td>Template Method</td>
+    </tr>
+    <tr>
+      <td>New operations on a stable class hierarchy</td>
+      <td>Visitor</td>
     </tr>
   </tbody>
 </table>

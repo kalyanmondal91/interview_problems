@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="150+ coding problems, LLD & HLD system design solutions">
+<title>Visitor | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">🎨</span> Design Patterns
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/design-patterns/" class="nav-sub-link">📋 All Patterns</a>
+        <span class="nav-sub-label">🏗️ Creational</span>
+        <a href="/interview_problems/design-patterns/singleton/" class="nav-sub-link nav-sub-indent">Singleton</a>
+        <a href="/interview_problems/design-patterns/factory-method/" class="nav-sub-link nav-sub-indent">Factory Method</a>
+        <a href="/interview_problems/design-patterns/abstract-factory/" class="nav-sub-link nav-sub-indent">Abstract Factory</a>
+        <a href="/interview_problems/design-patterns/builder/" class="nav-sub-link nav-sub-indent">Builder</a>
+        <a href="/interview_problems/design-patterns/prototype/" class="nav-sub-link nav-sub-indent">Prototype</a>
+        <span class="nav-sub-label">🏛️ Structural</span>
+        <a href="/interview_problems/design-patterns/adapter/" class="nav-sub-link nav-sub-indent">Adapter</a>
+        <a href="/interview_problems/design-patterns/bridge/" class="nav-sub-link nav-sub-indent">Bridge</a>
+        <a href="/interview_problems/design-patterns/composite/" class="nav-sub-link nav-sub-indent">Composite</a>
+        <a href="/interview_problems/design-patterns/decorator/" class="nav-sub-link nav-sub-indent">Decorator</a>
+        <a href="/interview_problems/design-patterns/facade/" class="nav-sub-link nav-sub-indent">Facade</a>
+        <a href="/interview_problems/design-patterns/flyweight/" class="nav-sub-link nav-sub-indent">Flyweight</a>
+        <a href="/interview_problems/design-patterns/proxy/" class="nav-sub-link nav-sub-indent">Proxy</a>
+        <span class="nav-sub-label">🔄 Behavioral</span>
+        <a href="/interview_problems/design-patterns/chain-of-responsibility/" class="nav-sub-link nav-sub-indent">Chain of Responsibility</a>
+        <a href="/interview_problems/design-patterns/command/" class="nav-sub-link nav-sub-indent">Command</a>
+        <a href="/interview_problems/design-patterns/interpreter/" class="nav-sub-link nav-sub-indent">Interpreter</a>
+        <a href="/interview_problems/design-patterns/iterator/" class="nav-sub-link nav-sub-indent">Iterator</a>
+        <a href="/interview_problems/design-patterns/mediator/" class="nav-sub-link nav-sub-indent">Mediator</a>
+        <a href="/interview_problems/design-patterns/memento/" class="nav-sub-link nav-sub-indent">Memento</a>
+        <a href="/interview_problems/design-patterns/observer/" class="nav-sub-link nav-sub-indent">Observer</a>
+        <a href="/interview_problems/design-patterns/state/" class="nav-sub-link nav-sub-indent">State</a>
+        <a href="/interview_problems/design-patterns/strategy/" class="nav-sub-link nav-sub-indent">Strategy</a>
+        <a href="/interview_problems/design-patterns/template-method/" class="nav-sub-link nav-sub-indent">Template Method</a>
+        <a href="/interview_problems/design-patterns/visitor/" class="nav-sub-link nav-sub-indent">Visitor</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+    <span class="stat-pill"><strong>23</strong> Patterns</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="dp-page">
+
+    <header class="dp-header">
+      <div class="dp-breadcrumb">
+        <a href="/interview_problems/design-patterns/">Design Patterns</a>
+        <span class="dp-breadcrumb-sep">›</span>
+        <span class="badge badge-category">Behavioral</span>
+      </div>
+
+      <h1 class="dp-title">Visitor</h1>
+
+      
+
+      <div class="dp-meta-row">
+        
+        <span class="badge badge-category">Behavioral</span>
+        
+        
+          
+          <span class="badge badge-hard">
+            🔴
+            Hard
+          </span>
+        
+        
+          
+          <span class="badge badge-tag">behavioral</span>
+          
+          <span class="badge badge-tag">visitor</span>
+          
+        
+      </div>
+
+      
+      <blockquote class="dp-intent">
+        <strong>Intent:</strong> Represent an operation to be performed on elements of an object structure.
+      </blockquote>
+      
+    </header>
+
+    <div class="dp-content">
+      <h2 id="intent">Intent</h2>
+
+<p>Represent an operation to be performed on elements of an object structure.</p>
+
+<h2 id="problem-it-solves">Problem It Solves</h2>
+
+<p>See the full Javadoc header and inline comments in the source code below.</p>
+
+<h2 id="structure">Structure</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Participant</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Visitor</strong></td>
+      <td>One visit() method per ConcreteElement type</td>
+    </tr>
+    <tr>
+      <td><strong>ConcreteVisitor</strong></td>
+      <td>Implements the specific operation for each element</td>
+    </tr>
+    <tr>
+      <td><strong>Element</strong></td>
+      <td>Declares accept(Visitor) method</td>
+    </tr>
+    <tr>
+      <td><strong>ConcreteElement</strong></td>
+      <td>Implements accept() by calling visitor.visit(this)</td>
+    </tr>
+    <tr>
+      <td><strong>ObjectStructure</strong></td>
+      <td>Iterates elements and passes visitor to each</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="pros">Pros</h2>
+
+<ul>
+  <li>Open/Closed for Visitors: add new operations without touching elements</li>
+  <li>Single Responsibility: each visitor has one job</li>
+  <li>Accumulate state across element visits</li>
+</ul>
+
+<h2 id="cons">Cons</h2>
+
+<ul>
+  <li>Violates Open/Closed for Elements: adding a new element requires updating ALL visitors</li>
+  <li>Breaks encapsulation: elements may expose internal state to visitors</li>
+</ul>
+
+<h2 id="real-world-examples">Real-World Examples</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Java compiler AST passes</code></li>
+  <li><code class="language-plaintext highlighter-rouge">XML/DOM traversal</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Tax calculation on different financial instruments</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Serialization frameworks (Jackson traverses object graphs)</code></li>
+</ul>
+
+<h2 id="variants">Variants</h2>
+
+<ul>
+  <li>Single dispatch</li>
+  <li>Double dispatch (the classic GoF Visitor technique)</li>
+</ul>
+
+<h2 id="full-java-implementation">Full Java Implementation</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">org.interview.design_patterns.behavioral.visitor</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="cm">/**
+ * ============================================================
+ * Design Pattern: Visitor (Behavioral)
+ * ============================================================
+ *
+ * INTENT:
+ *   Represent an operation to be performed on elements of an object
+ *   structure. Visitor lets you define a new operation WITHOUT changing
+ *   the classes of the elements on which it operates.
+ *
+ * PROBLEM IT SOLVES:
+ *   - You have a stable class hierarchy (doesn't change often).
+ *   - You need to add many DIFFERENT operations on those classes.
+ *   - Adding each operation directly to the classes would pollute them.
+ *
+ * STRUCTURE:
+ *   - Visitor (interface): one visit() method per ConcreteElement type
+ *   - ConcreteVisitor: implements the specific operation for each element
+ *   - Element (interface): declares accept(Visitor) method
+ *   - ConcreteElement: implements accept() by calling visitor.visit(this)
+ *   - ObjectStructure: iterates elements and passes visitor to each
+ *
+ * KEY TECHNIQUE: "Double Dispatch"
+ *   Calling element.accept(visitor) dispatches first on element type,
+ *   then visitor.visit(element) dispatches on visitor type.
+ *   This achieves runtime polymorphism on both types simultaneously.
+ *
+ * REAL-WORLD EXAMPLES:
+ *   - Java compiler AST passes (parsing → type checking → code gen)
+ *   - XML/DOM traversal
+ *   - Tax calculation on different financial instruments
+ *   - Serialization frameworks (Jackson traverses object graphs)
+ *
+ * PROS:
+ *   + Open/Closed for VISITORS: add new operations without touching elements
+ *   + Single Responsibility: each visitor has one clearly-defined job
+ *   + Accumulate state across element visits
+ *
+ * CONS:
+ *   - Violates Open/Closed for ELEMENTS: adding a new element type requires
+ *     updating ALL visitor implementations
+ *   - Breaks encapsulation: elements may expose internal state to visitors
+ *
+ * SCENARIO:
+ *   An e-commerce shopping cart with different item types.
+ *   Visitors calculate: total price, taxes, and generate receipts.
+ *   None of these operations are baked into the item classes.
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">VisitorPattern</span> <span class="o">{</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Element Interface — all cart items implement accept(Visitor)</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">interface</span> <span class="nc">CartItem</span> <span class="o">{</span>
+        <span class="cm">/**
+         * "accept" is the key Visitor method — double dispatch hook.
+         * Each element calls the appropriate visit() on the visitor.
+         */</span>
+        <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="nc">CartVisitor</span> <span class="n">visitor</span><span class="o">);</span>
+        <span class="nc">String</span> <span class="nf">getName</span><span class="o">();</span>
+        <span class="kt">double</span> <span class="nf">getPrice</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Visitor Interface — one visit() method per ConcreteElement</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">interface</span> <span class="nc">CartVisitor</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">PhysicalItem</span> <span class="n">item</span><span class="o">);</span>
+        <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">DigitalItem</span> <span class="n">item</span><span class="o">);</span>
+        <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">SubscriptionItem</span> <span class="n">item</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteElements — different cart item types</span>
+    <span class="c1">// ================================================================</span>
+
+    <span class="cm">/** Physical product (e.g., a book, laptop) — has shipping weight */</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">PhysicalItem</span> <span class="kd">implements</span> <span class="nc">CartItem</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">price</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">weightKg</span><span class="o">;</span> <span class="c1">// for shipping calculation</span>
+
+        <span class="nc">PhysicalItem</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">double</span> <span class="n">price</span><span class="o">,</span> <span class="kt">double</span> <span class="n">weightKg</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span>      <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">price</span>     <span class="o">=</span> <span class="n">price</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">weightKg</span>  <span class="o">=</span> <span class="n">weightKg</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="nc">CartVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">visitor</span><span class="o">.</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span> <span class="c1">// dispatch: visits THIS specific type</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getWeightKg</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">weightKg</span><span class="o">;</span> <span class="o">}</span>
+        <span class="nd">@Override</span> <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span>  <span class="o">{</span> <span class="k">return</span> <span class="n">name</span><span class="o">;</span> <span class="o">}</span>
+        <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getPrice</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">price</span><span class="o">;</span> <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/** Digital product (e.g., e-book, software) — no shipping, no import tax */</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">DigitalItem</span> <span class="kd">implements</span> <span class="nc">CartItem</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">price</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">downloadUrl</span><span class="o">;</span>
+
+        <span class="nc">DigitalItem</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">double</span> <span class="n">price</span><span class="o">,</span> <span class="nc">String</span> <span class="n">downloadUrl</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span>        <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">price</span>       <span class="o">=</span> <span class="n">price</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">downloadUrl</span> <span class="o">=</span> <span class="n">downloadUrl</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="nc">CartVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">visitor</span><span class="o">.</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDownloadUrl</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">downloadUrl</span><span class="o">;</span> <span class="o">}</span>
+        <span class="nd">@Override</span> <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span>  <span class="o">{</span> <span class="k">return</span> <span class="n">name</span><span class="o">;</span> <span class="o">}</span>
+        <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getPrice</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">price</span><span class="o">;</span> <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/** Subscription item (e.g., streaming service) — recurring charge */</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SubscriptionItem</span> <span class="kd">implements</span> <span class="nc">CartItem</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">monthlyPrice</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span>    <span class="n">months</span><span class="o">;</span>
+
+        <span class="nc">SubscriptionItem</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">double</span> <span class="n">monthlyPrice</span><span class="o">,</span> <span class="kt">int</span> <span class="n">months</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span>         <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">monthlyPrice</span> <span class="o">=</span> <span class="n">monthlyPrice</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">months</span>       <span class="o">=</span> <span class="n">months</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="nc">CartVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">visitor</span><span class="o">.</span><span class="na">visit</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getMonthlyPrice</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">monthlyPrice</span><span class="o">;</span> <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">int</span>    <span class="nf">getMonths</span><span class="o">()</span>       <span class="o">{</span> <span class="k">return</span> <span class="n">months</span><span class="o">;</span> <span class="o">}</span>
+        <span class="nd">@Override</span> <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span>  <span class="o">{</span> <span class="k">return</span> <span class="n">name</span><span class="o">;</span> <span class="o">}</span>
+        <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getPrice</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">monthlyPrice</span> <span class="o">*</span> <span class="n">months</span><span class="o">;</span> <span class="o">}</span> <span class="c1">// total commitment</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteVisitor 1: Total Price Calculator</span>
+    <span class="c1">// Accumulates the total cart value</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">PriceCalculatorVisitor</span> <span class="kd">implements</span> <span class="nc">CartVisitor</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kt">double</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">PhysicalItem</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">();</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Price] Physical '%s': $%.2f%n"</span><span class="o">,</span> <span class="n">item</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">DigitalItem</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">();</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Price] Digital  '%s': $%.2f%n"</span><span class="o">,</span> <span class="n">item</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">SubscriptionItem</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">double</span> <span class="n">subtotal</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">();</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">subtotal</span><span class="o">;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Price] Subscription '%s': $%.2f/mo × %d = $%.2f%n"</span><span class="o">,</span>
+                <span class="n">item</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getMonthlyPrice</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getMonths</span><span class="o">(),</span> <span class="n">subtotal</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getTotal</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">total</span><span class="o">;</span> <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteVisitor 2: Tax Calculator</span>
+    <span class="c1">// Different tax rules for different item types</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TaxCalculatorVisitor</span> <span class="kd">implements</span> <span class="nc">CartVisitor</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kt">double</span> <span class="n">totalTax</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="c1">// Tax rates</span>
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">double</span> <span class="no">PHYSICAL_TAX</span>     <span class="o">=</span> <span class="mf">0.08</span><span class="o">;</span>  <span class="c1">// 8% sales tax</span>
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">double</span> <span class="no">DIGITAL_TAX</span>      <span class="o">=</span> <span class="mf">0.05</span><span class="o">;</span>  <span class="c1">// 5% digital goods tax</span>
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">double</span> <span class="no">SUBSCRIPTION_TAX</span> <span class="o">=</span> <span class="mf">0.03</span><span class="o">;</span>  <span class="c1">// 3% service tax</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">PhysicalItem</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">double</span> <span class="n">tax</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()</span> <span class="o">*</span> <span class="no">PHYSICAL_TAX</span><span class="o">;</span>
+            <span class="n">totalTax</span> <span class="o">+=</span> <span class="n">tax</span><span class="o">;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Tax] Physical '%s': $%.2f (%.0f%% = $%.2f)%n"</span><span class="o">,</span>
+                <span class="n">item</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">(),</span> <span class="no">PHYSICAL_TAX</span> <span class="o">*</span> <span class="mi">100</span><span class="o">,</span> <span class="n">tax</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">DigitalItem</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">double</span> <span class="n">tax</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()</span> <span class="o">*</span> <span class="no">DIGITAL_TAX</span><span class="o">;</span>
+            <span class="n">totalTax</span> <span class="o">+=</span> <span class="n">tax</span><span class="o">;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Tax] Digital '%s': $%.2f (%.0f%% = $%.2f)%n"</span><span class="o">,</span>
+                <span class="n">item</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">(),</span> <span class="no">DIGITAL_TAX</span> <span class="o">*</span> <span class="mi">100</span><span class="o">,</span> <span class="n">tax</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">SubscriptionItem</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">double</span> <span class="n">tax</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()</span> <span class="o">*</span> <span class="no">SUBSCRIPTION_TAX</span><span class="o">;</span>
+            <span class="n">totalTax</span> <span class="o">+=</span> <span class="n">tax</span><span class="o">;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"  [Tax] Subscription '%s': $%.2f (%.0f%% = $%.2f)%n"</span><span class="o">,</span>
+                <span class="n">item</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">(),</span> <span class="no">SUBSCRIPTION_TAX</span> <span class="o">*</span> <span class="mi">100</span><span class="o">,</span> <span class="n">tax</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getTotalTax</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">totalTax</span><span class="o">;</span> <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// ConcreteVisitor 3: Receipt Generator</span>
+    <span class="c1">// Prints formatted receipt lines for each item</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ReceiptVisitor</span> <span class="kd">implements</span> <span class="nc">CartVisitor</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">StringBuilder</span> <span class="n">receipt</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+
+        <span class="nc">ReceiptVisitor</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">receipt</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"========================================\n"</span><span class="o">);</span>
+            <span class="n">receipt</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"              ORDER RECEIPT             \n"</span><span class="o">);</span>
+            <span class="n">receipt</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"========================================\n"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">PhysicalItem</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">receipt</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"📦 %-25s $%7.2f%n"</span><span class="o">,</span> <span class="n">item</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()));</span>
+            <span class="n">receipt</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"   Shipping: %.1f kg%n"</span><span class="o">,</span> <span class="n">item</span><span class="o">.</span><span class="na">getWeightKg</span><span class="o">()));</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">DigitalItem</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">receipt</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"💻 %-25s $%7.2f%n"</span><span class="o">,</span> <span class="n">item</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()));</span>
+            <span class="n">receipt</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"   Download: %s%n"</span><span class="o">,</span> <span class="n">item</span><span class="o">.</span><span class="na">getDownloadUrl</span><span class="o">()));</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nc">SubscriptionItem</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">receipt</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"🔄 %-25s $%7.2f%n"</span><span class="o">,</span> <span class="n">item</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()));</span>
+            <span class="n">receipt</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"   $%.2f/month × %d months%n"</span><span class="o">,</span>
+                <span class="n">item</span><span class="o">.</span><span class="na">getMonthlyPrice</span><span class="o">(),</span> <span class="n">item</span><span class="o">.</span><span class="na">getMonths</span><span class="o">()));</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getReceipt</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">receipt</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span> <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Object Structure: ShoppingCart</span>
+    <span class="c1">// Holds elements; applies visitors to all elements</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ShoppingCart</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CartItem</span><span class="o">&gt;</span> <span class="n">items</span><span class="o">;</span>
+
+        <span class="nc">ShoppingCart</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">CartItem</span><span class="o">&gt;</span> <span class="n">items</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">items</span> <span class="o">=</span> <span class="n">items</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="cm">/** Apply a visitor to all items in the cart */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="nc">CartVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">CartItem</span> <span class="n">item</span> <span class="o">:</span> <span class="n">items</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">item</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">visitor</span><span class="o">);</span> <span class="c1">// visitor visits each item</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Demo</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Build a mixed shopping cart</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CartItem</span><span class="o">&gt;</span> <span class="n">cartItems</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">PhysicalItem</span><span class="o">(</span><span class="s">"MacBook Pro"</span><span class="o">,</span>          <span class="mf">1_999.99</span><span class="o">,</span> <span class="mf">2.1</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">PhysicalItem</span><span class="o">(</span><span class="s">"Mechanical Keyboard"</span><span class="o">,</span>    <span class="mf">149.99</span><span class="o">,</span> <span class="mf">0.9</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">DigitalItem</span><span class="o">(</span><span class="s">"JetBrains IDE License"</span><span class="o">,</span>   <span class="mf">249.00</span><span class="o">,</span> <span class="s">"https://dl.jetbrains.com/..."</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">DigitalItem</span><span class="o">(</span><span class="s">"Photoshop Brushes Pack"</span><span class="o">,</span>   <span class="mf">29.99</span><span class="o">,</span> <span class="s">"https://adobe.com/download/..."</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">SubscriptionItem</span><span class="o">(</span><span class="s">"Netflix Premium"</span><span class="o">,</span>      <span class="mf">22.99</span><span class="o">,</span> <span class="mi">12</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">SubscriptionItem</span><span class="o">(</span><span class="s">"GitHub Copilot"</span><span class="o">,</span>       <span class="mf">10.00</span><span class="o">,</span> <span class="mi">6</span><span class="o">)</span>
+        <span class="o">);</span>
+
+        <span class="nc">ShoppingCart</span> <span class="n">cart</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ShoppingCart</span><span class="o">(</span><span class="n">cartItems</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"=== Price Calculation ==="</span><span class="o">);</span>
+        <span class="nc">PriceCalculatorVisitor</span> <span class="n">priceVisitor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PriceCalculatorVisitor</span><span class="o">();</span>
+        <span class="n">cart</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">priceVisitor</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"TOTAL: $%.2f%n"</span><span class="o">,</span> <span class="n">priceVisitor</span><span class="o">.</span><span class="na">getTotal</span><span class="o">());</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n=== Tax Calculation ==="</span><span class="o">);</span>
+        <span class="nc">TaxCalculatorVisitor</span> <span class="n">taxVisitor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TaxCalculatorVisitor</span><span class="o">();</span>
+        <span class="n">cart</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">taxVisitor</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"TOTAL TAX: $%.2f%n"</span><span class="o">,</span> <span class="n">taxVisitor</span><span class="o">.</span><span class="na">getTotalTax</span><span class="o">());</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"GRAND TOTAL: $%.2f%n"</span><span class="o">,</span> <span class="n">priceVisitor</span><span class="o">.</span><span class="na">getTotal</span><span class="o">()</span> <span class="o">+</span> <span class="n">taxVisitor</span><span class="o">.</span><span class="na">getTotalTax</span><span class="o">());</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n=== Receipt Generation ==="</span><span class="o">);</span>
+        <span class="nc">ReceiptVisitor</span> <span class="n">receiptVisitor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ReceiptVisitor</span><span class="o">();</span>
+        <span class="n">cart</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">receiptVisitor</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">receiptVisitor</span><span class="o">.</span><span class="na">getReceipt</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+    </div>
+
+    <nav class="dp-nav" aria-label="Design pattern navigation">
+      <a href="/interview_problems/design-patterns/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to Design Patterns
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<style>
+.dp-page { max-width: 900px; }
+.dp-breadcrumb { font-size: 0.85rem; color: var(--text-muted, #666); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
+.dp-breadcrumb a { color: var(--accent, #0066cc); text-decoration: none; }
+.dp-breadcrumb-sep { opacity: 0.5; }
+.dp-title { font-size: 2rem; font-weight: 700; margin: 0.25rem 0 0.75rem; }
+.dp-aka { font-size: 0.9rem; color: var(--text-muted, #666); margin: 0 0 0.75rem; }
+.dp-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+.dp-intent { border-left: 4px solid var(--accent, #0066cc); margin: 1rem 0 0; padding: 0.75rem 1rem; background: var(--surface-2, #f5f7fa); border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+.dp-content h2 { font-size: 1.3rem; font-weight: 600; margin: 2rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border, #e2e8f0); }
+.dp-content h3 { font-size: 1.05rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+.dp-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.dp-content th, .dp-content td { padding: 8px 12px; border: 1px solid var(--border, #e2e8f0); text-align: left; }
+.dp-content th { background: var(--surface-2, #f5f7fa); font-weight: 600; }
+.dp-content ul { padding-left: 1.5rem; }
+.dp-content li { margin-bottom: 0.3rem; }
+</style>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

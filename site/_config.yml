@@ -17,6 +17,9 @@ collections:
   hld:
     output: true
     permalink: /hld/:name/
+  design_patterns:
+    output: true
+    permalink: /design-patterns/:name/
 
 defaults:
   - scope:
@@ -34,6 +37,11 @@ defaults:
       type: "hld"
     values:
       layout: "hld"
+  - scope:
+      path: ""
+      type: "design_patterns"
+    values:
+      layout: "design_pattern"
 
 markdown: kramdown
 highlighter: rouge

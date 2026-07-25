@@ -58,9 +58,39 @@
       <a href="{{ '/hld/' | relative_url }}" class="nav-link">
         <span class="nav-icon">🌐</span> High-Level Design
       </a>
-      <a href="{{ '/design-patterns/' | relative_url }}" class="nav-link">
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
         <span class="nav-icon">🎨</span> Design Patterns
-      </a>
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="{{ '/design-patterns/' | relative_url }}" class="nav-sub-link">📋 All Patterns</a>
+        <span class="nav-sub-label">🏗️ Creational</span>
+        <a href="{{ '/design-patterns/singleton/' | relative_url }}" class="nav-sub-link nav-sub-indent">Singleton</a>
+        <a href="{{ '/design-patterns/factory-method/' | relative_url }}" class="nav-sub-link nav-sub-indent">Factory Method</a>
+        <a href="{{ '/design-patterns/abstract-factory/' | relative_url }}" class="nav-sub-link nav-sub-indent">Abstract Factory</a>
+        <a href="{{ '/design-patterns/builder/' | relative_url }}" class="nav-sub-link nav-sub-indent">Builder</a>
+        <a href="{{ '/design-patterns/prototype/' | relative_url }}" class="nav-sub-link nav-sub-indent">Prototype</a>
+        <span class="nav-sub-label">🏛️ Structural</span>
+        <a href="{{ '/design-patterns/adapter/' | relative_url }}" class="nav-sub-link nav-sub-indent">Adapter</a>
+        <a href="{{ '/design-patterns/bridge/' | relative_url }}" class="nav-sub-link nav-sub-indent">Bridge</a>
+        <a href="{{ '/design-patterns/composite/' | relative_url }}" class="nav-sub-link nav-sub-indent">Composite</a>
+        <a href="{{ '/design-patterns/decorator/' | relative_url }}" class="nav-sub-link nav-sub-indent">Decorator</a>
+        <a href="{{ '/design-patterns/facade/' | relative_url }}" class="nav-sub-link nav-sub-indent">Facade</a>
+        <a href="{{ '/design-patterns/flyweight/' | relative_url }}" class="nav-sub-link nav-sub-indent">Flyweight</a>
+        <a href="{{ '/design-patterns/proxy/' | relative_url }}" class="nav-sub-link nav-sub-indent">Proxy</a>
+        <span class="nav-sub-label">🔄 Behavioral</span>
+        <a href="{{ '/design-patterns/chain-of-responsibility/' | relative_url }}" class="nav-sub-link nav-sub-indent">Chain of Responsibility</a>
+        <a href="{{ '/design-patterns/command/' | relative_url }}" class="nav-sub-link nav-sub-indent">Command</a>
+        <a href="{{ '/design-patterns/interpreter/' | relative_url }}" class="nav-sub-link nav-sub-indent">Interpreter</a>
+        <a href="{{ '/design-patterns/iterator/' | relative_url }}" class="nav-sub-link nav-sub-indent">Iterator</a>
+        <a href="{{ '/design-patterns/mediator/' | relative_url }}" class="nav-sub-link nav-sub-indent">Mediator</a>
+        <a href="{{ '/design-patterns/memento/' | relative_url }}" class="nav-sub-link nav-sub-indent">Memento</a>
+        <a href="{{ '/design-patterns/observer/' | relative_url }}" class="nav-sub-link nav-sub-indent">Observer</a>
+        <a href="{{ '/design-patterns/state/' | relative_url }}" class="nav-sub-link nav-sub-indent">State</a>
+        <a href="{{ '/design-patterns/strategy/' | relative_url }}" class="nav-sub-link nav-sub-indent">Strategy</a>
+        <a href="{{ '/design-patterns/template-method/' | relative_url }}" class="nav-sub-link nav-sub-indent">Template Method</a>
+        <a href="{{ '/design-patterns/visitor/' | relative_url }}" class="nav-sub-link nav-sub-indent">Visitor</a>
+      </div>
     </div>
   </div>
 
@@ -68,6 +98,7 @@
     <span class="stat-pill"><strong>150</strong> Problems</span>
     <span class="stat-pill"><strong>20</strong> LLD</span>
     <span class="stat-pill"><strong>7</strong> HLD</span>
+    <span class="stat-pill"><strong>23</strong> Patterns</span>
   </div>
 </nav>
 

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="150+ coding problems, LLD & HLD system design solutions">
+<title>Memento | Interview Problems</title>
+<link rel="stylesheet" href="/interview_problems/assets/css/main.css">
+<link rel="stylesheet" href="/interview_problems/assets/css/syntax.css">
+<script>
+  // Apply theme before render to prevent flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'light' || (!saved && !prefersDark)) {
+      document.documentElement.style.setProperty('--flash', 'light');
+    }
+  })();
+</script>
+
+</head>
+<body>
+  <div class="layout-wrapper">
+    <nav class="sidebar" id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a href="/interview_problems/" class="sidebar-logo">
+      <span class="sidebar-logo-title">⚡ Interview Prep</span>
+      <span class="sidebar-logo-subtitle">150+ Problems · LLD · HLD</span>
+    </a>
+    <div class="sidebar-controls">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-section-title">Navigation</span>
+      <a href="/interview_problems/" class="nav-link">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">Coding Problems</span>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">💻</span> All Problems
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/coding/" class="nav-sub-link">📋 All Problems</a>
+        <a href="/interview_problems/coding/#arrays" class="nav-sub-link">📊 Arrays &amp; Strings</a>
+        <a href="/interview_problems/coding/#hashing" class="nav-sub-link">🗃️ Hashing</a>
+        <a href="/interview_problems/coding/#twopointers" class="nav-sub-link">👆 Two Pointers</a>
+        <a href="/interview_problems/coding/#linkedlists" class="nav-sub-link">🔗 Linked Lists</a>
+        <a href="/interview_problems/coding/#stacks" class="nav-sub-link">📚 Stacks &amp; Queues</a>
+        <a href="/interview_problems/coding/#trees" class="nav-sub-link">🌳 Trees &amp; BSTs</a>
+        <a href="/interview_problems/coding/#graphs" class="nav-sub-link">🕸️ Graphs</a>
+        <a href="/interview_problems/coding/#dynamicprogramming" class="nav-sub-link">🧠 Dynamic Programming</a>
+        <a href="/interview_problems/coding/#greedy" class="nav-sub-link">💡 Greedy</a>
+        <a href="/interview_problems/coding/#backtracking" class="nav-sub-link">↩️ Backtracking</a>
+        <a href="/interview_problems/coding/#heaps" class="nav-sub-link">⛰️ Heaps</a>
+        <a href="/interview_problems/coding/#binarysearch" class="nav-sub-link">🔍 Binary Search</a>
+        <a href="/interview_problems/coding/#design" class="nav-sub-link">🏗️ Design</a>
+        <a href="/interview_problems/coding/#concurrency" class="nav-sub-link">🔄 Concurrency</a>
+        <a href="/interview_problems/coding/#math" class="nav-sub-link">🔢 Math &amp; Bits</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-title">System Design</span>
+      <a href="/interview_problems/lld/" class="nav-link">
+        <span class="nav-icon">🏛️</span> Low-Level Design
+      </a>
+      <a href="/interview_problems/hld/" class="nav-link">
+        <span class="nav-icon">🌐</span> High-Level Design
+      </a>
+      <button class="nav-link nav-category" aria-expanded="false" type="button">
+        <span class="nav-icon">🎨</span> Design Patterns
+        <span class="nav-arrow">▶</span>
+      </button>
+      <div class="nav-sub-items">
+        <a href="/interview_problems/design-patterns/" class="nav-sub-link">📋 All Patterns</a>
+        <span class="nav-sub-label">🏗️ Creational</span>
+        <a href="/interview_problems/design-patterns/singleton/" class="nav-sub-link nav-sub-indent">Singleton</a>
+        <a href="/interview_problems/design-patterns/factory-method/" class="nav-sub-link nav-sub-indent">Factory Method</a>
+        <a href="/interview_problems/design-patterns/abstract-factory/" class="nav-sub-link nav-sub-indent">Abstract Factory</a>
+        <a href="/interview_problems/design-patterns/builder/" class="nav-sub-link nav-sub-indent">Builder</a>
+        <a href="/interview_problems/design-patterns/prototype/" class="nav-sub-link nav-sub-indent">Prototype</a>
+        <span class="nav-sub-label">🏛️ Structural</span>
+        <a href="/interview_problems/design-patterns/adapter/" class="nav-sub-link nav-sub-indent">Adapter</a>
+        <a href="/interview_problems/design-patterns/bridge/" class="nav-sub-link nav-sub-indent">Bridge</a>
+        <a href="/interview_problems/design-patterns/composite/" class="nav-sub-link nav-sub-indent">Composite</a>
+        <a href="/interview_problems/design-patterns/decorator/" class="nav-sub-link nav-sub-indent">Decorator</a>
+        <a href="/interview_problems/design-patterns/facade/" class="nav-sub-link nav-sub-indent">Facade</a>
+        <a href="/interview_problems/design-patterns/flyweight/" class="nav-sub-link nav-sub-indent">Flyweight</a>
+        <a href="/interview_problems/design-patterns/proxy/" class="nav-sub-link nav-sub-indent">Proxy</a>
+        <span class="nav-sub-label">🔄 Behavioral</span>
+        <a href="/interview_problems/design-patterns/chain-of-responsibility/" class="nav-sub-link nav-sub-indent">Chain of Responsibility</a>
+        <a href="/interview_problems/design-patterns/command/" class="nav-sub-link nav-sub-indent">Command</a>
+        <a href="/interview_problems/design-patterns/interpreter/" class="nav-sub-link nav-sub-indent">Interpreter</a>
+        <a href="/interview_problems/design-patterns/iterator/" class="nav-sub-link nav-sub-indent">Iterator</a>
+        <a href="/interview_problems/design-patterns/mediator/" class="nav-sub-link nav-sub-indent">Mediator</a>
+        <a href="/interview_problems/design-patterns/memento/" class="nav-sub-link nav-sub-indent">Memento</a>
+        <a href="/interview_problems/design-patterns/observer/" class="nav-sub-link nav-sub-indent">Observer</a>
+        <a href="/interview_problems/design-patterns/state/" class="nav-sub-link nav-sub-indent">State</a>
+        <a href="/interview_problems/design-patterns/strategy/" class="nav-sub-link nav-sub-indent">Strategy</a>
+        <a href="/interview_problems/design-patterns/template-method/" class="nav-sub-link nav-sub-indent">Template Method</a>
+        <a href="/interview_problems/design-patterns/visitor/" class="nav-sub-link nav-sub-indent">Visitor</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="stat-pill"><strong>150</strong> Problems</span>
+    <span class="stat-pill"><strong>20</strong> LLD</span>
+    <span class="stat-pill"><strong>7</strong> HLD</span>
+    <span class="stat-pill"><strong>23</strong> Patterns</span>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+
+    <div class="main-content">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="/interview_problems/" class="mobile-logo">⚡ Interview Prep</a>
+        <button class="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <main>
+        <div class="content-wrapper">
+  <article class="dp-page">
+
+    <header class="dp-header">
+      <div class="dp-breadcrumb">
+        <a href="/interview_problems/design-patterns/">Design Patterns</a>
+        <span class="dp-breadcrumb-sep">›</span>
+        <span class="badge badge-category">Behavioral</span>
+      </div>
+
+      <h1 class="dp-title">Memento</h1>
+
+      
+      <p class="dp-aka">Also known as: <em>Snapshot, Token</em></p>
+      
+
+      <div class="dp-meta-row">
+        
+        <span class="badge badge-category">Behavioral</span>
+        
+        
+          
+          <span class="badge badge-medium">
+            🟡
+            Medium
+          </span>
+        
+        
+          
+          <span class="badge badge-tag">behavioral</span>
+          
+          <span class="badge badge-tag">memento</span>
+          
+          <span class="badge badge-tag">undo</span>
+          
+        
+      </div>
+
+      
+      <blockquote class="dp-intent">
+        <strong>Intent:</strong> Without violating encapsulation, capture and externalize an objects internal state so that it can be restored later.
+      </blockquote>
+      
+    </header>
+
+    <div class="dp-content">
+      <h2 id="intent">Intent</h2>
+
+<p>Without violating encapsulation, capture and externalize an objects internal state so that it can be restored later.</p>
+
+<h2 id="problem-it-solves">Problem It Solves</h2>
+
+<p>See the full Javadoc header and inline comments in the source code below.</p>
+
+<h2 id="structure">Structure</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Participant</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Originator</strong></td>
+      <td>Creates mementos of its own state; can restore from a memento</td>
+    </tr>
+    <tr>
+      <td><strong>Memento</strong></td>
+      <td>Stores state snapshot; only Originator can read its content</td>
+    </tr>
+    <tr>
+      <td><strong>Caretaker</strong></td>
+      <td>Holds and manages mementos; never modifies them</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="pros">Pros</h2>
+
+<ul>
+  <li>Preserve encapsulation boundaries</li>
+  <li>Simple undo/redo by storing full snapshots</li>
+  <li>State history management</li>
+</ul>
+
+<h2 id="cons">Cons</h2>
+
+<ul>
+  <li>High memory usage if state is large or history is long</li>
+  <li>Caretaker must manage memento lifecycle</li>
+</ul>
+
+<h2 id="real-world-examples">Real-World Examples</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Game save/load checkpoints</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Ctrl+Z in text editors</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Database transaction SAVEPOINT</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Browser session state</code></li>
+</ul>
+
+<h2 id="variants">Variants</h2>
+
+<ul>
+  <li>Stack-based undo/redo</li>
+  <li>Incremental snapshots (delta encoding)</li>
+</ul>
+
+<h2 id="full-java-implementation">Full Java Implementation</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">org.interview.design_patterns.behavioral.memento</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayDeque</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Deque</span><span class="o">;</span>
+
+<span class="cm">/**
+ * ============================================================
+ * Design Pattern: Memento (Behavioral)
+ * ============================================================
+ *
+ * INTENT:
+ *   Without violating encapsulation, capture and externalize an object's
+ *   internal state so that the object can be restored to this state later.
+ *
+ * ALSO KNOWN AS: Snapshot, Token
+ *
+ * PROBLEM IT SOLVES:
+ *   - You need to implement undo functionality.
+ *   - You need to save/restore object state (game save, transaction rollback).
+ *   - You can't expose internals to do so (would break encapsulation).
+ *
+ * STRUCTURE:
+ *   - Originator: creates mementos of its own state; can restore from a memento
+ *   - Memento: stores state snapshot; only Originator can read its content
+ *   - Caretaker: holds and manages mementos; NEVER modifies them
+ *
+ * KEY INSIGHT:
+ *   - Memento is opaque to the caretaker (only Originator sees inside it)
+ *   - In Java: inner class / package-private constructor enforces this
+ *
+ * DIFFERENCE FROM COMMAND:
+ *   - Command: undo by reversing an action; stores "what was done"
+ *   - Memento: undo by restoring a snapshot; stores "full state"
+ *
+ * REAL-WORLD EXAMPLES:
+ *   - Game save/load checkpoints
+ *   - Ctrl+Z in text editors
+ *   - Database transaction SAVEPOINT
+ *   - Browser session state
+ *
+ * PROS:
+ *   + Preserve encapsulation boundaries
+ *   + Simple undo/redo by storing full snapshots
+ *
+ * CONS:
+ *   - High memory usage if state is large or history is long
+ *   - Caretaker must manage memento lifecycle (GC risk)
+ *
+ * SCENARIO:
+ *   A game character level editor with undo/redo.
+ *   Each state change saves a snapshot; undo restores the previous one.
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MementoPattern</span> <span class="o">{</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Memento — opaque snapshot of Originator's state</span>
+    <span class="c1">// Declared as a static nested class: caretaker holds it but can't read it</span>
+    <span class="c1">// Only the Originator can access the internal state.</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">GameStateMemento</span> <span class="o">{</span>
+        <span class="c1">// These fields are accessible only to GameCharacter (same outer class scope)</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">level</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span>    <span class="n">health</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span>    <span class="n">score</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">location</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">timestamp</span><span class="o">;</span>
+
+        <span class="kd">private</span> <span class="nf">GameStateMemento</span><span class="o">(</span><span class="nc">String</span> <span class="n">level</span><span class="o">,</span> <span class="kt">int</span> <span class="n">health</span><span class="o">,</span> <span class="kt">int</span> <span class="n">score</span><span class="o">,</span> <span class="nc">String</span> <span class="n">location</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">level</span>     <span class="o">=</span> <span class="n">level</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">health</span>    <span class="o">=</span> <span class="n">health</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">score</span>     <span class="o">=</span> <span class="n">score</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">location</span>  <span class="o">=</span> <span class="n">location</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">timestamp</span> <span class="o">=</span> <span class="n">java</span><span class="o">.</span><span class="na">time</span><span class="o">.</span><span class="na">LocalTime</span><span class="o">.</span><span class="na">now</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"Snapshot[level=%s, hp=%d, score=%d, loc=%s @ %s]"</span><span class="o">,</span>
+                <span class="n">level</span><span class="o">,</span> <span class="n">health</span><span class="o">,</span> <span class="n">score</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">timestamp</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Originator: GameCharacter</span>
+    <span class="c1">// Creates mementos of its own state; can restore from a memento</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">GameCharacter</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">level</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span>    <span class="n">health</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span>    <span class="n">score</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">location</span><span class="o">;</span>
+
+        <span class="nc">GameCharacter</span><span class="o">(</span><span class="nc">String</span> <span class="n">level</span><span class="o">,</span> <span class="kt">int</span> <span class="n">health</span><span class="o">,</span> <span class="kt">int</span> <span class="n">score</span><span class="o">,</span> <span class="nc">String</span> <span class="n">location</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">level</span>    <span class="o">=</span> <span class="n">level</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">health</span>   <span class="o">=</span> <span class="n">health</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">score</span>    <span class="o">=</span> <span class="n">score</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">location</span> <span class="o">=</span> <span class="n">location</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// Game actions that modify state</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">gainScore</span><span class="o">(</span><span class="kt">int</span> <span class="n">points</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="n">points</span><span class="o">;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"[Character] Score +%d → total %d%n"</span><span class="o">,</span> <span class="n">points</span><span class="o">,</span> <span class="n">score</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">takeDamage</span><span class="o">(</span><span class="kt">int</span> <span class="n">damage</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">health</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">health</span> <span class="o">-</span> <span class="n">damage</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"[Character] Took %d damage → HP: %d%n"</span><span class="o">,</span> <span class="n">damage</span><span class="o">,</span> <span class="n">health</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">moveTo</span><span class="o">(</span><span class="nc">String</span> <span class="n">newLocation</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"[Character] Moving: %s → %s%n"</span><span class="o">,</span> <span class="n">location</span><span class="o">,</span> <span class="n">newLocation</span><span class="o">);</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="n">newLocation</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">levelUp</span><span class="o">(</span><span class="nc">String</span> <span class="n">newLevel</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"[Character] Level up: %s → %s%n"</span><span class="o">,</span> <span class="n">level</span><span class="o">,</span> <span class="n">newLevel</span><span class="o">);</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="n">newLevel</span><span class="o">;</span>
+            <span class="n">health</span> <span class="o">=</span> <span class="mi">100</span><span class="o">;</span> <span class="c1">// restore HP on level up</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**
+         * SAVE: Create a memento capturing current state.
+         * The memento holds a snapshot — it doesn't share references.
+         */</span>
+        <span class="kd">public</span> <span class="nc">GameStateMemento</span> <span class="nf">save</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"[Character] 💾 Saving state: level=%s, hp=%d, score=%d, loc=%s%n"</span><span class="o">,</span>
+                <span class="n">level</span><span class="o">,</span> <span class="n">health</span><span class="o">,</span> <span class="n">score</span><span class="o">,</span> <span class="n">location</span><span class="o">);</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">GameStateMemento</span><span class="o">(</span><span class="n">level</span><span class="o">,</span> <span class="n">health</span><span class="o">,</span> <span class="n">score</span><span class="o">,</span> <span class="n">location</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**
+         * RESTORE: Restore state from a memento.
+         * Only this class can access memento's private fields.
+         */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">restore</span><span class="o">(</span><span class="nc">GameStateMemento</span> <span class="n">memento</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">level</span>    <span class="o">=</span> <span class="n">memento</span><span class="o">.</span><span class="na">level</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">health</span>   <span class="o">=</span> <span class="n">memento</span><span class="o">.</span><span class="na">health</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">score</span>    <span class="o">=</span> <span class="n">memento</span><span class="o">.</span><span class="na">score</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">location</span> <span class="o">=</span> <span class="n">memento</span><span class="o">.</span><span class="na">location</span><span class="o">;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"[Character] 🔄 Restored: level=%s, hp=%d, score=%d, loc=%s%n"</span><span class="o">,</span>
+                <span class="n">level</span><span class="o">,</span> <span class="n">health</span><span class="o">,</span> <span class="n">score</span><span class="o">,</span> <span class="n">location</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"Character{level=%s, hp=%d, score=%d, loc=%s}"</span><span class="o">,</span>
+                <span class="n">level</span><span class="o">,</span> <span class="n">health</span><span class="o">,</span> <span class="n">score</span><span class="o">,</span> <span class="n">location</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Caretaker: GameHistory</span>
+    <span class="c1">// Manages the memento stack for undo/redo.</span>
+    <span class="c1">// NEVER reads/modifies memento content — only stores and returns them.</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">GameHistory</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Deque</span><span class="o">&lt;</span><span class="nc">GameStateMemento</span><span class="o">&gt;</span> <span class="n">undoStack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayDeque</span><span class="o">&lt;&gt;();</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Deque</span><span class="o">&lt;</span><span class="nc">GameStateMemento</span><span class="o">&gt;</span> <span class="n">redoStack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayDeque</span><span class="o">&lt;&gt;();</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">GameCharacter</span>           <span class="n">character</span><span class="o">;</span>
+
+        <span class="nc">GameHistory</span><span class="o">(</span><span class="nc">GameCharacter</span> <span class="n">character</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">character</span> <span class="o">=</span> <span class="n">character</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="cm">/** Save the current state and push onto undo stack */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">checkpoint</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">GameStateMemento</span> <span class="n">saved</span> <span class="o">=</span> <span class="n">character</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+            <span class="n">undoStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">saved</span><span class="o">);</span>
+            <span class="n">redoStack</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span> <span class="c1">// new action invalidates redo history</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[History] Checkpoint saved. Undo stack size: "</span> <span class="o">+</span> <span class="n">undoStack</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="cm">/** Undo: restore previous state */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">undo</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">undoStack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[History] Nothing to undo!"</span><span class="o">);</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="c1">// Save current state to redo stack before undoing</span>
+            <span class="n">redoStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">character</span><span class="o">.</span><span class="na">save</span><span class="o">());</span>
+            <span class="nc">GameStateMemento</span> <span class="n">previous</span> <span class="o">=</span> <span class="n">undoStack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+            <span class="n">character</span><span class="o">.</span><span class="na">restore</span><span class="o">(</span><span class="n">previous</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[History] Undo complete. Undo stack: "</span> <span class="o">+</span> <span class="n">undoStack</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="cm">/** Redo: re-apply previously undone state */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">redo</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">redoStack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[History] Nothing to redo!"</span><span class="o">);</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">undoStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">character</span><span class="o">.</span><span class="na">save</span><span class="o">());</span>
+            <span class="nc">GameStateMemento</span> <span class="n">redoState</span> <span class="o">=</span> <span class="n">redoStack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+            <span class="n">character</span><span class="o">.</span><span class="na">restore</span><span class="o">(</span><span class="n">redoState</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[History] Redo complete. Redo stack: "</span> <span class="o">+</span> <span class="n">redoStack</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="cm">/** List all saved checkpoints */</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">listCheckpoints</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[History] Saved checkpoints:"</span><span class="o">);</span>
+            <span class="n">undoStack</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">m</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"  "</span> <span class="o">+</span> <span class="n">m</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ================================================================</span>
+    <span class="c1">// Demo</span>
+    <span class="c1">// ================================================================</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">GameCharacter</span> <span class="n">hero</span>    <span class="o">=</span> <span class="k">new</span> <span class="nc">GameCharacter</span><span class="o">(</span><span class="s">"Level-1"</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="s">"Town"</span><span class="o">);</span>
+        <span class="nc">GameHistory</span>   <span class="n">history</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GameHistory</span><span class="o">(</span><span class="n">hero</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"=== Initial state ==="</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">hero</span><span class="o">);</span>
+
+        <span class="c1">// Checkpoint before entering dungeon</span>
+        <span class="n">history</span><span class="o">.</span><span class="na">checkpoint</span><span class="o">();</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n=== Dungeon exploration ==="</span><span class="o">);</span>
+        <span class="n">hero</span><span class="o">.</span><span class="na">moveTo</span><span class="o">(</span><span class="s">"Dungeon Entrance"</span><span class="o">);</span>
+        <span class="n">hero</span><span class="o">.</span><span class="na">gainScore</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
+        <span class="n">hero</span><span class="o">.</span><span class="na">takeDamage</span><span class="o">(</span><span class="mi">30</span><span class="o">);</span>
+
+        <span class="c1">// Checkpoint mid-dungeon (good save point)</span>
+        <span class="n">history</span><span class="o">.</span><span class="na">checkpoint</span><span class="o">();</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n=== Boss fight ==="</span><span class="o">);</span>
+        <span class="n">hero</span><span class="o">.</span><span class="na">takeDamage</span><span class="o">(</span><span class="mi">80</span><span class="o">);</span>  <span class="c1">// terrible fight — nearly dead!</span>
+        <span class="n">hero</span><span class="o">.</span><span class="na">gainScore</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"After boss: "</span> <span class="o">+</span> <span class="n">hero</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n=== Undo (back to before boss fight) ==="</span><span class="o">);</span>
+        <span class="n">history</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"After undo: "</span> <span class="o">+</span> <span class="n">hero</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n=== Redo (replay boss fight result) ==="</span><span class="o">);</span>
+        <span class="n">history</span><span class="o">.</span><span class="na">redo</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"After redo: "</span> <span class="o">+</span> <span class="n">hero</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n=== Undo all the way back to Town ==="</span><span class="o">);</span>
+        <span class="n">history</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span> <span class="c1">// undo boss fight</span>
+        <span class="n">history</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span> <span class="c1">// undo dungeon exploration</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Back to start: "</span> <span class="o">+</span> <span class="n">hero</span><span class="o">);</span>
+
+        <span class="n">history</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span> <span class="c1">// nothing left to undo</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+    </div>
+
+    <nav class="dp-nav" aria-label="Design pattern navigation">
+      <a href="/interview_problems/design-patterns/" class="nav-link" style="display:inline-flex;margin-top:2em;">
+        ← Back to Design Patterns
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<style>
+.dp-page { max-width: 900px; }
+.dp-breadcrumb { font-size: 0.85rem; color: var(--text-muted, #666); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
+.dp-breadcrumb a { color: var(--accent, #0066cc); text-decoration: none; }
+.dp-breadcrumb-sep { opacity: 0.5; }
+.dp-title { font-size: 2rem; font-weight: 700; margin: 0.25rem 0 0.75rem; }
+.dp-aka { font-size: 0.9rem; color: var(--text-muted, #666); margin: 0 0 0.75rem; }
+.dp-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+.dp-intent { border-left: 4px solid var(--accent, #0066cc); margin: 1rem 0 0; padding: 0.75rem 1rem; background: var(--surface-2, #f5f7fa); border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+.dp-content h2 { font-size: 1.3rem; font-weight: 600; margin: 2rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border, #e2e8f0); }
+.dp-content h3 { font-size: 1.05rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+.dp-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.dp-content th, .dp-content td { padding: 8px 12px; border: 1px solid var(--border, #e2e8f0); text-align: left; }
+.dp-content th { background: var(--surface-2, #f5f7fa); font-weight: 600; }
+.dp-content ul { padding-left: 1.5rem; }
+.dp-content li { margin-bottom: 0.3rem; }
+</style>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/interview_problems/assets/js/main.js"></script>
+</body>
+</html>

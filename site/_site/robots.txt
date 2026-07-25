@@ -1,1 +1,1 @@
-Sitemap: http://localhost:4000/interview_problems/sitemap.xml
+Sitemap: https://yourusername.github.io/interview_problems/sitemap.xml
